@@ -19,7 +19,7 @@ jobs:
 
       - name: Add remote-url
         run: |
-          git remote add forked-repo https://leeeeeseojin:${{ secrets.FORKED_REPO_TOKEN }}@github.com/leeeeeseojin/14th-hackathon-team4-frontend
+          git remote add forked-repo https://leeeeeseojin:${{ secrets.FORKED_REPO_TOKEN }}@github.com/leeeeeseojin/26-1_14th-hackathon-FE
           git config user.name leeeeeseojin
           git config user.email kkyuuu00@gmail.com
 
