@@ -8,6 +8,7 @@ jobs:
   sync:
     name: Sync forked repo
     runs-on: ubuntu-latest
+    if: github.repository == 'likelion-kwu/14th-hackathon-team4-frontend'
 
     steps:
       - name: Checkout main
