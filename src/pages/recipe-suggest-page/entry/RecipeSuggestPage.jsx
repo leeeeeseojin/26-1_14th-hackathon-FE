@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
@@ -36,8 +37,13 @@ function SuggestionSummary({ reason, title, description }) {
   )
 }
 
-export default function RecipeSuggestPage({ onBack, onSelect, onRetry }) {
+export default function RecipeSuggestPage({ onBack, onRetry }) {
+  const navigate = useNavigate()
   const [isDetailOpen, setIsDetailOpen] = useState(false)
+
+  const handleSelect = () => {
+    navigate('/recipe/substitute')
+  }
 
   return (
     <main className='recipe-suggest-page'>
@@ -64,7 +70,7 @@ export default function RecipeSuggestPage({ onBack, onSelect, onRetry }) {
             ))}
           </div>
 
-          <CommonButton className='recipe-suggest-page__gap-lg' onClick={onSelect}>
+          <CommonButton className='recipe-suggest-page__gap-lg' onClick={handleSelect}>
             선택하기
           </CommonButton>
 
