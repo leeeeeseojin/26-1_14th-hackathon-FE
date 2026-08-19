@@ -1,5 +1,7 @@
 // 개인화 제안 페이지 더미 데이터
-// TODO: API 연동 시 실제 응답 데이터로 교체 예정
+// 추후 API 연동 시 실제 응답 데이터로 교체 예정
+// DUMMY_DETAIL_INGREDIENTS의 badge는 서버에서 "수정된 재료인지" 여부를 내려줄 때
+// 그 값에 따라 조건부로 표시
 
 export const DUMMY_SUGGESTION = {
   reason: '고단백질 위주 수정안',
