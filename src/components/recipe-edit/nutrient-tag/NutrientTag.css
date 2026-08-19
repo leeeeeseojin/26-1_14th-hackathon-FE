@@ -14,7 +14,7 @@
 
 .nutrient-tag__value {
   font-size: 16px;
-  color: var(--color-content-text);
+  color: var(--color-text);
 }
 
 .nutrient-tag--calorie {
@@ -34,7 +34,7 @@
 }
 
 .nutrient-tag--neutral {
-  background-color: var(--color-background);
+  background-color: #f8f9f7;
   border: 1px solid var(--color-stroke);
 }
 

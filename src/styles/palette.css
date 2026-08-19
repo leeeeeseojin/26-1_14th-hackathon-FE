@@ -2,13 +2,11 @@
   --color-main: #55b89a;
   --color-sub: #e8f6f1;
   --color-point: #ffb56b;
-  --color-background: #f8f9f7;
+  --color-background: #fbfbfb;
   --color-stroke: #e8eeeb;
   --color-white: #ffffff;
-  --color-text: #000125;
+  --color-text: #202523;
   --color-sub-text: #68716d;
-  --color-input-text: #68716d;
-
-  --color-content-text: #202523;
+  --color-input-text: #d0d6d3;
   --color-border-light: #f0f3f1;
 }

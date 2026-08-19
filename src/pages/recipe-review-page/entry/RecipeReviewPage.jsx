@@ -6,6 +6,7 @@ import NoticeBanner from '../../../components/recipe-edit/notice-banner/NoticeBa
 import CookingStepItem from '../../../components/recipe-edit/cooking-step-item/CookingStepItem'
 
 import dummyHeroImage from '../../../assets/dummy/recipe-review-hero.svg'
+import chevronDownIcon from '../../../assets/icon/chevron-down.svg'
 import {
   DUMMY_RECIPE,
   DUMMY_NUTRIENTS,
@@ -72,15 +73,14 @@ export default function RecipeReviewPage({ onBack, onStart }) {
               ))}
               <button type='button' className='recipe-review-page__more-button'>
                 더보기
+                <img src={chevronDownIcon} alt='' className='recipe-review-page__more-icon' />
               </button>
             </div>
           </section>
 
           <NoticeBanner level='medium' />
 
-          <hr className='recipe-review-page__divider' />
-
-          <section className='recipe-review-page__section'>
+          <section className='recipe-review-page__section recipe-review-page__section--gap-lg'>
             <h3 className='recipe-review-page__section-title'>
               영양 정보 <span className='recipe-review-page__section-sub'>(1인분 기준)</span>
             </h3>
@@ -97,9 +97,7 @@ export default function RecipeReviewPage({ onBack, onStart }) {
             </div>
           </section>
 
-          <hr className='recipe-review-page__divider' />
-
-          <section className='recipe-review-page__section'>
+          <section className='recipe-review-page__section recipe-review-page__section--gap-lg'>
             <h3 className='recipe-review-page__section-title'>조리 단계</h3>
             <div className='recipe-review-page__step-card'>
               {DUMMY_COOKING_STEPS.map((step, index) => (
