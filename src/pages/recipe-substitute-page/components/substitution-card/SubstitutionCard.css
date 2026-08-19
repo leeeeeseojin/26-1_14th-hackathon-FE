@@ -1,0 +1,84 @@
+.substitution-card {
+  display: flex;
+  gap: 12px;
+
+  width: 100%;
+}
+
+.substitution-card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #cbe7dc;
+
+  background-color: var(--color-white);
+}
+
+.substitution-card__title {
+  font-size: 15px;
+  color: var(--color-text);
+}
+
+.substitution-card__reason {
+  font-size: 12px;
+  color: var(--color-sub-text);
+}
+
+.substitution-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 6px;
+}
+
+.substitution-card__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  width: 64px;
+}
+
+.substitution-card__accept-button,
+.substitution-card__reject-button {
+  flex: 1;
+  padding: 9px 15px;
+  border-radius: 12px;
+
+  color: var(--color-white);
+  font-size: 13px;
+}
+
+.substitution-card__accept-button {
+  background-color: var(--color-main);
+}
+
+.substitution-card__reject-button {
+  background-color: #ee7060;
+}
+
+.substitution-card__reject-expand {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.substitution-card__custom-input {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--color-stroke);
+
+  font-size: 14px;
+}
+
+.substitution-card__delete-button {
+  padding: 10px;
+  border-radius: 12px;
+
+  background-color: #ee7060;
+  color: var(--color-white);
+  font-size: 13px;
+}
