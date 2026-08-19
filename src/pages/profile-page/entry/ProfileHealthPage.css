@@ -1,0 +1,118 @@
+.profile-health-page {
+  width: 100%;
+  max-width: 393px;
+  min-height: 100vh;
+
+  margin: 0 auto;
+  padding-bottom: 95px;
+
+  background-color: #FBFBFB;
+}
+
+.profile-health-page__content {
+  padding: 16px 14px;
+}
+
+.profile-health-page__section-title {
+  margin: 0 0 20px;
+
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+}
+
+
+.profile-health-page__divider {
+  height: 1px;
+
+  margin: 20px 0;
+
+  background-color: #E8EEEB;
+}
+
+.profile-health-page__device-button {
+  width: 100%;
+  height: 46px;
+
+  border: 1px solid #55B89A;
+  border-radius: 14px;
+
+  background-color: #ffffff;
+
+  color: #2F7A63;
+
+  cursor: pointer;
+}
+
+.profile-health-page__device-button--connected {
+  background-color: #eff8f4;
+}
+
+.profile-health-page__description {
+  margin: 8px 0 0;
+
+  color: #68716D;
+  font-size: 12px;
+}
+
+.profile-health-page__field
+  + .profile-health-page__field {
+  margin-top: 18px;
+}
+
+.profile-health-page__label {
+  display: block;
+
+  margin-bottom: 14px;
+
+  color: #E8EEEB;
+  font-size: 13px;
+}
+
+.profile-health-page__input {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 14px;
+
+  border: 1px solid #eeeeee;
+  border-radius: 10px;
+
+  background-color: #ffffff;
+
+  outline: none;
+  box-sizing: border-box;
+}
+
+.profile-health-page__input:focus {
+  border-color: #E8F6F1;
+}
+
+.profile-health-page__notice {
+  margin-top: 20px;
+  padding: 12px;
+
+  border-radius: 14px;
+
+  background-color: #E8F6F1;
+
+  color: #2F7A63;
+  font-size: 12px;
+  line-height: 19.2px;
+}
+
+.profile-health-page__bottom {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+
+  width: 100%;
+  max-width: 393px;
+
+   padding: 12px 20px 22px;
+   box-sizing: border-box;
+
+  transform: translateX(-50%);
+
+  background-color: #f8f9f8;
+}

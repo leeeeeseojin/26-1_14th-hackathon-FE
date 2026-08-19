@@ -1,0 +1,103 @@
+.profile-basic-page {
+  width: 100%;
+  max-width: 393px;
+  min-height: 100vh;
+
+  margin: 0 auto;
+  padding-bottom: 95px;
+
+  background-color: #FBFBFB;
+}
+
+.profile-basic-page__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  padding: 16px 14px;
+  text-align: left;
+}
+
+.profile-basic-page__row {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+
+  margin-top: 14px;
+}
+
+.profile-basic-page__row .form-field {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-basic-page__input,
+.profile-basic-page__input-button {
+  width: 100%;
+  height: 42px;
+  box-sizing: border-box;
+
+  padding: 0 14px;
+
+  border: 1px solid #E8EEEB;
+  border-radius: 12px;
+
+  background-color: #ffffff;
+}
+
+.profile-basic-page__input-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+}
+
+.profile-basic-page__gender-list {
+  display: flex;
+  gap: 8px;
+}
+
+.profile-basic-page__gender-button {
+  flex: 1;
+  height: 42px;
+
+  border: 1px solid #FBFBFB;
+  border-radius: 24px;
+
+  background-color: #ffffff;
+
+  color: #68716D;
+}
+
+.profile-basic-page__gender-button--selected {
+  border-color: #55B89A;
+  background-color: #E8F6F1;
+  color: #2F7A63;
+}
+
+.profile-basic-page__calendar-icon {
+  width: 15px;
+  height: 15px;
+
+  object-fit: contain;
+}
+
+.profile-basic-page__bottom {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+
+  width: 100%;
+  max-width: 393px;
+
+   padding: 12px 20px 22px;
+   box-sizing: border-box;
+
+  transform: translateX(-50%);
+
+  background-color: #f8f9f8;
+}
+.profile-basic-page__row .form-field + .form-field {
+  margin-top: 0;
+}
