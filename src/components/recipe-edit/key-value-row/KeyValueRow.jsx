@@ -23,7 +23,7 @@ export default function KeyValueRow({
       {isDiff ? (
         <span className='key-value-row__value'>
           <span className='key-value-row__old-value'>{oldValue}</span>
-          {' → '}
+          <span className='key-value-row__arrow'> → </span>
           <span className={`key-value-row__new-value key-value-row__new-value--${changeType}`}>
             {newValue}
           </span>
