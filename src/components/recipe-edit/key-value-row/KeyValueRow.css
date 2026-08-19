@@ -13,7 +13,7 @@
   border-bottom: none;
 }
 
-/* 재료 목록 */
+/* 재료 목록: 라벨 진함, 값 연함 */
 .key-value-row--ingredient {
   padding: 11px 0;
 }
@@ -26,7 +26,7 @@
   color: var(--color-sub-text);
 }
 
-/* 영양 정보cnrkg */
+/* 영양 정보: 라벨 연함, 값 진함 */
 .key-value-row--nutrition {
   padding: 10px 0;
 }
@@ -37,4 +37,32 @@
 
 .key-value-row--nutrition .key-value-row__value {
   color: var(--color-text);
+}
+
+.key-value-row__badge {
+  display: inline-flex;
+  margin-left: 6px;
+  padding: 3px 7px;
+  border-radius: 999px;
+
+  background-color: var(--color-sub);
+  color: #3e9a7c;
+  font-size: 11px;
+}
+
+.key-value-row__old-value {
+  color: #a8b1ac;
+  text-decoration: line-through;
+}
+
+.key-value-row__new-value {
+  font-weight: 700;
+}
+
+.key-value-row__new-value--improved {
+  color: #2f7a63;
+}
+
+.key-value-row__new-value--caution {
+  color: #8a5b25;
 }
