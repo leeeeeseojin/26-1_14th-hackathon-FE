@@ -1,0 +1,14 @@
+
+.form-field__label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #D0D6D3;
+  font-size: 15px;
+  text-align: left;
+}
+
+.form-field + .form-field {
+  margin-top: 14px;
+}

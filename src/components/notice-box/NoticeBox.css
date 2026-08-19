@@ -1,0 +1,13 @@
+.notice-box {
+  margin-top: 20px;
+  padding: 12px;
+
+  border-radius: 14px;
+
+  background-color: #E8F6F1;
+
+  color: #2F7A63;
+  font-size: 12px;
+  line-height: 19.2px;
+  text-align: left;
+}

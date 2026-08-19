@@ -1,0 +1,101 @@
+.allergy-search__input-wrapper {
+  display: flex;
+  align-items: center;
+
+  height: 42px;
+  padding: 0 12px;
+
+  border: 1px solid #e8ebe8;
+  border-radius: 9px;
+
+  background-color: #f8f9f8;
+}
+
+.allergy-search__icon {
+  margin-right: 7px;
+}
+
+.allergy-search__input {
+  flex: 1;
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  background-color: transparent;
+
+  font-size: 14px;
+}
+
+.allergy-search__input::placeholder {
+  color: #D0D6D3;
+}
+
+.allergy-search__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-top: 10px;
+}
+
+.allergy-search__tag {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 7px 8px;
+
+  border: none;
+  border-radius: 999px;
+
+  background-color: #E8F6F1;
+
+  color: #2F7A63;
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+.allergy-search__result {
+  margin-top: 12px;
+}
+
+.allergy-search__result-title {
+  margin: 0 0 5px;
+
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.allergy-search__list {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.allergy-search__list-item {
+  border-bottom: 1px solid #eeeeee;
+}
+
+.allergy-search__result-button {
+  width: 100%;
+
+  padding: 11px 2px;
+
+  border: none;
+
+  background-color: transparent;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.allergy-search__empty {
+  padding: 13px 14px;
+
+  color: #D0D6D3;
+  font-size: 14px;
+}
