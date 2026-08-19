@@ -7,6 +7,8 @@
   padding-bottom: 95px;
 
   background-color: #FBFBFB;
+  display: flex;
+  flex-direction: column;
 }
 
 .profile-basic-page__content {
@@ -84,19 +86,14 @@
 }
 
 .profile-basic-page__bottom {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-
   width: 100%;
   max-width: 393px;
 
    padding: 12px 20px 22px;
    box-sizing: border-box;
 
-  transform: translateX(-50%);
 
-  background-color: #f8f9f8;
+  background-color: #FBFBFB;
 }
 .profile-basic-page__row .form-field + .form-field {
   margin-top: 0;

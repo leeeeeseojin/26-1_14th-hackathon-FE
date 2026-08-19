@@ -7,6 +7,9 @@
   padding-bottom: 95px;
 
   background-color: #FBFBFB;
+  
+  display: flex;
+  flex-direction: column;
 }
 
 .profile-health-page__content {
@@ -102,17 +105,12 @@
 }
 
 .profile-health-page__bottom {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-
   width: 100%;
   max-width: 393px;
 
-   padding: 12px 20px 22px;
-   box-sizing: border-box;
+  padding: 12px 20px 22px;
+  box-sizing: border-box;
+  margin-top: auto;
 
-  transform: translateX(-50%);
-
-  background-color: #f8f9f8;
+  background-color: #FBFBFB;
 }
