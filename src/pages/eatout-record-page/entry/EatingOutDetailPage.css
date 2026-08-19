@@ -1,0 +1,26 @@
+.eating-out-detail-page {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: #FBFBFB;
+}
+
+.eating-out-detail-page__main {
+  flex: 1;
+
+  padding: 20px 20px 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.eating-out-detail-page__bottom {
+  width: 100%;
+
+  padding: 12px 16px 24px;
+
+  box-sizing: border-box;
+}
