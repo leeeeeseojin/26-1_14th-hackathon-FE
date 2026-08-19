@@ -1,0 +1,40 @@
+.key-value-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  border-bottom: 1px solid var(--color-border-light);
+  font-size: 14px;
+}
+
+.key-value-row--last {
+  border-bottom: none;
+}
+
+/* 재료 목록 */
+.key-value-row--ingredient {
+  padding: 11px 0;
+}
+
+.key-value-row--ingredient .key-value-row__label {
+  color: var(--color-content-text);
+}
+
+.key-value-row--ingredient .key-value-row__value {
+  color: var(--color-sub-text);
+}
+
+/* 영양 정보cnrkg */
+.key-value-row--nutrition {
+  padding: 10px 0;
+}
+
+.key-value-row--nutrition .key-value-row__label {
+  color: var(--color-sub-text);
+}
+
+.key-value-row--nutrition .key-value-row__value {
+  color: var(--color-content-text);
+}
