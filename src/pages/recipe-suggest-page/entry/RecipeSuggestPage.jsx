@@ -64,7 +64,9 @@ export default function RecipeSuggestPage({ onBack, onSelect, onRetry }) {
             ))}
           </div>
 
-          <CommonButton onClick={onSelect}>선택하기</CommonButton>
+          <CommonButton className='recipe-suggest-page__gap-lg' onClick={onSelect}>
+            선택하기
+          </CommonButton>
 
           <div className='recipe-suggest-page__notice'>
             <div className='recipe-suggest-page__notice-text'>
@@ -80,7 +82,7 @@ export default function RecipeSuggestPage({ onBack, onSelect, onRetry }) {
 
           <button
             type='button'
-            className='recipe-suggest-page__detail-toggle'
+            className='recipe-suggest-page__detail-toggle recipe-suggest-page__gap-xl'
             onClick={() => setIsDetailOpen((prev) => !prev)}
           >
             {isDetailOpen ? '레시피 닫기' : '레시피 상세보기'}
@@ -111,7 +113,7 @@ export default function RecipeSuggestPage({ onBack, onSelect, onRetry }) {
                 </div>
               </section>
 
-              <section className='recipe-suggest-page__section'>
+              <section className='recipe-suggest-page__section recipe-suggest-page__gap-lg'>
                 <h3 className='recipe-suggest-page__section-title'>
                   영양 정보 변화{' '}
                   <span className='recipe-suggest-page__section-sub'>(1인분 기준)</span>
@@ -132,7 +134,7 @@ export default function RecipeSuggestPage({ onBack, onSelect, onRetry }) {
                 </div>
               </section>
 
-              <section className='recipe-suggest-page__section'>
+              <section className='recipe-suggest-page__section recipe-suggest-page__gap-lg'>
                 <h3 className='recipe-suggest-page__section-title'>조리 단계</h3>
                 <div className='recipe-suggest-page__step-card'>
                   {DUMMY_DETAIL_COOKING_STEPS.map((step, index) => (

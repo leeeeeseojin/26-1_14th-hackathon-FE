@@ -63,6 +63,14 @@
   gap: 7px;
 }
 
+.recipe-suggest-page__gap-lg {
+  margin-top: 20px;
+}
+
+.recipe-suggest-page__gap-xl {
+  margin-top: 60px;
+}
+
 .recipe-suggest-page__notice {
   display: flex;
   flex-direction: column;
