@@ -1,0 +1,138 @@
+.nutrition-summary {
+  padding: 20px;
+
+  background-color: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.00) 100%);
+}
+
+.nutrition-summary__intake-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nutrition-summary__label {
+  color: #202523;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.nutrition-summary__calorie {
+  color: #202523;
+
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.nutrition-summary__unit {
+  margin-left: 20px;
+
+  color: #68716D;
+
+  font-size: 13px;
+}
+
+.nutrition-summary__goal {
+  margin-top: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #202523;
+
+  font-size: 16px;
+}
+
+.nutrition-summary__progress {
+  width: 100%;
+  height: 8px;
+
+  margin-top: 6px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: var(--Stroke, #E8EEEB);
+}
+
+.nutrition-summary__progress-value {
+  width: 70%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background-color: #FFB56B;
+}
+
+.nutrition-summary__balance {
+  margin-top: 18px;
+  padding: 18px;
+
+  border-radius: 12px;
+
+  background-color: #F3FBF8;
+}
+
+.nutrition-summary__balance-header {
+  display: flex;
+  align-items: left;
+  justify-content: space-between;
+
+  color: #202523;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.nutrition-summary__balance-header strong {
+  font-size: 18px;
+}
+
+.nutrition-summary__balance-progress {
+  width: 100%;
+  height: 8px;
+
+  margin-top: 18px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background-color: var(--Stroke, #E8EEEB);
+}
+
+.nutrition-summary__balance-value {
+  width: 78%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: var(--Main-Color, #55B89A);
+}
+
+.nutrition-summary__nutrients {
+  margin-top: 15px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.nutrition-summary__nutrient {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nutrition-summary__nutrient span {
+  color: #55B89A;
+
+  font-size: 11px;
+}
+
+.nutrition-summary__nutrient strong {
+  color: #202523;
+
+  font-size: 15px;
+}

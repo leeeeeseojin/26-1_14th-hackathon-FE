@@ -9,6 +9,7 @@ import RecipeReviewPage from './pages/recipe-review-page/entry/RecipeReviewPage'
 import RecipeSuggestPage from './pages/recipe-suggest-page/entry/RecipeSuggestPage'
 import RecipeSubstitutePage from './pages/recipe-substitute-page/entry/RecipeSubstitutePage'
 import ScrollToTop from './components/scroll-to-top/ScrollToTop'
+import MainPage from "./pages/main-page/entry/MainPage";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/recipe/review' element={<RecipeReviewPage />} />
         <Route path='/recipe/suggest' element={<RecipeSuggestPage />} />
         <Route path='/recipe/substitute' element={<RecipeSubstitutePage />} />
+        <Route path='/main' element={<MainPage />} />
       </Routes>
     </BrowserRouter>
   )
