@@ -1,5 +1,5 @@
 // 개인화 제안 페이지 더미 데이터
-// 추후 API 연동 시 실제 응답 데이터로 교체 예정
+// TODO: API 연동 시 실제 응답 데이터로 교체 예정
 
 export const DUMMY_SUGGESTION = {
   reason: '고단백질 위주 수정안',

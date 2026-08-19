@@ -1,10 +1,20 @@
+import { useState } from 'react'
+
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
 import NutrientTag from '../../../components/recipe-edit/nutrient-tag/NutrientTag'
+import KeyValueRow from '../../../components/recipe-edit/key-value-row/KeyValueRow'
+import CookingStepItem from '../../../components/recipe-edit/cooking-step-item/CookingStepItem'
 
 import dummyHeroImage from '../../../assets/dummy/recipe-review-hero.svg'
 import chevronDownGreenIcon from '../../../assets/icon/chevron-down-green.svg'
-import { DUMMY_SUGGESTION, DUMMY_NUTRIENTS } from '../apis/dummyRecipeSuggest'
+import {
+  DUMMY_SUGGESTION,
+  DUMMY_NUTRIENTS,
+  DUMMY_DETAIL_INGREDIENTS,
+  DUMMY_NUTRITION_CHANGE,
+  DUMMY_DETAIL_COOKING_STEPS,
+} from '../apis/dummyRecipeSuggest'
 
 import './RecipeSuggestPage.css'
 
@@ -27,6 +37,8 @@ function SuggestionSummary({ reason, title, description }) {
 }
 
 export default function RecipeSuggestPage({ onBack, onSelect, onRetry }) {
+  const [isDetailOpen, setIsDetailOpen] = useState(false)
+
   return (
     <main className='recipe-suggest-page'>
       <Header title='개인화 제안' onBack={onBack} />
@@ -66,16 +78,77 @@ export default function RecipeSuggestPage({ onBack, onSelect, onRetry }) {
             </button>
           </div>
 
-          <button type='button' className='recipe-suggest-page__detail-toggle'>
-            레시피 상세보기
+          <button
+            type='button'
+            className='recipe-suggest-page__detail-toggle'
+            onClick={() => setIsDetailOpen((prev) => !prev)}
+          >
+            {isDetailOpen ? '레시피 닫기' : '레시피 상세보기'}
             <img
               src={chevronDownGreenIcon}
               alt=''
-              className='recipe-suggest-page__detail-toggle-icon'
+              className={`recipe-suggest-page__detail-toggle-icon ${
+                isDetailOpen ? 'recipe-suggest-page__detail-toggle-icon--flipped' : ''
+              }`}
             />
           </button>
 
-          {/* Sub 55: 상세보기 확장 영역 */}
+          {isDetailOpen && (
+            <>
+              <section className='recipe-suggest-page__section'>
+                <h3 className='recipe-suggest-page__section-title'>재료</h3>
+                <div className='recipe-suggest-page__card'>
+                  {DUMMY_DETAIL_INGREDIENTS.map((item, index) => (
+                    <KeyValueRow
+                      key={item.id}
+                      variant='ingredient'
+                      label={item.name}
+                      value={item.amount}
+                      badge={item.badge}
+                      isLast={index === DUMMY_DETAIL_INGREDIENTS.length - 1}
+                    />
+                  ))}
+                </div>
+              </section>
+
+              <section className='recipe-suggest-page__section'>
+                <h3 className='recipe-suggest-page__section-title'>
+                  영양 정보 변화{' '}
+                  <span className='recipe-suggest-page__section-sub'>(1인분 기준)</span>
+                </h3>
+                <div className='recipe-suggest-page__card'>
+                  {DUMMY_NUTRITION_CHANGE.map((item, index) => (
+                    <KeyValueRow
+                      key={item.id}
+                      variant='nutrition'
+                      label={item.label}
+                      value={item.value}
+                      oldValue={item.oldValue}
+                      newValue={item.newValue}
+                      changeType={item.changeType}
+                      isLast={index === DUMMY_NUTRITION_CHANGE.length - 1}
+                    />
+                  ))}
+                </div>
+              </section>
+
+              <section className='recipe-suggest-page__section'>
+                <h3 className='recipe-suggest-page__section-title'>조리 단계</h3>
+                <div className='recipe-suggest-page__step-card'>
+                  {DUMMY_DETAIL_COOKING_STEPS.map((step, index) => (
+                    <CookingStepItem key={step.id} number={index + 1}>
+                      {step.description}
+                    </CookingStepItem>
+                  ))}
+                </div>
+              </section>
+
+              <p className='recipe-suggest-page__disclaimer'>
+                이 영양 정보는 참고용이며 실제 수치와 다를 수 있습니다. 건강 상태에 따른 식단 결정은
+                의료진과 상담하세요.
+              </p>
+            </>
+          )}
         </div>
       </div>
     </main>

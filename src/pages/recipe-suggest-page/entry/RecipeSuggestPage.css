@@ -124,3 +124,59 @@
   width: 16px;
   height: 16px;
 }
+
+.recipe-suggest-page__detail-toggle-icon--flipped {
+  transform: rotate(180deg);
+}
+
+.recipe-suggest-page__section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.recipe-suggest-page__section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.recipe-suggest-page__section-sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-sub-text);
+}
+
+.recipe-suggest-page__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--color-stroke);
+
+  background-color: var(--color-white);
+}
+
+.recipe-suggest-page__step-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid var(--color-stroke);
+
+  background-color: var(--color-white);
+}
+
+.recipe-suggest-page__disclaimer {
+  font-size: 11px;
+  color: #1f2937;
+}
