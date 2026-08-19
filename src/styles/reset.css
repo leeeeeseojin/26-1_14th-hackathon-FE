@@ -23,6 +23,14 @@ body {
   overscroll-behavior: none;
 }
 
+#root {
+  max-width: 430px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  position: relative;
+  overflow-x: hidden;
+}
+
 img,
 picture,
 video,
