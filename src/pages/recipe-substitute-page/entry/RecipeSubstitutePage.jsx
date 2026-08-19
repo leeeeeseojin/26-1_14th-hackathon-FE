@@ -2,9 +2,14 @@ import { useState } from 'react'
 
 import Header from '../../../components/header/Header'
 import NoticeBanner from '../../../components/recipe-edit/notice-banner/NoticeBanner'
+import KeyValueRow from '../../../components/recipe-edit/key-value-row/KeyValueRow'
 import IngredientToggle from '../components/ingredient-toggle/IngredientToggle'
 
-import { DUMMY_SUGGESTION, DUMMY_INGREDIENTS } from '../apis/dummyRecipeSubstitute'
+import {
+  DUMMY_SUGGESTION,
+  DUMMY_INGREDIENTS,
+  DUMMY_NUTRITION_CHANGE,
+} from '../apis/dummyRecipeSubstitute'
 
 import './RecipeSubstitutePage.css'
 
@@ -58,7 +63,25 @@ export default function RecipeSubstitutePage({ onBack }) {
           </div>
         </section>
 
-        {/* Sub 73: 영양 정보 변화 영역 */}
+        <section className='recipe-substitute-page__section recipe-substitute-page__nutrition-section'>
+          <h3 className='recipe-substitute-page__section-title'>
+            영양 정보 변화 <span className='recipe-substitute-page__section-sub'>(1인분 기준)</span>
+          </h3>
+          <div className='recipe-substitute-page__card'>
+            {DUMMY_NUTRITION_CHANGE.map((item, index) => (
+              <KeyValueRow
+                key={item.id}
+                variant='nutrition'
+                label={item.label}
+                value={item.value}
+                oldValue={item.oldValue}
+                newValue={item.newValue}
+                changeType={item.changeType}
+                isLast={index === DUMMY_NUTRITION_CHANGE.length - 1}
+              />
+            ))}
+          </div>
+        </section>
 
         {/* Sub 74: 대체 제안 카드 영역 */}
       </div>

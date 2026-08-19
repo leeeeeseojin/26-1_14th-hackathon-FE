@@ -19,3 +19,12 @@ export const DUMMY_INGREDIENTS = [
   { id: 9, name: '올리브오일' },
   { id: 10, name: '깨' },
 ]
+
+export const DUMMY_NUTRITION_CHANGE = [
+  { id: 1, label: '열량', value: '420 kcal' },
+  { id: 2, label: '탄수화물', oldValue: '45 g', newValue: '20 g', changeType: 'improved' },
+  { id: 3, label: '당류', oldValue: '8 g', newValue: '5 g', changeType: 'improved' },
+  { id: 4, label: '단백질', oldValue: '12 g', newValue: '50 g', changeType: 'improved' },
+  { id: 5, label: '지방', oldValue: '9 g', newValue: '7 g', changeType: 'improved' },
+  { id: 6, label: '나트륨', oldValue: '320 mg', newValue: '400 mg', changeType: 'caution' },
+]

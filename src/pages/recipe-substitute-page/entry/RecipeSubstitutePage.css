@@ -56,6 +56,25 @@
   color: var(--color-text);
 }
 
+.recipe-substitute-page__section-sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-sub-text);
+}
+
+.recipe-substitute-page__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--color-stroke);
+
+  background-color: var(--color-white);
+}
+
 .recipe-substitute-page__hint {
   font-size: 13px;
   color: var(--color-sub-text);
@@ -65,4 +84,8 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
+}
+
+.recipe-substitute-page__nutrition-section {
+  margin-top: 8px;
 }
