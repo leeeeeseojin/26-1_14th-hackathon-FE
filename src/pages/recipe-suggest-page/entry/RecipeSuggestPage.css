@@ -1,64 +1,61 @@
-.recipe-suggest-page {
+.recipe-suggest-page__notice {
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
+  gap: 10px;
 
-  background-color: var(--color-background);
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px dashed #d6ded9;
+
+  background-color: #f8f9f7;
 }
 
-.recipe-suggest-page__content {
-  flex: 1;
+.recipe-suggest-page__notice-text {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-
-  padding-bottom: 28px;
+  gap: 3px;
 }
 
-.recipe-suggest-page__hero {
-  width: 100%;
-  aspect-ratio: 368 / 193;
-  overflow: hidden;
-}
-
-.recipe-suggest-page__hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.recipe-suggest-page__body {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  padding: 0 20px;
-}
-
-.recipe-suggest-page__summary {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.recipe-suggest-page__reason {
-  font-size: 12px;
-  color: #3e9a7c;
-}
-
-.recipe-suggest-page__title {
-  font-size: 22px;
-  font-weight: 500;
+.recipe-suggest-page__notice-title {
+  font-size: 15px;
   color: var(--color-text);
 }
 
-.recipe-suggest-page__description {
-  font-size: 12px;
+.recipe-suggest-page__notice-description {
+  font-size: 13px;
   color: var(--color-sub-text);
 }
 
-.recipe-suggest-page__nutrient-list {
+.recipe-suggest-page__retry-button {
+  width: 100%;
+  padding: 13px;
+  border-radius: 14px;
+  border: 1px solid var(--color-stroke);
+
+  background-color: var(--color-white);
+
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.recipe-suggest-page__detail-toggle {
   display: flex;
-  gap: 7px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--color-main);
+
+  background-color: var(--color-white);
+
+  font-size: 14px;
+  color: #2f7a63;
+}
+
+.recipe-suggest-page__detail-toggle-icon {
+  width: 16px;
+  height: 16px;
 }

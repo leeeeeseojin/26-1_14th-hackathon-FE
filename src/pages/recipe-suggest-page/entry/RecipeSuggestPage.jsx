@@ -1,7 +1,9 @@
 import Header from '../../../components/header/Header'
+import CommonButton from '../../../components/common-button/CommonButton'
 import NutrientTag from '../../../components/recipe-edit/nutrient-tag/NutrientTag'
 
 import dummyHeroImage from '../../../assets/dummy/recipe-review-hero.svg'
+import chevronDownGreenIcon from '../../../assets/icon/chevron-down-green.svg'
 import { DUMMY_SUGGESTION, DUMMY_NUTRIENTS } from '../apis/dummyRecipeSuggest'
 
 import './RecipeSuggestPage.css'
@@ -24,7 +26,7 @@ function SuggestionSummary({ reason, title, description }) {
   )
 }
 
-export default function RecipeSuggestPage({ onBack }) {
+export default function RecipeSuggestPage({ onBack, onSelect, onRetry }) {
   return (
     <main className='recipe-suggest-page'>
       <Header title='개인화 제안' onBack={onBack} />
@@ -50,7 +52,28 @@ export default function RecipeSuggestPage({ onBack }) {
             ))}
           </div>
 
-          {/* Sub 54: 액션 버튼 영역 */}
+          <CommonButton onClick={onSelect}>선택하기</CommonButton>
+
+          <div className='recipe-suggest-page__notice'>
+            <div className='recipe-suggest-page__notice-text'>
+              <p className='recipe-suggest-page__notice-title'>맞지 않으시나요?</p>
+              <p className='recipe-suggest-page__notice-description'>
+                레시피를 다시 추천받을 수 있습니다.
+              </p>
+            </div>
+            <button type='button' className='recipe-suggest-page__retry-button' onClick={onRetry}>
+              다른 레시피 추천받기
+            </button>
+          </div>
+
+          <button type='button' className='recipe-suggest-page__detail-toggle'>
+            레시피 상세보기
+            <img
+              src={chevronDownGreenIcon}
+              alt=''
+              className='recipe-suggest-page__detail-toggle-icon'
+            />
+          </button>
 
           {/* Sub 55: 상세보기 확장 영역 */}
         </div>
