@@ -1,0 +1,16 @@
+.inline-tag {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.inline-tag--carb {
+  color: #8a5b25;
+}
+
+.inline-tag--sugar {
+  color: var(--color-point);
+}
+
+.inline-tag--neutral {
+  color: var(--color-sub-text);
+}
