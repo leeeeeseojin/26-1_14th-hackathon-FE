@@ -1,3 +1,6 @@
+// 레시피 검토 페이지 더미 데이터
+// 추후 API 연동 시 실제 응답 데이터로 교체 예정
+
 export const DUMMY_RECIPE = {
   title: '계란 볶음밥',
   description: '조리 약 20분 · 재료 10가지',
