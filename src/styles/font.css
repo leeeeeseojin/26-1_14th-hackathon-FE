@@ -1,0 +1,69 @@
+@font-face {
+  font-family: 'Wanted Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src:
+    local('Wanted Sans Regular'),
+    url('../assets/font/WantedSans-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Wanted Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src:
+    local('Wanted Sans Medium'),
+    url('../assets/font/WantedSans-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Wanted Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src:
+    local('Wanted Sans SemiBold'),
+    url('../assets/font/WantedSans-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Wanted Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src:
+    local('Wanted Sans Bold'),
+    url('../assets/font/WantedSans-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Wanted Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 800;
+  src:
+    local('Wanted Sans ExtraBold'),
+    url('../assets/font/WantedSans-ExtraBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Wanted Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 900;
+  src:
+    local('Wanted Sans Black'),
+    url('../assets/font/WantedSans-Black.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Wanted Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 1000;
+  src:
+    local('Wanted Sans ExtraBlack'),
+    url('../assets/font/WantedSans-ExtraBlack.woff2') format('woff2');
+}
