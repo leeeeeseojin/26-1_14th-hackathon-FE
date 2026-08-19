@@ -55,6 +55,10 @@
   text-decoration: line-through;
 }
 
+.key-value-row__arrow {
+  color: #a8b1ac;
+}
+
 .key-value-row__new-value {
   font-weight: 700;
 }
