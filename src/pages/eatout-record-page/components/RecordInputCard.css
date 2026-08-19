@@ -1,0 +1,45 @@
+.record-input-card .form-field__label {
+  margin-bottom: 6px;
+
+  color: #68716D;
+  font-size: 13px;
+}
+
+.record-input-card__input,
+.record-input-card__textarea {
+  width: 100%;
+
+  padding: 13px;
+
+  border: 1px solid #E5EAE7;
+  border-radius: 12px;
+
+  background-color: #F8F9F7;
+  color: #757575;
+
+  font-family: inherit;
+  font-size: 15px;
+
+  box-sizing: border-box;
+}
+
+.record-input-card__input {
+  height: 46px;
+}
+
+.record-input-card__textarea {
+  height: 61px;
+
+  resize: none;
+}
+
+.record-input-card__input::placeholder,
+.record-input-card__textarea::placeholder {
+  color: #757575;
+}
+
+.record-input-card__input:focus,
+.record-input-card__textarea:focus {
+  border-color: #55B89A;
+  outline: none;
+}
