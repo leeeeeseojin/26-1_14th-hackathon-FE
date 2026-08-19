@@ -14,6 +14,7 @@
   border-top: 1px solid #E8EEEB;
 
   background-color: #ffffff;
+  position: absolute;
 }
 
 .bottom-nav__item {
