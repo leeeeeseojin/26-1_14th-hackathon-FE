@@ -16,6 +16,8 @@ export const DUMMY_INGREDIENTS = [
   { id: 3, name: '브로콜리', amount: '80g' },
   { id: 4, name: '당근', amount: '50g' },
   { id: 5, name: '올리브오일', amount: '1T' },
+  { id: 6, name: '마늘', amount: '2쪽' },
+  { id: 7, name: '소금', amount: '약간' },
 ]
 
 export const VISIBLE_INGREDIENT_COUNT = 3

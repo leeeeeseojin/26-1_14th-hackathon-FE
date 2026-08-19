@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
 import NutrientTag from '../../../components/recipe-edit/nutrient-tag/NutrientTag'
@@ -35,8 +38,23 @@ function RecipeSummary({ title, description }) {
   )
 }
 
-export default function RecipeReviewPage({ onBack, onStart }) {
-  const visibleIngredients = DUMMY_INGREDIENTS.slice(0, VISIBLE_INGREDIENT_COUNT)
+export default function RecipeReviewPage({ onBack }) {
+  const navigate = useNavigate()
+  const [isIngredientExpanded, setIsIngredientExpanded] = useState(false)
+
+  const visibleIngredients = isIngredientExpanded
+    ? DUMMY_INGREDIENTS
+    : DUMMY_INGREDIENTS.slice(0, VISIBLE_INGREDIENT_COUNT)
+
+  const hasMoreIngredients = DUMMY_INGREDIENTS.length > VISIBLE_INGREDIENT_COUNT
+
+  const handleStart = () => {
+    navigate('/recipe/suggest')
+  }
+
+  const handleToggleIngredients = () => {
+    setIsIngredientExpanded((prev) => !prev)
+  }
 
   return (
     <main className='recipe-review-page'>
@@ -71,10 +89,22 @@ export default function RecipeReviewPage({ onBack, onStart }) {
                   isLast={index === visibleIngredients.length - 1}
                 />
               ))}
-              <button type='button' className='recipe-review-page__more-button'>
-                더보기
-                <img src={chevronDownIcon} alt='' className='recipe-review-page__more-icon' />
-              </button>
+              {hasMoreIngredients && (
+                <button
+                  type='button'
+                  className='recipe-review-page__more-button'
+                  onClick={handleToggleIngredients}
+                >
+                  {isIngredientExpanded ? '접기' : '더보기'}
+                  <img
+                    src={chevronDownIcon}
+                    alt=''
+                    className={`recipe-review-page__more-icon ${
+                      isIngredientExpanded ? 'recipe-review-page__more-icon--flipped' : ''
+                    }`}
+                  />
+                </button>
+              )}
             </div>
           </section>
 
@@ -111,7 +141,7 @@ export default function RecipeReviewPage({ onBack, onStart }) {
       </div>
 
       <div className='recipe-review-page__bottom'>
-        <CommonButton onClick={onStart}>시작하기</CommonButton>
+        <CommonButton onClick={handleStart}>시작하기</CommonButton>
       </div>
     </main>
   )

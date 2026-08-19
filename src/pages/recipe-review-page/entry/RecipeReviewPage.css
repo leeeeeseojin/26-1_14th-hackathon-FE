@@ -111,6 +111,10 @@
   height: 15px;
 }
 
+.recipe-review-page__more-icon--flipped {
+  transform: rotate(180deg);
+}
+
 .recipe-review-page__step-card {
   display: flex;
   flex-direction: column;
