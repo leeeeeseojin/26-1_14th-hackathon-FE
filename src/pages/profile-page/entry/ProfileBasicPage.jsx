@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import calendarIcon from '../../../assets/calendar.svg';
+import calendarIcon from '../../../assets/icon/calendar.svg';
 import Header from '../../../components/header/Header';
 import CommonButton from '../../../components/common-button/CommonButton';
 import FormField from '../../../components/form-field/FormField';

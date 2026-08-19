@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import searchIcon from "../../../assets/search-icon.svg";
+import searchIcon from "../../../assets/icon/search-icon.svg";
 import { ALLERGY_OPTIONS } from '../constants/AllergyOptions';
 
 import './AllergySearch.css';
