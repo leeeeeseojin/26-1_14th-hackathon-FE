@@ -4,6 +4,7 @@ import RecipeLinkPage from './pages/recipe-input-page/entry/RecipeLinkPage'
 import RecipeInputPage from './pages/recipe-input-page/entry/RecipeInputPage'
 import ProfilePage from './pages/profile-page/entry/ProfilePage'
 import RecipeReviewPage from './pages/recipe-review-page/entry/RecipeReviewPage'
+import RecipeSuggestPage from './pages/recipe-suggest-page/entry/RecipeSuggestPage'
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path='/recipe/input' element={<RecipeInputPage />} />
         <Route path='/recipe/link' element={<RecipeLinkPage />} />
         <Route path='/recipe/review' element={<RecipeReviewPage />} />
+        <Route path='/recipe/suggest' element={<RecipeSuggestPage />} />
       </Routes>
     </BrowserRouter>
   )
