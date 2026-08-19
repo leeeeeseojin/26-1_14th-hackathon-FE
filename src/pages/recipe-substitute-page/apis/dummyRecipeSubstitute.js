@@ -28,3 +28,33 @@ export const DUMMY_NUTRITION_CHANGE = [
   { id: 5, label: '지방', oldValue: '9 g', newValue: '7 g', changeType: 'improved' },
   { id: 6, label: '나트륨', oldValue: '320 mg', newValue: '400 mg', changeType: 'caution' },
 ]
+
+export const DUMMY_SUBSTITUTIONS = {
+  4: {
+    title: '설탕 1T → 올리고당 1T',
+    reason: '추천 이유: 단맛 유사, 혈당 영향 낮음',
+    tags: [
+      { label: '탄수화물 2g', variant: 'carb' },
+      { label: '당류 0g', variant: 'sugar' },
+      { label: '혈당 영향 낮음 (참고용)', variant: 'neutral' },
+    ],
+  },
+  8: {
+    title: '브로콜리 100g → 파프리카 100g',
+    reason: '추천 이유: 영양 유사, 혈당 영향 낮음',
+    tags: [
+      { label: '탄수화물 2g', variant: 'carb' },
+      { label: '당류 0g', variant: 'sugar' },
+      { label: '혈당 영향 낮음 (참고용)', variant: 'neutral' },
+    ],
+  },
+  10: {
+    title: '깨 1T → 들깨 1T',
+    reason: '추천 이유: 풍미 유사, 혈당 영향 낮음',
+    tags: [
+      { label: '탄수화물 2g', variant: 'carb' },
+      { label: '당류 0g', variant: 'sugar' },
+      { label: '혈당 영향 낮음 (참고용)', variant: 'neutral' },
+    ],
+  },
+}

@@ -1,14 +1,17 @@
 import { useState } from 'react'
 
 import Header from '../../../components/header/Header'
+import CommonButton from '../../../components/common-button/CommonButton'
 import NoticeBanner from '../../../components/recipe-edit/notice-banner/NoticeBanner'
 import KeyValueRow from '../../../components/recipe-edit/key-value-row/KeyValueRow'
 import IngredientToggle from '../components/ingredient-toggle/IngredientToggle'
+import SubstitutionCard from '../components/substitution-card/SubstitutionCard'
 
 import {
   DUMMY_SUGGESTION,
   DUMMY_INGREDIENTS,
   DUMMY_NUTRITION_CHANGE,
+  DUMMY_SUBSTITUTIONS,
 } from '../apis/dummyRecipeSubstitute'
 
 import './RecipeSubstitutePage.css'
@@ -23,7 +26,7 @@ function SubstituteSummary({ reason, title, description }) {
   )
 }
 
-export default function RecipeSubstitutePage({ onBack }) {
+export default function RecipeSubstitutePage({ onBack, onSave, onStartCooking }) {
   const [selectedIds, setSelectedIds] = useState([])
 
   const handleToggle = (id) => {
@@ -31,6 +34,12 @@ export default function RecipeSubstitutePage({ onBack }) {
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     )
   }
+
+  const selectedSubstitutions = selectedIds
+    .filter((id) => DUMMY_SUBSTITUTIONS[id])
+    .map((id) => ({ id, ...DUMMY_SUBSTITUTIONS[id] }))
+
+  const hasSelection = selectedIds.length > 0
 
   return (
     <main className='recipe-substitute-page'>
@@ -83,7 +92,39 @@ export default function RecipeSubstitutePage({ onBack }) {
           </div>
         </section>
 
-        {/* Sub 74: 대체 제안 카드 영역 */}
+        {hasSelection && (
+          <section className='recipe-substitute-page__section'>
+            <h3 className='recipe-substitute-page__section-title'>대체 재료 선택</h3>
+            <div className='recipe-substitute-page__substitution-list'>
+              {selectedSubstitutions.map((item) => (
+                <SubstitutionCard
+                  key={item.id}
+                  title={item.title}
+                  reason={item.reason}
+                  tags={item.tags}
+                  isActionVisible={false}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+
+      <div className='recipe-substitute-page__bottom'>
+        {hasSelection ? (
+          <div className='recipe-substitute-page__bottom-buttons'>
+            <CommonButton weight='regular' onClick={onSave}>
+              저장하기
+            </CommonButton>
+            <CommonButton weight='regular' onClick={onStartCooking}>
+              요리 시작하기
+            </CommonButton>
+          </div>
+        ) : (
+          <CommonButton weight='regular' onClick={onSave}>
+            완료
+          </CommonButton>
+        )}
       </div>
     </main>
   )
