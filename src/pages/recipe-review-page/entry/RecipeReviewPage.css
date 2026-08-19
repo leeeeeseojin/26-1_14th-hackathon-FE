@@ -45,7 +45,7 @@
 .recipe-review-page__title {
   font-size: 22px;
   font-weight: 500;
-  color: var(--color-content-text);
+  color: var(--color-text);
 }
 
 .recipe-review-page__description {
@@ -64,10 +64,24 @@
   gap: 20px;
 }
 
+.recipe-review-page__section--gap-lg {
+  margin-top: 20px;
+}
+
 .recipe-review-page__section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+
   font-size: 20px;
   font-weight: 500;
-  color: var(--color-content-text);
+  color: var(--color-text);
+}
+
+.recipe-review-page__section-sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-sub-text);
 }
 
 .recipe-review-page__card {
@@ -92,11 +106,28 @@
   color: var(--color-sub-text);
 }
 
+.recipe-review-page__more-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.recipe-review-page__step-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid var(--color-stroke);
+
+  background-color: var(--color-white);
+}
+
 .recipe-review-page__bottom {
   position: sticky;
   bottom: 0;
 
   padding: 12px 20px 22px;
 
-  background-color: var(--color-background);
+  background-color: transparent;
 }
