@@ -15,7 +15,7 @@ const BottomNav = () => {
   const navItems = [
     {
       label: "홈",
-      path: "/",
+      path: "/main",
       icon: HomeIcon,
     },
     {
