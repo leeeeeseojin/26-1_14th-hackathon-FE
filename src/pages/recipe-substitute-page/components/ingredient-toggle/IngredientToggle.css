@@ -1,0 +1,38 @@
+.ingredient-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 1px solid var(--color-stroke);
+
+  background-color: var(--color-white);
+}
+
+.ingredient-toggle__checkbox {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  border: 1px solid #d6ded9;
+}
+
+.ingredient-toggle__name {
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.ingredient-toggle--selected {
+  border-color: var(--color-main);
+  background-color: var(--color-sub);
+}
+
+.ingredient-toggle--selected .ingredient-toggle__checkbox {
+  border-color: var(--color-main);
+  background-color: var(--color-main);
+}
+
+.ingredient-toggle--selected .ingredient-toggle__name {
+  color: #2f7a63;
+}
