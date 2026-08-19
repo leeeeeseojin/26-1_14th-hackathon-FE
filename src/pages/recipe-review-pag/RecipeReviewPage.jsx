@@ -1,5 +1,6 @@
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
+import NutrientTag from '../../../components/recipe-edit/nutrient-tag/NutrientTag'
 
 import dummyHeroImage from '../../../assets/dummy/recipe-review-hero.svg'
 
@@ -33,7 +34,12 @@ export default function RecipeReviewPage({ onBack, onStart }) {
         <div className='recipe-review-page__body'>
           <RecipeSummary title='계란 볶음밥' description='조리 약 20분 · 재료 10가지' />
 
-          {/* Sub 37: 영양정보 영역 */}
+          <div className='recipe-review-page__nutrient-list'>
+            <NutrientTag label='칼로리' value='380kcal' variant='calorie' />
+            <NutrientTag label='탄수화물' value='45g' variant='carb' />
+            <NutrientTag label='단백질' value='12g' variant='neutral' />
+            <NutrientTag label='당류' value='9g' variant='neutral' />
+          </div>
 
           {/* Sub 38: 재료 목록 영역 */}
 

@@ -53,6 +53,11 @@
   color: var(--color-sub-text);
 }
 
+.recipe-review-page__nutrient-list {
+  display: flex;
+  gap: 7px;
+}
+
 .recipe-review-page__bottom {
   position: sticky;
   bottom: 0;
