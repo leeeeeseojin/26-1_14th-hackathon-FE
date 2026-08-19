@@ -72,7 +72,7 @@ export default function RecipeSubstitutePage({ onBack, onSave, onStartCooking })
           </div>
         </section>
 
-        <section className='recipe-substitute-page__section recipe-substitute-page__nutrition-section'>
+        <section className='recipe-substitute-page__section recipe-substitute-page__gap-lg'>
           <h3 className='recipe-substitute-page__section-title'>
             영양 정보 변화 <span className='recipe-substitute-page__section-sub'>(1인분 기준)</span>
           </h3>
@@ -93,7 +93,7 @@ export default function RecipeSubstitutePage({ onBack, onSave, onStartCooking })
         </section>
 
         {hasSelection && (
-          <section className='recipe-substitute-page__section'>
+          <section className='recipe-substitute-page__section recipe-substitute-page__gap-lg'>
             <h3 className='recipe-substitute-page__section-title'>대체 재료 선택</h3>
             <div className='recipe-substitute-page__substitution-list'>
               {selectedSubstitutions.map((item) => (
