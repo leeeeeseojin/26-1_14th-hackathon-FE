@@ -1,0 +1,29 @@
+.cooking-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  width: 100%;
+}
+
+.cooking-step-item__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 26px;
+  height: 26px;
+  border-radius: 9px;
+
+  background-color: var(--color-sub);
+  color: #2f7a63;
+
+  font-size: 13px;
+}
+
+.cooking-step-item__text {
+  font-size: 14px;
+  line-height: 22.4px;
+  color: var(--color-content-text);
+}
