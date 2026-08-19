@@ -25,5 +25,5 @@
 .cooking-step-item__text {
   font-size: 14px;
   line-height: 22.4px;
-  color: var(--color-content-text);
+  color: var(--color-text);
 }

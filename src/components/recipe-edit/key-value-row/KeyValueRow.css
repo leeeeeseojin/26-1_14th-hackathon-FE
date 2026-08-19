@@ -19,7 +19,7 @@
 }
 
 .key-value-row--ingredient .key-value-row__label {
-  color: var(--color-content-text);
+  color: var(--color-text);
 }
 
 .key-value-row--ingredient .key-value-row__value {
@@ -36,5 +36,5 @@
 }
 
 .key-value-row--nutrition .key-value-row__value {
-  color: var(--color-content-text);
+  color: var(--color-text);
 }

@@ -1,0 +1,137 @@
+.recipe-review-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+
+  background-color: var(--color-background);
+}
+
+.recipe-review-page__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  padding-bottom: 28px;
+}
+
+.recipe-review-page__hero {
+  width: 100%;
+  aspect-ratio: 368 / 193;
+  overflow: hidden;
+}
+
+.recipe-review-page__hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.recipe-review-page__body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  padding: 0 20px;
+}
+
+.recipe-review-page__summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.recipe-review-page__title {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.recipe-review-page__description {
+  font-size: 12px;
+  color: var(--color-sub-text);
+}
+
+.recipe-review-page__nutrient-list {
+  display: flex;
+  gap: 7px;
+}
+
+.recipe-review-page__section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.recipe-review-page__section--gap-lg {
+  margin-top: 20px;
+}
+
+.recipe-review-page__section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.recipe-review-page__section-sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-sub-text);
+}
+
+.recipe-review-page__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--color-stroke);
+
+  background-color: var(--color-white);
+}
+
+.recipe-review-page__more-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  font-size: 13px;
+  color: var(--color-sub-text);
+}
+
+.recipe-review-page__more-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.recipe-review-page__more-icon--flipped {
+  transform: rotate(180deg);
+}
+
+.recipe-review-page__step-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid var(--color-stroke);
+
+  background-color: var(--color-white);
+}
+
+.recipe-review-page__bottom {
+  position: sticky;
+  bottom: 0;
+
+  padding: 12px 20px 22px;
+
+  background-color: transparent;
+}
