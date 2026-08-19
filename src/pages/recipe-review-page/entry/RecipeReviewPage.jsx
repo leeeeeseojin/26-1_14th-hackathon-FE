@@ -2,8 +2,18 @@ import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
 import NutrientTag from '../../../components/recipe-edit/nutrient-tag/NutrientTag'
 import KeyValueRow from '../../../components/recipe-edit/key-value-row/KeyValueRow'
+import NoticeBanner from '../../../components/recipe-edit/notice-banner/NoticeBanner'
+import CookingStepItem from '../../../components/recipe-edit/cooking-step-item/CookingStepItem'
 
 import dummyHeroImage from '../../../assets/dummy/recipe-review-hero.svg'
+import {
+  DUMMY_RECIPE,
+  DUMMY_NUTRIENTS,
+  DUMMY_INGREDIENTS,
+  VISIBLE_INGREDIENT_COUNT,
+  DUMMY_NUTRITION_TABLE,
+  DUMMY_COOKING_STEPS,
+} from '../apis/dummyRecipeReview'
 
 import './RecipeReviewPage.css'
 
@@ -24,16 +34,6 @@ function RecipeSummary({ title, description }) {
   )
 }
 
-const DUMMY_INGREDIENTS = [
-  { id: 1, name: '쌀', amount: '180g' },
-  { id: 2, name: '닭가슴살', amount: '100g' },
-  { id: 3, name: '브로콜리', amount: '80g' },
-  { id: 4, name: '당근', amount: '50g' },
-  { id: 5, name: '올리브오일', amount: '1T' },
-]
-
-const VISIBLE_INGREDIENT_COUNT = 3
-
 export default function RecipeReviewPage({ onBack, onStart }) {
   const visibleIngredients = DUMMY_INGREDIENTS.slice(0, VISIBLE_INGREDIENT_COUNT)
 
@@ -42,16 +42,20 @@ export default function RecipeReviewPage({ onBack, onStart }) {
       <Header title='레시피 검토' onBack={onBack} />
 
       <div className='recipe-review-page__content'>
-        <RecipeHeroImage src={dummyHeroImage} alt='계란 볶음밥' />
+        <RecipeHeroImage src={dummyHeroImage} alt={DUMMY_RECIPE.title} />
 
         <div className='recipe-review-page__body'>
-          <RecipeSummary title='계란 볶음밥' description='조리 약 20분 · 재료 10가지' />
+          <RecipeSummary title={DUMMY_RECIPE.title} description={DUMMY_RECIPE.description} />
 
           <div className='recipe-review-page__nutrient-list'>
-            <NutrientTag label='칼로리' value='380kcal' variant='calorie' />
-            <NutrientTag label='탄수화물' value='45g' variant='carb' />
-            <NutrientTag label='단백질' value='12g' variant='neutral' />
-            <NutrientTag label='당류' value='9g' variant='neutral' />
+            {DUMMY_NUTRIENTS.map((item) => (
+              <NutrientTag
+                key={item.id}
+                label={item.label}
+                value={item.value}
+                variant={item.variant}
+              />
+            ))}
           </div>
 
           <section className='recipe-review-page__section'>
@@ -72,7 +76,39 @@ export default function RecipeReviewPage({ onBack, onStart }) {
             </div>
           </section>
 
-          {/* Sub 39: 조리 단계 영역 (영양정보 표, NoticeBanner 포함) */}
+          <NoticeBanner level='medium' />
+
+          <hr className='recipe-review-page__divider' />
+
+          <section className='recipe-review-page__section'>
+            <h3 className='recipe-review-page__section-title'>
+              영양 정보 <span className='recipe-review-page__section-sub'>(1인분 기준)</span>
+            </h3>
+            <div className='recipe-review-page__card'>
+              {DUMMY_NUTRITION_TABLE.map((item, index) => (
+                <KeyValueRow
+                  key={item.id}
+                  variant='nutrition'
+                  label={item.name}
+                  value={item.amount}
+                  isLast={index === DUMMY_NUTRITION_TABLE.length - 1}
+                />
+              ))}
+            </div>
+          </section>
+
+          <hr className='recipe-review-page__divider' />
+
+          <section className='recipe-review-page__section'>
+            <h3 className='recipe-review-page__section-title'>조리 단계</h3>
+            <div className='recipe-review-page__step-card'>
+              {DUMMY_COOKING_STEPS.map((step, index) => (
+                <CookingStepItem key={step.id} number={index + 1}>
+                  {step.description}
+                </CookingStepItem>
+              ))}
+            </div>
+          </section>
         </div>
       </div>
 
