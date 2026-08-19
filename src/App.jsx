@@ -8,10 +8,12 @@ import EatingOutDetailPage from './pages/eatout-record-page/entry/EatingOutDetai
 import RecipeReviewPage from './pages/recipe-review-page/entry/RecipeReviewPage'
 import RecipeSuggestPage from './pages/recipe-suggest-page/entry/RecipeSuggestPage'
 import RecipeSubstitutePage from './pages/recipe-substitute-page/entry/RecipeSubstitutePage'
+import ScrollToTop from './components/scroll-to-top/ScrollToTop'
 
 const App = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path='/' element={<ProfilePage />} />
         <Route path='/recipe/input' element={<RecipeInputPage />} />
