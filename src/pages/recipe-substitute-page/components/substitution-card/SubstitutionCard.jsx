@@ -8,10 +8,12 @@ export default function SubstitutionCard({
   reason,
   tags,
   isActionVisible = false,
+  hasNoSuggestion = false,
   onAccept,
   onReject,
+  onDelete,
 }) {
-  const [isRejected, setIsRejected] = useState(false)
+  const [isRejected, setIsRejected] = useState(hasNoSuggestion)
   const [customInput, setCustomInput] = useState('')
 
   const handleReject = () => {
@@ -23,12 +25,17 @@ export default function SubstitutionCard({
     <div className='substitution-card'>
       <div className='substitution-card__content'>
         <p className='substitution-card__title'>{title}</p>
-        <p className='substitution-card__reason'>{reason}</p>
-        <div className='substitution-card__tags'>
-          {tags.map((tag) => (
-            <InlineTag key={tag.label} label={tag.label} variant={tag.variant} />
-          ))}
-        </div>
+
+        {!hasNoSuggestion && (
+          <>
+            <p className='substitution-card__reason'>{reason}</p>
+            <div className='substitution-card__tags'>
+              {tags.map((tag) => (
+                <InlineTag key={tag.label} label={tag.label} variant={tag.variant} />
+              ))}
+            </div>
+          </>
+        )}
 
         {isRejected && (
           <div className='substitution-card__reject-expand'>
@@ -39,7 +46,7 @@ export default function SubstitutionCard({
               value={customInput}
               onChange={(event) => setCustomInput(event.target.value)}
             />
-            <button type='button' className='substitution-card__delete-button'>
+            <button type='button' className='substitution-card__delete-button' onClick={onDelete}>
               삭제
             </button>
           </div>

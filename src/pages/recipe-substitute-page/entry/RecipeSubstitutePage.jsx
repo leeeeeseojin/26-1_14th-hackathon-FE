@@ -35,9 +35,10 @@ export default function RecipeSubstitutePage({ onBack, onSave, onStartCooking })
     )
   }
 
-  const selectedSubstitutions = selectedIds
-    .filter((id) => DUMMY_SUBSTITUTIONS[id])
-    .map((id) => ({ id, ...DUMMY_SUBSTITUTIONS[id] }))
+  const selectedIngredients = selectedIds.map((id) => {
+    const ingredient = DUMMY_INGREDIENTS.find((item) => item.id === id)
+    return { id, name: ingredient.name, substitution: DUMMY_SUBSTITUTIONS[id] }
+  })
 
   const hasSelection = selectedIds.length > 0
 
@@ -96,15 +97,24 @@ export default function RecipeSubstitutePage({ onBack, onSave, onStartCooking })
           <section className='recipe-substitute-page__section recipe-substitute-page__gap-lg'>
             <h3 className='recipe-substitute-page__section-title'>대체 재료 선택</h3>
             <div className='recipe-substitute-page__substitution-list'>
-              {selectedSubstitutions.map((item) => (
-                <SubstitutionCard
-                  key={item.id}
-                  title={item.title}
-                  reason={item.reason}
-                  tags={item.tags}
-                  isActionVisible={false}
-                />
-              ))}
+              {selectedIngredients.map((item) =>
+                item.substitution ? (
+                  <SubstitutionCard
+                    key={item.id}
+                    title={item.substitution.title}
+                    reason={item.substitution.reason}
+                    tags={item.substitution.tags}
+                    isActionVisible={false}
+                  />
+                ) : (
+                  <SubstitutionCard
+                    key={item.id}
+                    title={`${item.name} 대체 재료`}
+                    hasNoSuggestion
+                    onDelete={() => handleToggle(item.id)}
+                  />
+                ),
+              )}
             </div>
           </section>
         )}
