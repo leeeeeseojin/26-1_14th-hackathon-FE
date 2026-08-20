@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
@@ -12,6 +13,7 @@ import {
   DUMMY_INGREDIENTS,
   DUMMY_NUTRITION_CHANGE,
   DUMMY_SUBSTITUTIONS,
+  saveRecipeSubstitution,
 } from '../apis/dummyRecipeSubstitute'
 
 import './RecipeSubstitutePage.css'
@@ -26,20 +28,81 @@ function SubstituteSummary({ reason, title, description }) {
   )
 }
 
-export default function RecipeSubstitutePage({ onBack, onSave, onStartCooking }) {
-  const [selectedIds, setSelectedIds] = useState([])
+export default function RecipeSubstitutePage({ onBack }) {
+  const navigate = useNavigate()
+  const [cardStates, setCardStates] = useState({}) // { [id]: { status, customValue } }
+
+  const selectedIds = Object.keys(cardStates).map(Number)
 
   const handleToggle = (id) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
-    )
+    setCardStates((prev) => {
+      if (prev[id]) {
+        const next = { ...prev }
+        delete next[id]
+        return next
+      }
+      return { ...prev, [id]: { status: 'pending', customValue: '' } }
+    })
   }
 
-  const selectedSubstitutions = selectedIds
-    .filter((id) => DUMMY_SUBSTITUTIONS[id])
-    .map((id) => ({ id, ...DUMMY_SUBSTITUTIONS[id] }))
+  const handleCardStatusChange = (id, status) => {
+    setCardStates((prev) => ({
+      ...prev,
+      [id]: { ...prev[id], status },
+    }))
+  }
+
+  const handleCardCustomValueChange = (id, value) => {
+    setCardStates((prev) => ({
+      ...prev,
+      [id]: { ...prev[id], customValue: value },
+    }))
+  }
+
+  const handleCardDelete = (id) => {
+    handleToggle(id)
+  }
+
+  const selectedIngredients = selectedIds.map((id) => {
+    const ingredient = DUMMY_INGREDIENTS.find((item) => item.id === id)
+    return {
+      id,
+      name: ingredient.name,
+      substitution: DUMMY_SUBSTITUTIONS[id],
+      status: cardStates[id]?.status ?? 'pending',
+      customValue: cardStates[id]?.customValue ?? '',
+    }
+  })
 
   const hasSelection = selectedIds.length > 0
+
+  const isAllDecided = selectedIngredients.every((item) => {
+    if (item.substitution) {
+      return item.status === 'accepted' || item.status === 'rejected'
+    }
+    return item.customValue.trim().length > 0
+  })
+
+  const buildPayload = () => ({
+    recipeId: 'dummy-recipe-id',
+    substitutions: selectedIngredients.map((item) => ({
+      ingredientId: item.id,
+      action: item.substitution ? item.status : 'custom',
+      customValue: item.customValue || undefined,
+    })),
+  })
+
+  const handleSave = async () => {
+    if (hasSelection && !isAllDecided) return
+    await saveRecipeSubstitution(buildPayload())
+    navigate('/recipe/saved-list')
+  }
+
+  const handleStartCooking = async () => {
+    if (!isAllDecided) return
+    const result = await saveRecipeSubstitution(buildPayload())
+    navigate(`/recipe/tool-check?recipeId=${result.recipeId}`)
+  }
 
   return (
     <main className='recipe-substitute-page'>
@@ -96,16 +159,35 @@ export default function RecipeSubstitutePage({ onBack, onSave, onStartCooking })
           <section className='recipe-substitute-page__section recipe-substitute-page__gap-lg'>
             <h3 className='recipe-substitute-page__section-title'>대체 재료 선택</h3>
             <div className='recipe-substitute-page__substitution-list'>
-              {selectedSubstitutions.map((item) => (
-                <SubstitutionCard
-                  key={item.id}
-                  title={item.title}
-                  reason={item.reason}
-                  tags={item.tags}
-                  isActionVisible={false}
-                />
-              ))}
+              {selectedIngredients.map((item) =>
+                item.substitution ? (
+                  <SubstitutionCard
+                    key={item.id}
+                    title={item.substitution.title}
+                    reason={item.substitution.reason}
+                    tags={item.substitution.tags}
+                    status={item.status}
+                    onStatusChange={(status) => handleCardStatusChange(item.id, status)}
+                    customValue={item.customValue}
+                    onCustomValueChange={(value) => handleCardCustomValueChange(item.id, value)}
+                    onDelete={() => handleCardDelete(item.id)}
+                  />
+                ) : (
+                  <SubstitutionCard
+                    key={item.id}
+                    title={`${item.name} 대체 재료`}
+                    hasNoSuggestion
+                    customValue={item.customValue}
+                    onCustomValueChange={(value) => handleCardCustomValueChange(item.id, value)}
+                    onDelete={() => handleCardDelete(item.id)}
+                  />
+                ),
+              )}
             </div>
+
+            {!isAllDecided && (
+              <p className='recipe-substitute-page__warning'>아직 결정하지 않은 재료가 있어요</p>
+            )}
           </section>
         )}
       </div>
@@ -113,15 +195,15 @@ export default function RecipeSubstitutePage({ onBack, onSave, onStartCooking })
       <div className='recipe-substitute-page__bottom'>
         {hasSelection ? (
           <div className='recipe-substitute-page__bottom-buttons'>
-            <CommonButton weight='regular' onClick={onSave}>
+            <CommonButton weight='regular' onClick={handleSave} disabled={!isAllDecided}>
               저장하기
             </CommonButton>
-            <CommonButton weight='regular' onClick={onStartCooking}>
+            <CommonButton weight='regular' onClick={handleStartCooking} disabled={!isAllDecided}>
               요리 시작하기
             </CommonButton>
           </div>
         ) : (
-          <CommonButton weight='regular' onClick={onSave}>
+          <CommonButton weight='regular' onClick={handleSave}>
             완료
           </CommonButton>
         )}

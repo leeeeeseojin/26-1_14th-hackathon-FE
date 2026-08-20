@@ -113,3 +113,8 @@
 .recipe-substitute-page__bottom-buttons > * {
   flex: 1;
 }
+
+.recipe-substitute-page__warning {
+  font-size: 12px;
+  color: #ee7060;
+}
