@@ -9,7 +9,7 @@ const initialProfileForm = {
   dailyCarbohydrate: '',
   allergies: [],
   glucoseDevice: false,
-  vegetarianType: '',
+  vegetarianType: 'NONE',
   otherDietRestriction: '',
 };
 

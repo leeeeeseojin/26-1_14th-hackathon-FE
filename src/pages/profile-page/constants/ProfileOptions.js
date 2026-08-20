@@ -15,7 +15,7 @@ export const HEALTH_GOAL_OPTIONS = [
     label: '체중 관리',
   },
   {
-    id: 'CARBOHYDRATE_MANAGEMENT',
+    id: 'CARB_MANAGEMENT',
     label: '탄수화물 관리',
   },
   {
@@ -27,7 +27,7 @@ export const HEALTH_GOAL_OPTIONS = [
     label: '영양 균형 맞추기',
   },
   {
-    id: 'EXPERT_DIET',
+    id: 'PROFESSIONAL_DIET_STANDARD',
     label: '전문가에게 받은 식사 기준 맞추기',
   },
 ];
@@ -54,7 +54,11 @@ export const VEGETARIAN_OPTIONS = [
     label: '락토 오보',
   },
   {
-    id: 'PESCO',
+    id: 'PESCATARIAN',
     label: '페스코',
+  },
+  {
+    id: 'OTHER',
+    label: '기타',
   },
 ];

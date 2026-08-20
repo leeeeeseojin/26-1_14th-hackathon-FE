@@ -1,24 +1,21 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
-import AuthPage from "../../../components/auth/AuthPage";
+import AuthPage from '../../../components/auth/AuthPage'
 
 const SignupPage = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const handleSignup = (userId) => {
-    navigate("/", {
+  const handleSignup = ({ loginId, password, nickname }) => {
+    navigate('/', {
       state: {
-        loginId: userId,
+        loginId,
+        password,
+        nickname,
       },
-    });
-  };
+    })
+  }
 
-  return (
-    <AuthPage
-      type="signup"
-      onSubmit={handleSignup}
-    />
-  );
-};
+  return <AuthPage type='signup' onSubmit={handleSignup} />
+}
 
-export default SignupPage;
+export default SignupPage

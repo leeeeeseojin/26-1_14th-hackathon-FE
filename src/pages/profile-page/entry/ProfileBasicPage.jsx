@@ -51,6 +51,35 @@ const ProfileBasicPage = ({
     return `${year}.${month}.${day}`;
   };
 
+  const handleNext = () => {
+    if (!profileForm.birthDate) {
+      alert('생년월일을 입력해주세요.');
+      return;
+    }
+
+    if (!profileForm.height || !profileForm.weight) {
+      alert('키와 체중을 입력해주세요.');
+      return;
+    }
+
+    if (!profileForm.gender) {
+      alert('성별을 선택해주세요.');
+      return;
+    }
+
+    if (!profileForm.healthGoal?.id) {
+      alert('건강 목표를 선택해주세요.');
+      return;
+    }
+
+    if (!profileForm.dailyCarbohydrate) {
+      alert('하루 목표 탄수화물을 입력해주세요.');
+      return;
+    }
+
+    onNext();
+  };
+
   return (
     <main className="profile-basic-page">
       <Header
@@ -199,7 +228,7 @@ const ProfileBasicPage = ({
       </div>
 
       <div className="profile-basic-page__bottom">
-        <CommonButton onClick={onNext}>
+        <CommonButton onClick={handleNext}>
           다음
         </CommonButton>
       </div>
