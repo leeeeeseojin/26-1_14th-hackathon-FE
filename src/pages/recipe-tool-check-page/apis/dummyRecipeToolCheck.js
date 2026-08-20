@@ -1,5 +1,8 @@
 // 레시피 도구재료 확인 페이지 더미 데이터
 // 추후 API 연동 시 실제 응답 데이터로 교체 예정
+// DUMMY_INGREDIENT_CHECKLIST의 hasSubstitute는 재료 대체 페이지(RecipeSubstitutePage)에서
+// 수락/직접입력된 재료인지 여부를 서버가 내려주는 값으로 채워질 예정.
+// saveRecipeSubstitution API에서 저장한 recipeId 기준으로 이 페이지 진입 시 함께 조회하는 구조
 
 export const DUMMY_RECIPE_SUMMARY = {
   title: '두부 닭가슴살 덮밥',
