@@ -58,3 +58,15 @@ export const DUMMY_SUBSTITUTIONS = {
     ],
   },
 }
+
+// 재료 대체 결과 저장
+// 추후 실제 API 연동 시 fetch/axios로 교체
+// { recipeId, substitutions: [{ ingredientId, action: 'accept'|'reject'|'custom', customValue? }] }
+export const saveRecipeSubstitution = async (payload) => {
+  console.log('저장 요청(더미):', payload)
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true, recipeId: 'dummy-recipe-id' })
+    }, 300)
+  })
+}

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useRef } from 'react'
 import InlineTag from '../inline-tag/InlineTag'
 
 import './SubstitutionCard.css'
@@ -10,14 +10,16 @@ export default function SubstitutionCard({
   reason,
   tags,
   hasNoSuggestion = false,
-  onAccept,
-  onReject,
+  status,
+  onStatusChange,
+  customValue,
+  onCustomValueChange,
   onDelete,
 }) {
-  const [isSwiped, setIsSwiped] = useState(false)
-  const [isRejected, setIsRejected] = useState(hasNoSuggestion)
-  const [customInput, setCustomInput] = useState('')
   const startX = useRef(0)
+
+  const isSwiped = status === 'swiped'
+  const isRejected = status === 'rejected'
 
   const handleDragStart = (clientX) => {
     startX.current = clientX
@@ -25,11 +27,10 @@ export default function SubstitutionCard({
 
   const handleDragEnd = (clientX) => {
     const deltaX = startX.current - clientX
-    if (deltaX > SWIPE_THRESHOLD) {
-      setIsSwiped(true)
-    } else if (deltaX < -SWIPE_THRESHOLD) {
-      setIsSwiped(false)
-      setIsRejected(false)
+    if (deltaX > SWIPE_THRESHOLD && status === 'pending') {
+      onStatusChange('swiped')
+    } else if (deltaX < -SWIPE_THRESHOLD && (status === 'swiped' || status === 'rejected')) {
+      onStatusChange('pending')
     }
   }
 
@@ -50,16 +51,14 @@ export default function SubstitutionCard({
   }
 
   const handleAccept = () => {
-    onAccept?.()
+    onStatusChange('accepted')
   }
 
   const handleReject = () => {
-    setIsRejected(true)
-    setIsSwiped(false)
-    onReject?.()
+    onStatusChange('rejected')
   }
 
-  const isActionVisible = hasNoSuggestion ? false : isSwiped && !isRejected
+  const isActionVisible = hasNoSuggestion ? false : isSwiped
 
   return (
     <div
@@ -85,14 +84,14 @@ export default function SubstitutionCard({
           </>
         )}
 
-        {isRejected && (
+        {(isRejected || hasNoSuggestion) && (
           <div className='substitution-card__reject-expand'>
             <input
               type='text'
               className='substitution-card__custom-input'
               placeholder='직접 입력하기'
-              value={customInput}
-              onChange={(event) => setCustomInput(event.target.value)}
+              value={customValue}
+              onChange={(event) => onCustomValueChange(event.target.value)}
             />
             <button type='button' className='substitution-card__delete-button' onClick={onDelete}>
               삭제
