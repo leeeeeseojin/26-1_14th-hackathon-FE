@@ -3,7 +3,11 @@
   gap: 12px;
 
   width: 100%;
+
+  user-select: none;
+  -webkit-user-select: none;
   touch-action: pan-y;
+  overscroll-behavior-x: contain;
 }
 
 .substitution-card__content {
@@ -19,12 +23,9 @@
   background-color: var(--color-white);
 }
 
-.substitution-card__content {
-  transition: transform 0.2s ease;
-}
-
-.substitution-card__content--swiped {
-  transform: translateX(-12px);
+.substitution-card__content--accepted {
+  border: 2px solid var(--color-main);
+  box-shadow: 0 0 5px rgba(85, 184, 154, 0.5);
 }
 
 .substitution-card__title {
@@ -90,4 +91,8 @@
   background-color: #ee7060;
   color: var(--color-white);
   font-size: 13px;
+}
+
+.substitution-card__content--clickable {
+  cursor: pointer;
 }

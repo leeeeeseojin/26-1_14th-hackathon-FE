@@ -12,15 +12,6 @@
   height: 51px;
 }
 
-.recipe-tool-check-page__hero-illustration {
-  position: absolute;
-  left: 33.33%; /* 131/393 */
-  top: 17px;
-  width: 61.58%; /* 242/393 */
-  height: auto;
-  aspect-ratio: 242 / 91.06;
-}
-
 @media (max-width: 340px) {
   .recipe-tool-check-page__hero-illustration {
     width: 61.58%;
@@ -29,7 +20,21 @@
   }
 }
 
+.recipe-tool-check-page__hero-illustration {
+  position: absolute;
+  left: 33.33%;
+  top: 17px;
+  width: 61.58%;
+  max-width: 242px;
+  height: auto;
+  aspect-ratio: 242 / 91.06;
+  z-index: 2;
+}
+
 .recipe-tool-check-page__content {
+  position: relative;
+  z-index: 1;
+
   flex: 1;
 
   display: flex;
@@ -68,8 +73,9 @@
 }
 
 .recipe-tool-check-page__tool-list {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 12px;
 }
 
 .recipe-tool-check-page__section--ingredients {

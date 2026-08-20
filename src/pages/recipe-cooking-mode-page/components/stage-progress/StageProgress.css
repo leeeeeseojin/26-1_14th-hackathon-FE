@@ -68,6 +68,14 @@
   padding: 3px;
 }
 
+@media (max-width: 350px) {
+  .stage-progress__stage {
+    width: auto;
+    flex: 1;
+    flex-shrink: 1;
+  }
+}
+
 .stage-progress__num {
   display: flex;
   align-items: center;

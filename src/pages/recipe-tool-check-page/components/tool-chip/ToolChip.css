@@ -1,20 +1,12 @@
 .tool-chip {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
 
-  width: 98px;
-  height: 62px;
-  border-radius: 12px;
+  height: 30px;
+  border-radius: 10px;
 
   background-color: #f7f8f7;
-}
-
-.tool-chip__icon {
-  width: 19px;
-  height: 19px;
 }
 
 .tool-chip__name {
