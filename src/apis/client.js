@@ -1,5 +1,4 @@
-const BASE_URL = 'https://likelion-cent.leehyowon14.dev'
-
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
 export class ApiError extends Error {
   constructor(status, code, message) {
     super(message)
