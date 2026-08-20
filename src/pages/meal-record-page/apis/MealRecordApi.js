@@ -1,4 +1,4 @@
-import AxiosInstance from '../../../apis/axios'
+import AxiosInstance from '../../../apis/axiosInstance'
 
 import breakfastImage from '../../../assets/dummy/meal-breakfast.png'
 import lunchImage from '../../../assets/dummy/meal-lunch.png'

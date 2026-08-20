@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import CommonButton from "../../../components/common-button/CommonButton";
 import BottomNav from "../../../components/bottom-nav/BottomNav";
@@ -8,17 +8,106 @@ import NutritionSummary from "../components/NutritionSummary";
 import RecordSelectModal from "../components/RecordSelectModal";
 
 import "./MainPage.css";
+import { getDashboard, getRecommendedRecipes, } from "../apis/homeApi";
+
+import "./MainPage.css";
 
 const MainPage = () => {
-  const [isRecordModalOpen, setIsRecordModalOpen] = useState(false);
+  const [isRecordModalOpen, setIsRecordModalOpen] =
+    useState(false);
+
+  
+  const [dashboard, setDashboard] =
+    useState(null);
+
+  const [recommendation, setRecommendation] =
+    useState(null);
+
+  const [isLoading, setIsLoading] =
+    useState(true);
+
+  useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        const [
+          dashboardData,
+          recommendationData,
+        ] = await Promise.all([
+
+          getDashboard(),
+          getRecommendedRecipes(),
+        ]);
+
+        setDashboard(dashboardData);
+        setRecommendation( recommendationData);
+
+        console.log(
+          "대시보드 조회 성공:",
+          dashboardData
+        );
+
+        console.log(
+          "추천 레시피 조회 성공:",
+          recommendationData
+        );
+      } catch (error) {
+        console.error(
+          "홈 데이터 조회 실패:",
+          error
+        );
+
+        const status =
+          error.response?.status;
+
+        const message =
+          error.response?.data?.message;
+
+        if (status === 409) {
+          alert(
+            message ||
+              "식사 관리 목표가 설정되지 않았습니다."
+          );
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchHomeData();
+  }, []);
+
+  const formatDate = (dateString) => {
+    if (!dateString) {
+      return "";
+    }
+
+    const date = new Date(
+      `${dateString}T00:00:00`
+    );
+
+    return date.toLocaleDateString(
+      "ko-KR",
+      {
+        month: "long",
+        day: "numeric",
+        weekday: "long",
+      }
+    );
+  };
+
+
+  const firstRecipe =
+    recommendation?.items?.[0];
 
   return (
     <div className="main-page">
       <main className="main-page__content">
         <section className="main-page__greeting">
+
           <p className="main-page__date">
-            7월 15일 화요일
+            {formatDate(dashboard?.date)}
           </p>
+
 
           <p className="main-page__welcome">
             안녕하세요 00님,
@@ -28,51 +117,77 @@ const MainPage = () => {
             오늘도 잘 챙겨 먹어볼까요?
           </h1>
 
+   
           <div className="main-page__speech">
             연속 8일차!
           </div>
         </section>
 
+
         <section className="main-page__calendar">
-          {[7, 8, 9, 10, 11, 12, 13].map((day) => (
-            <div
-              key={day}
-              className={`main-page__day ${
-                day === 7 || day === 8
-                  ? "main-page__day--completed"
-                  : ""
-              }`}
-            >
-              {day}
-            </div>
-          ))}
+          {[7, 8, 9, 10, 11, 12, 13].map(
+            (day) => (
+              <div
+                key={day}
+                className={`main-page__day ${
+                  day === 7 || day === 8
+                    ? "main-page__day--completed"
+                    : ""
+                }`}
+              >
+                {day}
+              </div>
+            )
+          )}
         </section>
 
-        <NutritionSummary />
+        <NutritionSummary
+          summary={dashboard?.summary}
+          goal={dashboard?.goal}
+          isLoading={isLoading}
+        />
 
         <div className="main-page__record-button">
           <CommonButton
-            onClick={() => setIsRecordModalOpen(true)}
+            onClick={() =>
+              setIsRecordModalOpen(true)
+            }
           >
             기록하기
           </CommonButton>
         </div>
 
+
         <section className="main-page__recommendation">
           <div className="main-page__recommendation-content">
+
             <div className="main-page__recommendation-image">
-              <img src={FoodExample} alt="음식 사진" />
+              <img
+                // 명세:
+                // items[0].thumbnail_url
+                src={
+                  firstRecipe?.thumbnail_url ||
+                  FoodExample
+                }
+                alt={
+                  firstRecipe?.title ||
+                  "음식 사진"
+                }
+              />
             </div>
 
             <div>
+
               <p className="main-page__recommendation-title">
-                저녁 식사 탄수화물 40g 이하를
-                <br />
-                권장합니다.
+                {recommendation
+                  ?.recommendation_message ||
+                  "추천 식단을 준비하고 있습니다."}
               </p>
 
+
               <p className="main-page__recommendation-description">
-                현재 혈당 추세를 고려한 개인화 제안입니다. (참고용)
+                {recommendation?.disclaimer ||
+                  "현재 혈당 추세를 고려한 개인화 제안입니다. (참고용)"}
               </p>
             </div>
           </div>
@@ -90,7 +205,9 @@ const MainPage = () => {
 
       <RecordSelectModal
         isOpen={isRecordModalOpen}
-        onClose={() => setIsRecordModalOpen(false)}
+        onClose={() =>
+          setIsRecordModalOpen(false)
+        }
       />
     </div>
   );

@@ -1,4 +1,4 @@
-import AxiosInstance from '../../../apis/axios'
+import AxiosInstance from '../../../apis/axiosInstance'
 
 import { RECIPE_STATUS, SOURCE_TYPE } from '../mocks/recipeSavedListMock'
 

@@ -1,4 +1,4 @@
-import AxiosInstance from '../../../apis/axios'
+import AxiosInstance from '../../../apis/axiosInstance'
 
 export const VISIBLE_INGREDIENT_COUNT = 3
 
