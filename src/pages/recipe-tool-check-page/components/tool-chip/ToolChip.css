@@ -19,5 +19,6 @@
 
 .tool-chip__name {
   font-size: 10px;
+  font-weight: 700;
   color: var(--color-text);
 }
