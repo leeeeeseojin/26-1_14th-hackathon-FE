@@ -5,7 +5,7 @@
 
   width: 100%;
   padding: 0 16px;
-
+  height: 47px;
   border: none;
   border-radius: 14px;
 
@@ -32,4 +32,17 @@
 .common-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.common-button--primary {
+  background-color: #55B89A;
+  color: #ffffff;
+}
+
+
+.common-button--outline {
+  background-color: #ffffff;
+  color: #1F2926;
+
+  border: 1px solid #55B89A;
 }
