@@ -1,17 +1,20 @@
 import { apiRequest } from "../../apis/client";
 
-export const login = async (id) => {
-  return apiRequest("/auth/login", {
+
+export const login = async (loginId) => {
+  return apiRequest("/api/auth/login", {
     method: "POST",
     body: {
-      id,
+      loginId,
     },
   });
 };
 
 export const signup = async (signupData) => {
-  return apiRequest("/auth/signup", {
+  return apiRequest("/api/auth/signup", {
     method: "POST",
-    body: signupData,
+    body: {
+      ...signupData,
+    },
   });
 };

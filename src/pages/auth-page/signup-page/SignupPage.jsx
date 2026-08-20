@@ -8,7 +8,7 @@ const SignupPage = () => {
   const handleSignup = (userId) => {
     navigate("/", {
       state: {
-        userId,
+        loginId: userId,
       },
     });
   };
