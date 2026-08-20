@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
 import StageProgress from '../components/stage-progress/StageProgress'
@@ -17,12 +19,26 @@ function getRemainingMinutes(steps, currentIndex) {
   return steps.slice(currentIndex).reduce((sum, step) => sum + step.durationMinutes, 0)
 }
 
-export default function RecipeCookingModePage({ onBack }) {
-  const currentIndex = 1
+export default function RecipeCookingModePage({ onBack, onComplete }) {
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   const currentStep = DUMMY_COOKING_STEPS[currentIndex]
   const nextStep = DUMMY_COOKING_STEPS[currentIndex + 1]
   const remainingMinutes = getRemainingMinutes(DUMMY_COOKING_STEPS, currentIndex)
+  const isLastStep = currentIndex === DUMMY_COOKING_STEPS.length - 1
+
+  const handlePrev = () => {
+    if (currentIndex === 0) return
+    setCurrentIndex((prev) => prev - 1)
+  }
+
+  const handleNext = () => {
+    if (isLastStep) {
+      onComplete?.()
+      return
+    }
+    setCurrentIndex((prev) => prev + 1)
+  }
 
   return (
     <main className='recipe-cooking-mode-page'>
@@ -57,11 +73,20 @@ export default function RecipeCookingModePage({ onBack }) {
       </div>
 
       <div className='recipe-cooking-mode-page__bottom'>
-        <button type='button' className='recipe-cooking-mode-page__prev-button'>
+        <button
+          type='button'
+          className='recipe-cooking-mode-page__prev-button'
+          onClick={handlePrev}
+          disabled={currentIndex === 0}
+        >
           이전
         </button>
-        <CommonButton weight='regular' className='recipe-cooking-mode-page__next-button'>
-          다음 단계로 →
+        <CommonButton
+          weight='regular'
+          className='recipe-cooking-mode-page__next-button'
+          onClick={handleNext}
+        >
+          {isLastStep ? '조리 완료' : '다음 단계로 →'}
         </CommonButton>
       </div>
     </main>
