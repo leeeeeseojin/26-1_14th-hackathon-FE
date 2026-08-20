@@ -3,7 +3,7 @@
   flex-direction: column;
   min-height: 100dvh;
 
-  background-color: var(--color-background);
+  background-color: #eaf7f2;
 }
 
 .recipe-cooking-mode-page__content {
