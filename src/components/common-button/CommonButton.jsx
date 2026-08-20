@@ -6,12 +6,13 @@ const CommonButton = ({
   weight = 'bold',
   className = '',
   onClick,
+  variant = "primary",
   disabled = false,
 }) => {
   return (
     <button
       type={type}
-      className={`common-button common-button--${weight} ${className}`}
+      className={`common-button common-button-- ${variant} ${weight} ${className}`}
       onClick={onClick}
       disabled={disabled}
     >

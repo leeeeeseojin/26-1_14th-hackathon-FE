@@ -15,7 +15,8 @@ import RecipeToolCheckPage from './pages/recipe-tool-check-page/entry/RecipeTool
 import MealRecordPage from './pages/meal-record-page/entry/MealRecordPage'
 import DietAnalysisPage from './pages/diet-analysis-page/entry/DietAnalysisPage'
 import RecipeCookingModePage from './pages/recipe-cooking-mode-page/entry/RecipeCookingModePage'
-
+import LoginPage from "./pages/login-page/LoginPage";
+import SignupPage from "./pages/signup-page/SignupPage";
 const App = () => {
   return (
     <BrowserRouter>
@@ -36,6 +37,8 @@ const App = () => {
         <Route path='/record' element={<MealRecordPage />} />
         <Route path='/analysis' element={<DietAnalysisPage />} />
         <Route path='/recipe/cooking-mode/:recipeId' element={<RecipeCookingModePage />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/signup' element={<SignupPage />} />
       </Routes>
     </BrowserRouter>
   )
