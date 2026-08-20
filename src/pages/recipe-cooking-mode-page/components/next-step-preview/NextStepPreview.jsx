@@ -1,8 +1,8 @@
 import './NextStepPreview.css'
 
-export default function NextStepPreview({ stepNumber, title, description }) {
+export default function NextStepPreview({ className = '', stepNumber, title, description }) {
   return (
-    <div className='next-step-preview'>
+    <div className={`next-step-preview ${className}`}>
       <div className='next-step-preview__num'>{stepNumber}</div>
 
       <div className='next-step-preview__label-group'>

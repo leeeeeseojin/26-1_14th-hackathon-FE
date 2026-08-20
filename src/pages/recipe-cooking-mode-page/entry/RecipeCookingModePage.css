@@ -16,3 +16,43 @@
   padding: 20px;
   padding-bottom: 28px;
 }
+
+.recipe-cooking-mode-page__bottom {
+  position: sticky;
+  bottom: 0;
+
+  display: flex;
+  gap: 12px;
+
+  padding: 16px 20px 22px;
+
+  background-color: var(--color-white);
+}
+
+.recipe-cooking-mode-page__prev-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 92px;
+  height: 52px;
+  border-radius: 16px;
+
+  background-color: #f3fbf8;
+
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-sub-text);
+}
+
+.recipe-cooking-mode-page__next-preview-gap {
+  margin-top: 33px;
+}
+
+.recipe-cooking-mode-page__next-button {
+  flex: 1;
+  height: 52px !important;
+  border-radius: 16px !important;
+
+  font-size: 16px !important;
+}

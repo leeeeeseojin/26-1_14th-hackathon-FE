@@ -1,7 +1,13 @@
 import Header from '../../../components/header/Header'
+import CommonButton from '../../../components/common-button/CommonButton'
 import StageProgress from '../components/stage-progress/StageProgress'
 import CurrentStepCard from '../components/current-step-card/CurrentStepCard'
 import ActionChecklist from '../components/action-checklist/ActionChecklist'
+import TipCard from '../components/tip-card/TipCard'
+import NextStepPreview from '../components/next-step-preview/NextStepPreview'
+
+import tipIllustration from '../../../assets/cooking-flow/tip-illustration.svg'
+import tipLabel from '../../../assets/cooking-flow/tip-label.svg'
 
 import { DUMMY_RECIPE_NAME, DUMMY_COOKING_STEPS } from '../apis/dummyRecipeCookingMode'
 
@@ -12,10 +18,10 @@ function getRemainingMinutes(steps, currentIndex) {
 }
 
 export default function RecipeCookingModePage({ onBack }) {
-  // TODO: Sub 133에서 useState로 전환, 이전/다음 버튼과 연결 예정
   const currentIndex = 1
 
   const currentStep = DUMMY_COOKING_STEPS[currentIndex]
+  const nextStep = DUMMY_COOKING_STEPS[currentIndex + 1]
   const remainingMinutes = getRemainingMinutes(DUMMY_COOKING_STEPS, currentIndex)
 
   return (
@@ -38,7 +44,25 @@ export default function RecipeCookingModePage({ onBack }) {
 
         <ActionChecklist actions={currentStep.actions} />
 
-        {/* Sub 128: TIP, 다음 단계 미리보기 및 하단 버튼 영역 */}
+        <TipCard illustration={tipIllustration} label={tipLabel} content={currentStep.tip} />
+
+        {nextStep && (
+          <NextStepPreview
+            className='recipe-cooking-mode-page__next-preview-gap'
+            stepNumber={currentIndex + 2}
+            title={nextStep.title}
+            description={nextStep.description}
+          />
+        )}
+      </div>
+
+      <div className='recipe-cooking-mode-page__bottom'>
+        <button type='button' className='recipe-cooking-mode-page__prev-button'>
+          이전
+        </button>
+        <CommonButton weight='regular' className='recipe-cooking-mode-page__next-button'>
+          다음 단계로 →
+        </CommonButton>
       </div>
     </main>
   )
