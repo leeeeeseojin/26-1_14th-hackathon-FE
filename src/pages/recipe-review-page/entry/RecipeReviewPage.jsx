@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
@@ -33,9 +33,8 @@ function RecipeSummary({ title, description }) {
 }
 
 export default function RecipeReviewPage({ onBack }) {
+  const { recipeId } = useParams()
   const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  const recipeId = searchParams.get('recipeId')
   const [isIngredientExpanded, setIsIngredientExpanded] = useState(false)
   const [recipe, setRecipe] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -79,7 +78,7 @@ export default function RecipeReviewPage({ onBack }) {
       return
     }
 
-    navigate(`/recipe/suggest?recipeId=${recipeId}`)
+    navigate(`/recipe/suggest/${recipeId}`)
   }
 
   const handleToggleIngredients = () => {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
@@ -17,9 +17,8 @@ import { DUMMY_RECIPE_SUMMARY, DUMMY_TOOLS } from '../apis/dummyRecipeToolCheck'
 import './RecipeToolCheckPage.css'
 
 export default function RecipeToolCheckPage({ onBack }) {
+  const { recipeId } = useParams()
   const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  const recipeId = searchParams.get('recipeId')
   const [recipe, setRecipe] = useState(null)
   const [ingredients, setIngredients] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -66,7 +65,7 @@ export default function RecipeToolCheckPage({ onBack }) {
       return
     }
 
-    navigate(`/recipe/cooking-mode?recipeId=${recipeId}`)
+    navigate(`/recipe/cooking-mode/${recipeId}`)
   }
 
   return (

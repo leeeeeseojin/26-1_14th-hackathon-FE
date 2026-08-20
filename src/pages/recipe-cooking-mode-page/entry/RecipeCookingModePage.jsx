@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
@@ -23,8 +23,7 @@ function getRemainingMinutes(steps, currentIndex) {
 }
 
 export default function RecipeCookingModePage({ onBack }) {
-  const [searchParams] = useSearchParams()
-  const recipeId = searchParams.get('recipeId')
+  const { recipeId } = useParams()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false)
   const [recipeTitle, setRecipeTitle] = useState('')

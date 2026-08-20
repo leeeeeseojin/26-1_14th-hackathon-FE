@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
@@ -60,9 +60,8 @@ const mapAlternativeCard = (ingredient, alternativeData) => {
 }
 
 export default function RecipeSubstitutePage({ onBack }) {
+  const { recipeId } = useParams()
   const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  const recipeId = searchParams.get('recipeId')
   const [cardStates, setCardStates] = useState({})
   const [recipe, setRecipe] = useState(null)
   const [nutritionChangeTable, setNutritionChangeTable] = useState([])
@@ -278,7 +277,7 @@ export default function RecipeSubstitutePage({ onBack }) {
 
     try {
       await applyAcceptedSubstitutes()
-      navigate(`/recipe/tool-check?recipeId=${recipeId}`)
+      navigate(`/recipe/tool-check/${recipeId}`)
     } catch (error) {
       console.error('대체 재료 적용 실패:', error)
       setActionError(getApiErrorMessage(error))

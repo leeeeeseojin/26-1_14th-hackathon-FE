@@ -26,16 +26,16 @@ const App = () => {
         <Route path='/recipe/link' element={<RecipeLinkPage />} />
         <Route path='/eatout' element={<EatingOutUploadPage />} />
         <Route path='/eatout/detail' element={<EatingOutDetailPage />} />
-        <Route path='/recipe/review' element={<RecipeReviewPage />} />
-        <Route path='/recipe/suggest' element={<RecipeSuggestPage />} />
-        <Route path='/recipe/substitute' element={<RecipeSubstitutePage />} />
+        <Route path='/recipe/review/:recipeId' element={<RecipeReviewPage />} />
+        <Route path='/recipe/suggest/:recipeId' element={<RecipeSuggestPage />} />
+        <Route path='/recipe/substitute/:recipeId' element={<RecipeSubstitutePage />} />
         <Route path='/main' element={<MainPage />} />
         <Route path='/recipe' element={<RecipeSavedListPage />} />
         <Route path='/recipe/saved-list' element={<RecipeSavedListPage />} />
-        <Route path='/recipe/tool-check' element={<RecipeToolCheckPage />} />
+        <Route path='/recipe/tool-check/:recipeId' element={<RecipeToolCheckPage />} />
         <Route path='/record' element={<MealRecordPage />} />
         <Route path='/analysis' element={<DietAnalysisPage />} />
-        <Route path='/recipe/cooking-mode' element={<RecipeCookingModePage />} />
+        <Route path='/recipe/cooking-mode/:recipeId' element={<RecipeCookingModePage />} />
       </Routes>
     </BrowserRouter>
   )

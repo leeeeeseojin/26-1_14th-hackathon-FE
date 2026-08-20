@@ -85,11 +85,11 @@ const RecipeSavedListPage = () => {
 
   const handleRecipeClick = (recipe) => {
     if (recipe.status === RECIPE_STATUS.COMPLETED) {
-      navigate(`/recipe/suggest?recipeId=${recipe.id}`)
+      navigate(`/recipe/suggest/${recipe.id}`)
       return
     }
 
-    navigate(`/recipe/review?recipeId=${recipe.id}`)
+    navigate(`/recipe/review/${recipe.id}`)
   }
 
   const renderListBody = () => {

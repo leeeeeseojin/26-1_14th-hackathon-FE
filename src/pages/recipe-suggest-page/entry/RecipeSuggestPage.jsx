@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
@@ -34,9 +34,8 @@ function SuggestionSummary({ reason, title, description }) {
 }
 
 export default function RecipeSuggestPage({ onBack, onRetry }) {
+  const { recipeId } = useParams()
   const navigate = useNavigate()
-  const [searchParams, setSearchParams] = useSearchParams()
-  const recipeId = searchParams.get('recipeId')
   const [isDetailOpen, setIsDetailOpen] = useState(false)
   const [recipe, setRecipe] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -76,7 +75,7 @@ export default function RecipeSuggestPage({ onBack, onRetry }) {
       return
     }
 
-    navigate(`/recipe/substitute?recipeId=${recipeId}`)
+    navigate(`/recipe/substitute/${recipeId}`)
   }
 
   const handleRetry = async () => {
@@ -98,7 +97,7 @@ export default function RecipeSuggestPage({ onBack, onRetry }) {
         return
       }
 
-      setSearchParams({ recipeId: String(nextRecipe.recipeId) })
+      navigate(`/recipe/suggest/${nextRecipe.recipeId}`)
     } catch (error) {
       console.error('개인화 레시피 추천 조회 실패:', error)
       setRetryMessage(getApiErrorMessage(error))

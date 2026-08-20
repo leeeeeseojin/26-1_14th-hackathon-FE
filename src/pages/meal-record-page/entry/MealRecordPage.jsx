@@ -76,7 +76,7 @@ const MealRecordPage = () => {
   }
 
   const handleViewRecipe = (recipeId) => {
-    navigate(`/recipe/review?recipeId=${recipeId}`)
+    navigate(`/recipe/review/${recipeId}`)
   }
 
   const renderMeals = () => {
