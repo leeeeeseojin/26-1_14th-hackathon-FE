@@ -1,4 +1,4 @@
-import AxiosInstance from '../../../apis/axios'
+import AxiosInstance from '../../../apis/axiosInstance'
 
 import { mapNutritionChanges } from '../../recipe-review-page/apis/RecipeReviewApi'
 
