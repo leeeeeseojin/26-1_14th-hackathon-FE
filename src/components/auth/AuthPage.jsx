@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import CommonButton from "../common-button/CommonButton";
-import Login from "../../assets/icon/login.svg";
 import Logo from "../../assets/icon/logo.svg";
 
 import "./AuthPage.css";
@@ -18,12 +17,14 @@ const AuthPage = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!userId.trim()) {
+    const trimmedUserId = userId.trim();
+
+    if (!trimmedUserId) {
       alert("아이디를 입력해주세요.");
       return;
     }
 
-    onSubmit?.(userId);
+    onSubmit?.(trimmedUserId);
   };
 
   return (

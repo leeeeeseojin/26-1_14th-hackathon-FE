@@ -16,9 +16,8 @@ import RecipeToolCheckPage from './pages/recipe-tool-check-page/entry/RecipeTool
 import MealRecordPage from './pages/meal-record-page/entry/MealRecordPage'
 import DietAnalysisPage from './pages/diet-analysis-page/entry/DietAnalysisPage'
 import RecipeCookingModePage from './pages/recipe-cooking-mode-page/entry/RecipeCookingModePage'
-import LoginPage from './pages/login-page/LoginPage'
-import SignupPage from './pages/signup-page/SignupPage'
-
+import LoginPage from "./pages/auth-page/login-page/LoginPage";
+import SignupPage from "./pages/auth-page/signup-page/SignupPage";
 const NavigationWrapper = () => {
   const { pathname } = useLocation()
 
