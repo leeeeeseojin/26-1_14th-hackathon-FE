@@ -9,7 +9,7 @@ import AllergySearch from '../components/AllergySearch';
 
 import { VEGETARIAN_OPTIONS } from '../constants/ProfileOptions';
 import { useEffect, useState } from "react";
-import { getAllergens } from "../apis/ProfileApi";
+import { getAllergens, createOnboarding, } from '../../../apis/profileApi';
 
 import './ProfileHealthPage.css';
 
@@ -20,14 +20,19 @@ const ProfileHealthPage = ({
   onBack,
   onSubmit,
 }) => {
-  const [allergens, setAllergens] = useState([]);
+  const [allergens, setAllergens] =
+    useState([]);
 
+  const [isSubmitting, setIsSubmitting] =
+    useState(false);
+
+  
   useEffect(() => {
     const fetchAllergens = async () => {
       try {
         const data = await getAllergens();
 
-setAllergens(data?.items ?? []);
+        setAllergens(data?.items ?? []);
       } catch (error) {
         console.error(
           '알레르기 목록 조회 실패:',
@@ -38,6 +43,175 @@ setAllergens(data?.items ?? []);
 
     fetchAllergens();
   }, []);
+
+  
+  const getAllergenIds = () => {
+    if (!Array.isArray(profileForm.allergies)) {
+      return [];
+    }
+
+    return profileForm.allergies
+      .map((allergy) => {
+        if (typeof allergy === 'number') {
+          return allergy;
+        }
+
+        return (
+          allergy.allergen_id ??
+          allergy.id
+        );
+      })
+      .filter(
+        (allergenId) =>
+          allergenId !== undefined &&
+          allergenId !== null,
+      );
+  };
+
+  
+  const handleSubmit = async () => {
+    if (isSubmitting) {
+      return;
+    }
+
+    
+    if (!profileForm.birthDate) {
+      alert('생년월일을 입력해주세요.');
+      return;
+    }
+
+    if (
+      !profileForm.height ||
+      !profileForm.weight
+    ) {
+      alert('키와 체중을 입력해주세요.');
+      return;
+    }
+
+    if (!profileForm.gender) {
+      alert('성별을 선택해주세요.');
+      return;
+    }
+
+    if (!profileForm.dailyCarbohydrate) {
+      alert(
+        '하루 목표 탄수화물을 입력해주세요.',
+      );
+      return;
+    }
+
+    
+    const requestData = {
+      profile: {
+        birth_date: profileForm.birthDate,
+
+        height_cm: Number(
+          profileForm.height,
+        ),
+
+        weight_kg: Number(
+          profileForm.weight,
+        ),
+
+        gender: profileForm.gender,
+
+        vegetarian_type:
+          profileForm.vegetarianType ||
+          'NONE',
+
+        other_restrictions:
+          profileForm.otherDietRestriction ||
+          '',
+      },
+
+      goal: {
+        goal_type:
+          profileForm.healthGoal?.id ||
+          'CARB',
+
+        daily_carb_target_g: Number(
+          profileForm.dailyCarbohydrate,
+        ),
+      },
+
+      allergen_ids: getAllergenIds(),
+
+      glucose_device: {
+        is_linked:
+          Boolean(
+            profileForm.glucoseDevice,
+          ),
+      },
+    };
+
+    console.log(
+      '온보딩 요청 데이터:',
+      requestData,
+    );
+
+    try {
+      setIsSubmitting(true);
+
+      const data =
+        await createOnboarding(
+          requestData,
+        );
+
+      console.log(
+        '프로필 저장 성공:',
+        data,
+      );
+
+      
+      if (onSubmit) {
+        onSubmit(data);
+      }
+    } catch (error) {
+      console.error(
+        '프로필 저장 실패:',
+        error,
+      );
+
+      const status =
+        error.response?.status;
+
+      const message =
+        error.response?.data?.message;
+
+      if (status === 400) {
+        alert(
+          message ||
+            '필수 입력값이 누락되었거나 올바르지 않은 요청입니다.',
+        );
+
+        return;
+      }
+
+      if (status === 401) {
+        alert(
+          '로그인이 필요합니다. 다시 로그인해주세요.',
+        );
+
+        return;
+      }
+
+      if (status === 409) {
+        alert(
+          message ||
+            '이미 프로필 설정이 완료된 사용자입니다.',
+        );
+
+        return;
+      }
+
+      alert(
+        message ||
+          '프로필 저장 중 오류가 발생했습니다.',
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <main className="profile-health-page">
@@ -82,7 +256,8 @@ setAllergens(data?.items ?? []);
             </button>
 
             <p className="profile-health-page__description">
-              아래 정보는 혈당 영향 분석의 참고용으로만 사용됩니다.
+              아래 정보는 혈당 영향 분석의
+              참고용으로만 사용됩니다.
             </p>
           </FormCard>
         </Section>
@@ -150,8 +325,13 @@ setAllergens(data?.items ?? []);
       </div>
 
       <div className="profile-health-page__bottom">
-        <CommonButton onClick={onSubmit}>
-          시작하기
+        <CommonButton
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+        >
+          {isSubmitting
+            ? '저장 중...'
+            : '시작하기'}
         </CommonButton>
       </div>
     </main>

@@ -1,4 +1,4 @@
-import AxiosInstance from '../../../apis/axios';
+import AxiosInstance from '../../../apis/axiosInstance';
 
 export const getAllergens = async () => {
   const response = await AxiosInstance.get(

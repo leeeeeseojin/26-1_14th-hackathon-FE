@@ -11,9 +11,7 @@ import NoticeBox from '../../../components/notice-box/NoticeBox';
 import BirthDateModal from '../components/BirthDateModal';
 import HealthGoalModal from '../components/HealthGoalModal';
 
-import {
-  GENDER_OPTIONS,
-} from '../constants/ProfileOptions';
+import { GENDER_OPTIONS,} from '../constants/ProfileOptions';
 
 import './ProfileBasicPage.css';
 
@@ -35,15 +33,17 @@ const ProfileBasicPage = ({
 
   const formatBirthDate = (date) => {
     if (!date) {
-      return '2026.08.01';
+      return '생년월일을 선택해주세요';
     }
 
     const targetDate = new Date(date);
 
     const year = targetDate.getFullYear();
+
     const month = String(
       targetDate.getMonth() + 1,
     ).padStart(2, '0');
+
     const day = String(
       targetDate.getDate(),
     ).padStart(2, '0');
@@ -75,7 +75,11 @@ const ProfileBasicPage = ({
                   )}
                 </span>
 
-                <img src={calendarIcon} alt="달력" className="profile-basic-page__calendar-icon"/>
+                <img
+                  src={calendarIcon}
+                  alt="달력"
+                  className="profile-basic-page__calendar-icon"
+                />
               </button>
             </FormField>
 
@@ -121,25 +125,28 @@ const ProfileBasicPage = ({
 
             <FormField label="성별">
               <div className="profile-basic-page__gender-list">
-                {GENDER_OPTIONS.map((gender) => (
-                  <button
-                    key={gender.id}
-                    type="button"
-                    className={`profile-basic-page__gender-button ${
-                      profileForm.gender === gender.id
-                        ? 'profile-basic-page__gender-button--selected'
-                        : ''
-                    }`}
-                    onClick={() =>
-                      onChange(
-                        'gender',
-                        gender.id,
-                      )
-                    }
-                  >
-                    {gender.label}
-                  </button>
-                ))}
+                {GENDER_OPTIONS.map(
+                  (gender) => (
+                    <button
+                      key={gender.id}
+                      type="button"
+                      className={`profile-basic-page__gender-button ${
+                        profileForm.gender ===
+                        gender.id
+                          ? 'profile-basic-page__gender-button--selected'
+                          : ''
+                      }`}
+                      onClick={() =>
+                        onChange(
+                          'gender',
+                          gender.id,
+                        )
+                      }
+                    >
+                      {gender.label}
+                    </button>
+                  ),
+                )}
               </div>
             </FormField>
           </FormCard>
@@ -156,7 +163,7 @@ const ProfileBasicPage = ({
                 }
               >
                 {profileForm.healthGoal?.label ??
-                  '혈당 안정'}
+                  '건강 목표를 선택해주세요'}
               </button>
             </FormField>
 
@@ -184,8 +191,10 @@ const ProfileBasicPage = ({
         </Section>
 
         <NoticeBox>
-          입력하신 정보는 맞춤 식단 제안에만 활용되며, 의료적 진단이나 처방
-을 대체하지 않습니다. 정확한 건강 관리는 의료진과 상담하세요.
+          입력하신 정보는 맞춤 식단 제안에만
+          활용되며, 의료적 진단이나 처방을
+          대체하지 않습니다. 정확한 건강 관리는
+          의료진과 상담하세요.
         </NoticeBox>
       </div>
 
