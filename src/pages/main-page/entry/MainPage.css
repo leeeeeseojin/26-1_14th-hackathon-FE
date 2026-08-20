@@ -3,9 +3,10 @@
   max-width: 393px;
   min-height: 100vh;
 
+  margin: 0 auto;
   padding-bottom: 72px;
 
-  background-color: #EFF9F5;
+  background-color: #eff9f5;
 
   box-sizing: border-box;
 }
@@ -17,9 +18,25 @@
 .main-page__greeting {
   position: relative;
 
-  padding: 28px 20px 22px;
+  min-height: 148px;
 
-  background-color: #B7E4D5;
+  padding: 18px 16px 20px;
+
+  background: linear-gradient(
+    180deg,
+    #b7e4d5 0%,
+    #ccece1 100%
+  );
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+.main-page__greeting-text {
+  position: relative;
+
+  z-index: 2;
 }
 
 .main-page__date {
@@ -28,6 +45,7 @@
   color: #ffffff;
 
   font-size: 13px;
+  font-weight: 400;
 }
 
 .main-page__welcome {
@@ -37,6 +55,8 @@
 
   font-size: 18px;
   font-weight: 500;
+
+  line-height: normal;
 }
 
 .main-page__title {
@@ -46,37 +66,106 @@
 
   font-size: 24px;
   font-weight: 600;
+
+  line-height: normal;
 }
 
-.main-page__speech {
+
+.main-page__character-area {
   position: absolute;
 
-  top: 82px;
-  right: 30px;
+  right: 4px;
+  bottom: -3px;
 
-  padding: 8px 12px;
+  width: 125px;
+  height: 110px;
+
+  z-index: 3;
+}
+
+.main-page__character {
+  position: absolute;
+
+  right: 0;
+  bottom: -3px;
+
+  width: 78px;
+  height: auto;
+
+  display: block;
+}
+
+
+.main-page__speech-wrap {
+  position: absolute;
+
+  top: 1px;
+  right: 38px;
+
+  width: 77px;
+
+  z-index: 2;
+}
+
+.main-page__speech-image {
+  display: block;
+
+  width: 100%;
+  height: 77px;
+}
+
+.main-page__speech-text {
+  position: absolute;
+
+  top: 30px;
+  left: 50%;
+
+  width: 100%;
+
+  transform: translateX(-50%);
 
   color: #202523;
 
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 400;
 
-  transform: rotate(-5deg);
+  line-height: normal;
+
+  text-align: center;
+
+  white-space: nowrap;
 }
 
-.main-page__calendar {
-  padding: 15px 16px;
 
+.main-page__calendar {
+  position: relative;
+
+  padding: 15px 16px 16px;
+
+  background-color: #E8F6F1;
+
+  box-sizing: border-box;
+
+  border-radius: 16px;
+}
+
+.main-page__calendar-list {
   display: flex;
+
   align-items: center;
   justify-content: space-between;
 
-  background-color: #E8F6F1;
+  gap: 15px;
 }
 
+
 .main-page__day {
+  position: relative;
+
   width: 39px;
   height: 51px;
+
+  flex-shrink: 0;
 
   display: flex;
   align-items: center;
@@ -84,46 +173,105 @@
 
   border-radius: 50px;
 
-  background-color:  rgba(225, 225, 225, 0.60);
+  background-color: rgba(225, 225, 225, 0.6);
 
-
-  color: #68716D;
+  color: #68716d;
 
   font-size: 12px;
+  font-weight: 500;
+
+  box-sizing: border-box;
 }
+
+
 
 .main-page__day--completed {
-  background-color: linear-gradient(180deg, rgba(255, 213, 154, 0.80) 0%, rgba(254, 247, 230, 0.80) 100%);
+  align-items: flex-start;
 
-  color: #202523;
+  padding-top: 15px;
+
+  background: linear-gradient(180deg, rgba(255, 164, 73, 0.80) 0%, rgba(254, 247, 230, 0.80) 100%);
+  box-shadow: 0 0.7px 2px 0 rgba(174, 87, 0, 0.10);
+  
+
+  color: #000;
 }
+
+.main-page__day-number {
+  position: relative;
+
+  z-index: 3;
+}
+
+
+.main-page__day-face {
+  position: absolute;
+
+  left: 50%;
+  bottom: 9.92px;
+
+  width: 29px;
+  height: auto;
+
+  transform: translateX(-50%);
+
+  display: block;
+
+  z-index: 2;
+}
+
+
+.main-page__day-leaf {
+  position: absolute;
+
+  top: -7px;
+  right: 0;
+
+  width: 14px;
+  height: auto;
+
+  display: block;
+
+  z-index: 4;
+}
+
 
 .main-page__record-button {
   padding: 16px 16px 0;
 }
 
 .main-page__record-button .common-button {
-  border: 0.5px solid #55B89A;
+  height: 48px;
+
+  border: 0.5px solid #55b89a;
+  border-radius: 12px;
 
   background-color: #ffffff;
-  color: #2F7A63;
+
+  color: #2f7a63;
 
   font-size: 16px;
   font-weight: 400;
 }
 
+
 .main-page__recommendation {
   margin: 20px;
+
   padding: 18px;
 
   border-radius: 16px;
 
   background-color: #ffffff;
+
+  box-sizing: border-box;
 }
 
 .main-page__recommendation-content {
   display: flex;
+
   align-items: center;
+
   gap: 12px;
 }
 
@@ -131,12 +279,27 @@
   width: 52px;
   height: 52px;
 
+  flex-shrink: 0;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
 
+  overflow: hidden;
 
-  background-color: #F3F7E9;
+  border-radius: 50%;
+
+  background-color: #f3f7e9;
+}
+
+.main-page__recommendation-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
 }
 
 .main-page__recommendation-title {
@@ -151,11 +314,13 @@
 }
 
 .main-page__recommendation-description {
-  margin: 4px;
+  margin: 4px 0 0;
 
-  color: #68716D;
+  color: #68716d;
 
   font-size: 12px;
+
+  line-height: 1.5;
 }
 
 .main-page__recipe-button {
@@ -164,14 +329,55 @@
 
   margin-top: 12px;
 
-  border: 0.5px solid #55B89A;
+  border: 0.5px solid #55b89a;
   border-radius: 12px;
 
-  background-color: #E8F6F1;
-  color: #2F7A63;
+  background-color: #e8f6f1;
+
+  color: #2f7a63;
 
   font-family: inherit;
   font-size: 16px;
 
   cursor: pointer;
+
+  box-sizing: border-box;
+}
+
+
+
+@media (max-width: 360px) {
+  .main-page__greeting {
+    min-height: 145px;
+
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .main-page__title {
+    font-size: 22px;
+  }
+
+  .main-page__character-area {
+    width: 115px;
+  }
+
+  .main-page__character {
+    width: 72px;
+  }
+
+  .main-page__speech-wrap {
+    right: 43px;
+
+    width: 77px;
+  }
+
+  .main-page__day {
+    width: 40px;
+    height: 50px;
+  }
+
+  .main-page__calendar-list {
+    gap: 5px;
+  }
 }
