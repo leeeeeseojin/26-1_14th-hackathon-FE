@@ -1,0 +1,122 @@
+.stage-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  padding: 12px 14px;
+  border-radius: 18px;
+
+  background-color: var(--color-white);
+}
+
+.stage-progress__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stage-progress__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.stage-progress__remaining {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--color-sub-text);
+}
+
+.stage-progress__track {
+  height: 8px;
+  border-radius: 4px;
+
+  background-color: var(--color-stroke);
+}
+
+.stage-progress__fill {
+  height: 8px;
+  border-radius: 4px;
+
+  background-color: var(--color-main);
+
+  transition: width 0.3s ease;
+}
+
+.stage-progress__stages {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.stage-progress__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+
+  width: 59px;
+  height: 52px;
+
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.stage-progress__stage--active {
+  background-color: #f3fbf8;
+  padding: 3px;
+}
+
+@media (max-width: 350px) {
+  .stage-progress__stage {
+    width: auto;
+    flex: 1;
+    flex-shrink: 1;
+  }
+}
+
+.stage-progress__num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.stage-progress__stage--done .stage-progress__num {
+  background-color: var(--color-sub);
+  color: #4faf92;
+}
+
+.stage-progress__stage--active .stage-progress__num {
+  background-color: var(--color-main);
+  color: var(--color-white);
+}
+
+.stage-progress__stage--upcoming .stage-progress__num {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-stroke);
+  color: var(--color-sub-text);
+}
+
+.stage-progress__name {
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.stage-progress__stage--done .stage-progress__name,
+.stage-progress__stage--upcoming .stage-progress__name {
+  font-weight: 500;
+  color: var(--color-sub-text);
+}
+
+.stage-progress__stage--active .stage-progress__name {
+  font-weight: 700;
+  color: #4faf92;
+}

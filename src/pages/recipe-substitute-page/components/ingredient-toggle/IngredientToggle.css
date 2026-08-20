@@ -36,3 +36,11 @@
 .ingredient-toggle--selected .ingredient-toggle__name {
   color: #2f7a63;
 }
+
+.ingredient-toggle--deleted {
+  opacity: 0.4;
+}
+
+.ingredient-toggle--deleted .ingredient-toggle__name {
+  color: var(--color-sub-text);
+}

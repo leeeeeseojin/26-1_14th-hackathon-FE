@@ -14,6 +14,7 @@ import RecipeSavedListPage from './pages/recipe-saved-list-page/entry/RecipeSave
 import RecipeToolCheckPage from './pages/recipe-tool-check-page/entry/RecipeToolCheckPage'
 import MealRecordPage from './pages/meal-record-page/entry/MealRecordPage'
 import DietAnalysisPage from './pages/diet-analysis-page/entry/DietAnalysisPage'
+import RecipeCookingModePage from './pages/recipe-cooking-mode-page/entry/RecipeCookingModePage'
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
         <Route path='/recipe/tool-check' element={<RecipeToolCheckPage />} />
         <Route path='/record' element={<MealRecordPage />} />
         <Route path='/analysis' element={<DietAnalysisPage />} />
+        <Route path='/recipe/cooking-mode' element={<RecipeCookingModePage />} />
       </Routes>
     </BrowserRouter>
   )

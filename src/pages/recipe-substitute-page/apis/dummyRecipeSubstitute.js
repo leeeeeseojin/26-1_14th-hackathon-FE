@@ -1,5 +1,5 @@
 // 재료 대체 페이지 더미 데이터
-// 추후 API 연동 시 실제 응답 데이터로 교체 예정
+// API 연동 시 실제 응답 데이터로 교체 예정
 
 export const DUMMY_SUGGESTION = {
   reason: '고단백질 위주 수정안',
@@ -31,7 +31,8 @@ export const DUMMY_NUTRITION_CHANGE = [
 
 export const DUMMY_SUBSTITUTIONS = {
   4: {
-    title: '설탕 1T → 올리고당 1T',
+    originalPart: '설탕 1T',
+    suggestedPart: '올리고당 1T',
     reason: '추천 이유: 단맛 유사, 혈당 영향 낮음',
     tags: [
       { label: '탄수화물 2g', variant: 'carb' },
@@ -40,7 +41,8 @@ export const DUMMY_SUBSTITUTIONS = {
     ],
   },
   8: {
-    title: '브로콜리 100g → 파프리카 100g',
+    originalPart: '브로콜리 100g',
+    suggestedPart: '파프리카 100g',
     reason: '추천 이유: 영양 유사, 혈당 영향 낮음',
     tags: [
       { label: '탄수화물 2g', variant: 'carb' },
@@ -49,7 +51,8 @@ export const DUMMY_SUBSTITUTIONS = {
     ],
   },
   10: {
-    title: '깨 1T → 들깨 1T',
+    originalPart: '깨 1T',
+    suggestedPart: '들깨 1T',
     reason: '추천 이유: 풍미 유사, 혈당 영향 낮음',
     tags: [
       { label: '탄수화물 2g', variant: 'carb' },
@@ -59,9 +62,8 @@ export const DUMMY_SUBSTITUTIONS = {
   },
 }
 
-// 재료 대체 결과 저장
-// 추후 실제 API 연동 시 fetch/axios로 교체
-// { recipeId, substitutions: [{ ingredientId, action: 'accept'|'reject'|'custom', customValue? }] }
+// 저장 API 더미 함수
+// payload 예상 구조: { recipeId, substitutions: [{ ingredientId, action: 'accepted'|'rejected'|'custom', customValue? }] }
 export const saveRecipeSubstitution = async (payload) => {
   console.log('저장 요청(더미):', payload)
   return new Promise((resolve) => {

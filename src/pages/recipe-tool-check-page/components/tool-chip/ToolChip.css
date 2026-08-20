@@ -1,0 +1,16 @@
+.tool-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 30px;
+  border-radius: 10px;
+
+  background-color: #f7f8f7;
+}
+
+.tool-chip__name {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-text);
+}
