@@ -1,5 +1,6 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation, matchPath } from 'react-router-dom'
 
+import BottomNavBar from './components/bottom-nav/BottomNav'
 import RecipeLinkPage from './pages/recipe-input-page/entry/RecipeLinkPage'
 import RecipeInputPage from './pages/recipe-input-page/entry/RecipeInputPage'
 import ProfilePage from './pages/profile-page/entry/ProfilePage'
@@ -17,6 +18,31 @@ import DietAnalysisPage from './pages/diet-analysis-page/entry/DietAnalysisPage'
 import RecipeCookingModePage from './pages/recipe-cooking-mode-page/entry/RecipeCookingModePage'
 import LoginPage from "./pages/auth-page/login-page/LoginPage";
 import SignupPage from "./pages/auth-page/signup-page/SignupPage";
+const NavigationWrapper = () => {
+  const { pathname } = useLocation()
+
+  const hiddenPatterns = [
+    '/',
+    '/login',
+    '/signup',
+    '/recipe/input',
+    '/recipe/link',
+    '/eatout',
+    '/eatout/detail',
+    '/recipe/review/:recipeId',
+    '/recipe/suggest/:recipeId',
+    '/recipe/substitute/:recipeId',
+    '/recipe/tool-check/:recipeId',
+    '/recipe/cooking-mode/:recipeId',
+  ]
+
+  const isHidden = hiddenPatterns.some((pattern) => matchPath(pattern, pathname))
+
+  if (isHidden) return null
+
+  return <BottomNavBar />
+}
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -40,6 +66,7 @@ const App = () => {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<SignupPage />} />
       </Routes>
+      <NavigationWrapper />
     </BrowserRouter>
   )
 }
