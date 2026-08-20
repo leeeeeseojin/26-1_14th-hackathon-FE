@@ -35,8 +35,7 @@
 .completion-modal__close {
   position: absolute;
   top: 20px;
-  right: 28px; /* 318 * 8.81% */
-
+  right: 28px;
   width: 14px;
   height: 14px;
 }
