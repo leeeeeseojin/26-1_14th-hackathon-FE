@@ -68,7 +68,7 @@ const RecipeInputPage = () => {
 
   const handleViewRecipe = () => {
     setIsModalOpen(false)
-    navigate('/recipes')
+    navigate('/recipe')
   }
 
   return (
