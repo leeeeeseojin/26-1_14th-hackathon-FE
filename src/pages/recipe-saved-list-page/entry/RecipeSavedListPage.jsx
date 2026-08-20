@@ -9,10 +9,7 @@ import RecipeSearchField from '../components/recipe-search-field/RecipeSearchFie
 import RecipeListItem from '../components/recipe-list-item/RecipeListItem'
 
 import getApiErrorMessage from '../../../apis/getApiErrorMessage'
-import {
-  getRecipeSavedList,
-  RECIPE_LIST_STATUS,
-} from '../apis/RecipeSavedListApi'
+import { getRecipeSavedList, RECIPE_LIST_STATUS } from '../apis/RecipeSavedListApi'
 import { RECIPE_STATUS } from '../mocks/recipeSavedListMock'
 
 import './RecipeSavedListPage.css'
@@ -51,12 +48,13 @@ const RecipeSavedListPage = () => {
           activeTab === RECIPE_STATUS.COMPLETED
             ? RECIPE_LIST_STATUS.COMPLETED
             : RECIPE_LIST_STATUS.ALL
+
         const data = await getRecipeSavedList({ status })
         const items = data.recipes ?? []
+
+        // 탭 상태에 따른 필터링 (완료 탭이면 전부, 기본 탭이면 완료되지 않은 것만)
         const nextRecipes =
-          activeTab === RECIPE_STATUS.ORIGINAL
-            ? items.filter((recipe) => recipe.completed === false)
-            : items
+          activeTab === RECIPE_STATUS.ORIGINAL ? items.filter((recipe) => !recipe.completed) : items
 
         setRecipes(nextRecipes)
       } catch (error) {
@@ -75,35 +73,24 @@ const RecipeSavedListPage = () => {
 
   const filteredRecipes = useMemo(() => {
     const trimmedKeyword = keyword.trim()
-
-    if (!trimmedKeyword) {
-      return recipes
-    }
-
+    if (!trimmedKeyword) return recipes
     return recipes.filter((recipe) => recipe.title?.includes(trimmedKeyword))
   }, [keyword, recipes])
 
   const handleRecipeClick = (recipe) => {
     if (recipe.status === RECIPE_STATUS.COMPLETED) {
       navigate(`/recipe/suggest/${recipe.id}`)
-      return
+    } else {
+      navigate(`/recipe/review/${recipe.id}`)
     }
-
-    navigate(`/recipe/review/${recipe.id}`)
   }
 
   const renderListBody = () => {
-    if (isLoading) {
+    if (isLoading)
       return <p className='recipe-saved-list-page__empty'>레시피를 불러오는 중입니다.</p>
-    }
-
-    if (errorMessage) {
-      return <p className='recipe-saved-list-page__empty'>{errorMessage}</p>
-    }
-
-    if (filteredRecipes.length === 0) {
+    if (errorMessage) return <p className='recipe-saved-list-page__empty'>{errorMessage}</p>
+    if (filteredRecipes.length === 0)
       return <p className='recipe-saved-list-page__empty'>검색 결과가 없습니다.</p>
-    }
 
     return (
       <div className='recipe-saved-list-page__list'>
@@ -117,9 +104,7 @@ const RecipeSavedListPage = () => {
   return (
     <div className='recipe-saved-list-page'>
       <Header title='레시피' showBackButton={false} />
-
       <RecipeTab tabs={TABS} activeTab={activeTab} onChange={setActiveTab} />
-
       <RecipeSearchField value={keyword} onChange={setKeyword} />
 
       <main className='recipe-saved-list-page__content'>
@@ -128,11 +113,9 @@ const RecipeSavedListPage = () => {
             <h2 className='recipe-saved-list-page__list-title'>{activeTabInfo.title}</h2>
             <p className='recipe-saved-list-page__list-description'>{activeTabInfo.description}</p>
           </div>
-
           {renderListBody()}
         </section>
       </main>
-
       <BottomNav />
     </div>
   )
