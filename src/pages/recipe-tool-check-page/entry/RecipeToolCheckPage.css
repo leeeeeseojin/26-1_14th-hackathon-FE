@@ -39,3 +39,35 @@
   padding: 20px;
   padding-bottom: 28px;
 }
+
+.recipe-tool-check-page__section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  padding: 12px 14px;
+  border-radius: 12px;
+
+  background-color: var(--color-white);
+}
+
+.recipe-tool-check-page__section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.recipe-tool-check-page__section-title {
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.recipe-tool-check-page__section-count {
+  font-size: 10px;
+  color: #4faf92;
+}
+
+.recipe-tool-check-page__tool-list {
+  display: flex;
+  justify-content: space-between;
+}
