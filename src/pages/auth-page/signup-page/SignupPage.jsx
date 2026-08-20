@@ -6,7 +6,7 @@ const SignupPage = () => {
   const navigate = useNavigate();
 
   const handleSignup = (userId) => {
-    navigate("/profile", {
+    navigate("/", {
       state: {
         userId,
       },
