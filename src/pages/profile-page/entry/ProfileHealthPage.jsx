@@ -7,11 +7,12 @@ import NoticeBox from '../../../components/notice-box/NoticeBox';
 
 import AllergySearch from '../components/AllergySearch';
 
-import {
-  VEGETARIAN_OPTIONS,
-} from '../constants/ProfileOptions';
+import { VEGETARIAN_OPTIONS } from '../constants/ProfileOptions';
+import { useEffect, useState } from "react";
+import { getAllergens } from "../apis/ProfileApi";
 
 import './ProfileHealthPage.css';
+
 
 const ProfileHealthPage = ({
   profileForm,
@@ -19,6 +20,25 @@ const ProfileHealthPage = ({
   onBack,
   onSubmit,
 }) => {
+  const [allergens, setAllergens] = useState([]);
+
+  useEffect(() => {
+    const fetchAllergens = async () => {
+      try {
+        const data = await getAllergens();
+
+setAllergens(data?.items ?? []);
+      } catch (error) {
+        console.error(
+          '알레르기 목록 조회 실패:',
+          error,
+        );
+      }
+    };
+
+    fetchAllergens();
+  }, []);
+
   return (
     <main className="profile-health-page">
       <Header
@@ -30,6 +50,7 @@ const ProfileHealthPage = ({
         <Section title="알레르기">
           <FormCard>
             <AllergySearch
+              allergens={allergens}
               selectedAllergies={
                 profileForm.allergies
               }

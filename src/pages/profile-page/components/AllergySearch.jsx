@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
 import searchIcon from "../../../assets/icon/search-icon.svg";
-import { ALLERGY_OPTIONS } from '../constants/AllergyOptions';
 
 import './AllergySearch.css';
 
 const AllergySearch = ({
+  allergens,
   selectedAllergies,
   onChange,
 }) => {
@@ -15,7 +15,7 @@ const AllergySearch = ({
   const trimmedKeyword = keyword.trim();
 
   const filteredAllergies =
-    ALLERGY_OPTIONS.filter(
+    allergens.filter(
       (allergy) =>
         allergy.includes(trimmedKeyword) &&
         !selectedAllergies.includes(allergy),
@@ -24,23 +24,30 @@ const AllergySearch = ({
   const isSearching =
     trimmedKeyword.length > 0;
 
-  const handleSelect = (allergy) => {
+  const handleSelect = (allergyId) => {
     onChange([
       ...selectedAllergies,
-      allergy,
+      allergyId,
     ]);
 
     setKeyword('');
   };
 
-  const handleRemove = (allergy) => {
+  const handleRemove = (allergyId) => {
     onChange(
       selectedAllergies.filter(
-        (item) => item !== allergy,
+        (id) => id !== allergyId,
       ),
     );
   };
+  const getAllergenName = (allergenId) => {
+    const allergen = allergens.find(
+      (item) =>
+        item.allergen_id === allergenId,
+    );
 
+    return allergen?.name_ko ?? '';
+  };
   return (
     <div className="allergy-search">
       <div className="allergy-search__input-wrapper">
@@ -69,7 +76,7 @@ const AllergySearch = ({
               handleRemove(allergy)
             }
           >
-            {allergy}
+            {getAllergenName(allergy)}
 
             <span>×</span>
           </button>
