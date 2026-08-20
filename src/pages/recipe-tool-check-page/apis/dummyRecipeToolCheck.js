@@ -12,3 +12,11 @@ export const DUMMY_TOOLS = [
   { id: 2, name: '뒤집개' },
   { id: 3, name: '계량스푼' },
 ]
+
+export const DUMMY_INGREDIENT_CHECKLIST = [
+  { id: 1, name: '현미밥', amount: '150g', isChecked: true },
+  { id: 2, name: '닭가슴살', amount: '120g', isChecked: true },
+  { id: 3, name: '두부', amount: '100g', isChecked: true },
+  { id: 4, name: '양배추', amount: '60g', isChecked: true },
+  { id: 5, name: '진간장', amount: '진간장 ½T', isChecked: false, hasSubstitute: true },
+]
