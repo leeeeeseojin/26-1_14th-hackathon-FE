@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
@@ -10,73 +10,84 @@ import CookingStepItem from '../../../components/recipe-edit/cooking-step-item/C
 
 import dummyHeroImage from '../../../assets/dummy/recipe-review-hero.svg'
 import chevronDownIcon from '../../../assets/icon/chevron-down.svg'
-import {
-  DUMMY_RECIPE,
-  DUMMY_NUTRIENTS,
-  DUMMY_INGREDIENTS,
-  VISIBLE_INGREDIENT_COUNT,
-  DUMMY_NUTRITION_TABLE,
-  DUMMY_COOKING_STEPS,
-} from '../apis/dummyRecipeReview'
+
+import { getRecipeDetail } from '../../../apis/recipe'
 
 import './RecipeReviewPage.css'
 
-function RecipeHeroImage({ src, alt }) {
-  return (
-    <div className='recipe-review-page__hero'>
-      <img src={src} alt={alt} />
-    </div>
-  )
-}
-
-function RecipeSummary({ title, description }) {
-  return (
-    <div className='recipe-review-page__summary'>
-      <h2 className='recipe-review-page__title'>{title}</h2>
-      <p className='recipe-review-page__description'>{description}</p>
-    </div>
-  )
-}
+const VISIBLE_INGREDIENT_COUNT = 3
 
 export default function RecipeReviewPage({ onBack }) {
+  const { recipeId } = useParams()
   const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  const recipeId = searchParams.get('recipeId')
+
+  const [recipe, setRecipe] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [isIngredientExpanded, setIsIngredientExpanded] = useState(false)
 
-  const visibleIngredients = isIngredientExpanded
-    ? DUMMY_INGREDIENTS
-    : DUMMY_INGREDIENTS.slice(0, VISIBLE_INGREDIENT_COUNT)
+  useEffect(() => {
+    let isMounted = true
 
-  const hasMoreIngredients = DUMMY_INGREDIENTS.length > VISIBLE_INGREDIENT_COUNT
+    const fetchRecipe = async () => {
+      try {
+        setIsLoading(true)
+        const data = await getRecipeDetail(recipeId)
+        if (isMounted) setRecipe(data)
+      } catch (err) {
+        if (isMounted) setError(err)
+      } finally {
+        if (isMounted) setIsLoading(false)
+      }
+    }
+
+    fetchRecipe()
+    return () => {
+      isMounted = false
+    }
+  }, [recipeId])
 
   const handleStart = () => {
-    navigate('/recipe/suggest')
+    navigate(`/recipe/suggest/${recipeId}`)
   }
 
   const handleToggleIngredients = () => {
     setIsIngredientExpanded((prev) => !prev)
   }
 
+  if (isLoading) return <p className='recipe-review-page__status'>불러오는 중...</p>
+  if (error || !recipe)
+    return <p className='recipe-review-page__status'>레시피를 불러오지 못했어요.</p>
+
+  const { title, description, cookingTime, nutrition, ingredients, steps } = recipe
+
+  const visibleIngredients = isIngredientExpanded
+    ? ingredients
+    : ingredients.slice(0, VISIBLE_INGREDIENT_COUNT)
+  const hasMoreIngredients = ingredients.length > VISIBLE_INGREDIENT_COUNT
+
   return (
-    <main className='recipe-review-page' key={recipeId ?? 'recipe-review'}>
+    <main className='recipe-review-page'>
       <Header title='레시피 검토' onBack={onBack} />
 
       <div className='recipe-review-page__content'>
-        <RecipeHeroImage src={dummyHeroImage} alt={DUMMY_RECIPE.title} />
+        <div className='recipe-review-page__hero'>
+          <img src={dummyHeroImage} alt={title} />
+        </div>
 
         <div className='recipe-review-page__body'>
-          <RecipeSummary title={DUMMY_RECIPE.title} description={DUMMY_RECIPE.description} />
+          <div className='recipe-review-page__summary'>
+            <h2 className='recipe-review-page__title'>{title}</h2>
+            <p className='recipe-review-page__description'>
+              조리 약 {cookingTime}분 · {description}
+            </p>
+          </div>
 
           <div className='recipe-review-page__nutrient-list'>
-            {DUMMY_NUTRIENTS.map((item) => (
-              <NutrientTag
-                key={item.id}
-                label={item.label}
-                value={item.value}
-                variant={item.variant}
-              />
-            ))}
+            <NutrientTag label='칼로리' value={`${nutrition.calories}kcal`} variant='calorie' />
+            <NutrientTag label='탄수화물' value={`${nutrition.carb}g`} variant='carb' />
+            <NutrientTag label='단백질' value={`${nutrition.protein}g`} variant='neutral' />
+            <NutrientTag label='지방' value={`${nutrition.fat}g`} variant='neutral' />
           </div>
 
           <section className='recipe-review-page__section'>
@@ -84,10 +95,10 @@ export default function RecipeReviewPage({ onBack }) {
             <div className='recipe-review-page__card'>
               {visibleIngredients.map((item, index) => (
                 <KeyValueRow
-                  key={item.id}
+                  key={item.ingredientId}
                   variant='ingredient'
-                  label={item.name}
-                  value={item.amount}
+                  label={item.title}
+                  value={`${item.amount}g`}
                   isLast={index === visibleIngredients.length - 1}
                 />
               ))}
@@ -112,28 +123,30 @@ export default function RecipeReviewPage({ onBack }) {
 
           <NoticeBanner level='medium' />
 
+          {/* API에 나트륨 필드가 없어 영양정보 표에서 제외, 식이섬유 추가 */}
           <section className='recipe-review-page__section recipe-review-page__section--gap-lg'>
             <h3 className='recipe-review-page__section-title'>
               영양 정보 <span className='recipe-review-page__section-sub'>(1인분 기준)</span>
             </h3>
             <div className='recipe-review-page__card'>
-              {DUMMY_NUTRITION_TABLE.map((item, index) => (
-                <KeyValueRow
-                  key={item.id}
-                  variant='nutrition'
-                  label={item.name}
-                  value={item.amount}
-                  isLast={index === DUMMY_NUTRITION_TABLE.length - 1}
-                />
-              ))}
+              <KeyValueRow variant='nutrition' label='열량' value={`${nutrition.calories} kcal`} />
+              <KeyValueRow variant='nutrition' label='탄수화물' value={`${nutrition.carb} g`} />
+              <KeyValueRow variant='nutrition' label='단백질' value={`${nutrition.protein} g`} />
+              <KeyValueRow variant='nutrition' label='지방' value={`${nutrition.fat} g`} />
+              <KeyValueRow
+                variant='nutrition'
+                label='식이섬유'
+                value={`${nutrition.fiber} g`}
+                isLast
+              />
             </div>
           </section>
 
           <section className='recipe-review-page__section recipe-review-page__section--gap-lg'>
             <h3 className='recipe-review-page__section-title'>조리 단계</h3>
             <div className='recipe-review-page__step-card'>
-              {DUMMY_COOKING_STEPS.map((step, index) => (
-                <CookingStepItem key={step.id} number={index + 1}>
+              {steps.map((step) => (
+                <CookingStepItem key={step.stepOrder} number={step.stepOrder}>
                   {step.description}
                 </CookingStepItem>
               ))}

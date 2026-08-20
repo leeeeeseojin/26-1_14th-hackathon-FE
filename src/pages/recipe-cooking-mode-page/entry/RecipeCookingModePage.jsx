@@ -1,33 +1,59 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
 import StageProgress from '../components/stage-progress/StageProgress'
 import CurrentStepCard from '../components/current-step-card/CurrentStepCard'
-import ActionChecklist from '../components/action-checklist/ActionChecklist'
-import TipCard from '../components/tip-card/TipCard'
 import NextStepPreview from '../components/next-step-preview/NextStepPreview'
 import CompletionModal from '../components/completion-modal/CompletionModal'
 
-import tipIllustration from '../../../assets/cooking-flow/tip-illustration.svg'
-import tipLabel from '../../../assets/cooking-flow/tip-label.svg'
-
-import { DUMMY_RECIPE_NAME, DUMMY_COOKING_STEPS } from '../apis/dummyRecipeCookingMode'
+import { getCookingSteps } from '../../../apis/recipe'
 
 import './RecipeCookingModePage.css'
 
-function getRemainingMinutes(steps, currentIndex) {
-  return steps.slice(currentIndex).reduce((sum, step) => sum + step.durationMinutes, 0)
-}
-
 export default function RecipeCookingModePage({ onBack }) {
+  const { recipeId } = useParams()
+
+  const [recipe, setRecipe] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false)
 
-  const currentStep = DUMMY_COOKING_STEPS[currentIndex]
-  const nextStep = DUMMY_COOKING_STEPS[currentIndex + 1]
-  const remainingMinutes = getRemainingMinutes(DUMMY_COOKING_STEPS, currentIndex)
-  const isLastStep = currentIndex === DUMMY_COOKING_STEPS.length - 1
+  useEffect(() => {
+    let isMounted = true
+
+    const fetchSteps = async () => {
+      try {
+        setIsLoading(true)
+        const data = await getCookingSteps(recipeId)
+        if (isMounted) setRecipe(data)
+      } catch (err) {
+        if (isMounted) setError(err)
+      } finally {
+        if (isMounted) setIsLoading(false)
+      }
+    }
+
+    fetchSteps()
+    return () => {
+      isMounted = false
+    }
+  }, [recipeId])
+
+  if (isLoading) return <p className='recipe-cooking-mode-page__status'>불러오는 중...</p>
+  if (error || !recipe)
+    return <p className='recipe-cooking-mode-page__status'>조리 단계를 불러오지 못했어요.</p>
+
+  const { title, steps } = recipe
+
+  // StageProgress가 name(짧은 라벨)을 요구해서, description 대신 "N단계"로 대체
+  const stageSteps = steps.map((step) => ({ id: step.stepOrder, name: `${step.stepOrder}단계` }))
+
+  const currentStep = steps[currentIndex]
+  const nextStep = steps[currentIndex + 1]
+  const isLastStep = currentIndex === steps.length - 1
 
   const handlePrev = () => {
     if (currentIndex === 0) return
@@ -44,31 +70,29 @@ export default function RecipeCookingModePage({ onBack }) {
 
   return (
     <main className='recipe-cooking-mode-page'>
-      <Header title='모디와 조리 중' subtitle={DUMMY_RECIPE_NAME} titleSize={18} onBack={onBack} />
+      <Header title='모디와 조리 중' subtitle={title} titleSize={18} onBack={onBack} />
 
       <div className='recipe-cooking-mode-page__content'>
         <StageProgress
-          steps={DUMMY_COOKING_STEPS}
+          steps={stageSteps}
           currentIndex={currentIndex}
-          remainingMinutes={remainingMinutes}
+          remainingMinutes={null} // API에 소요시간 없음
         />
 
         <CurrentStepCard
-          stepNumber={currentIndex + 1}
-          stepName={currentStep.name}
-          title={currentStep.title}
+          stepNumber={currentStep.stepOrder}
+          stepName={`${currentStep.stepOrder}단계`}
+          title={`${currentStep.stepOrder}단계`}
           description={currentStep.description}
         />
 
-        <ActionChecklist actions={currentStep.actions} />
-
-        <TipCard illustration={tipIllustration} label={tipLabel} content={currentStep.tip} />
+        {/* API에 액션 체크리스트/TIP 데이터 없어서 생략 */}
 
         {nextStep && (
           <NextStepPreview
             className='recipe-cooking-mode-page__next-preview-gap'
-            stepNumber={currentIndex + 2}
-            title={nextStep.title}
+            stepNumber={nextStep.stepOrder}
+            title={`${nextStep.stepOrder}단계`}
             description={nextStep.description}
           />
         )}
