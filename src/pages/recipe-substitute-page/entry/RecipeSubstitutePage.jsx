@@ -14,6 +14,17 @@ import './RecipeSubstitutePage.css'
 
 const DECIDED_STATUSES = ['accepted', 'rejected', 'custom-confirmed']
 
+// 영양 정보 계산에 사용할 키 (표시 순서와 동일하게 유지)
+const NUTRITION_FIELDS = [
+  { key: 'calories', label: '열량', unit: 'kcal' },
+  { key: 'carb', label: '탄수화물', unit: 'g' },
+  { key: 'sugar', label: '당류', unit: 'g' },
+  { key: 'protein', label: '단백질', unit: 'g' },
+  { key: 'fat', label: '지방', unit: 'g' },
+  { key: 'fiber', label: '식이섬유', unit: 'g' },
+  { key: 'sodium', label: '나트륨', unit: 'mg' },
+]
+
 export default function RecipeSubstitutePage({ onBack }) {
   const { recipeId } = useParams() // candidateRecipeId
 
@@ -157,6 +168,26 @@ export default function RecipeSubstitutePage({ onBack }) {
         amount: item.alternative.recommendedAmount,
       }))
 
+  // 수락(accepted)된 대체 재료들의 nutritionChanges를 원본 영양값에 누적 합산
+  // (개별 대체 재료 조회 API가 nutritionChanges를 이미 제공하므로 preview API 호출 없이 즉시 반영)
+  const acceptedNutritionChanges = selectedIngredients
+    .filter((item) => item.status === 'accepted' && item.alternative?.nutritionChanges)
+    .reduce((totals, item) => {
+      NUTRITION_FIELDS.forEach(({ key }) => {
+        totals[key] = (totals[key] ?? 0) + (item.alternative.nutritionChanges[key] ?? 0)
+      })
+      return totals
+    }, {})
+
+  const hasNutritionChange = Object.keys(acceptedNutritionChanges).length > 0
+
+  const displayedNutrition = NUTRITION_FIELDS.reduce((result, { key }) => {
+    const original = nutrition[key] ?? 0
+    const changed = original + (acceptedNutritionChanges[key] ?? 0)
+    result[key] = { original, changed }
+    return result
+  }, {})
+
   const handleSave = async () => {
     if (hasSelection && !isAllDecided) return
     if (hasSelection) {
@@ -167,8 +198,8 @@ export default function RecipeSubstitutePage({ onBack }) {
 
   const handleStartCooking = async () => {
     if (!isAllDecided) return
-    await saveSubstitutions(recipeId, buildSubstitutions())
-    navigate(`/recipe/tool-check/${recipeId}`)
+    const result = await saveSubstitutions(recipeId, buildSubstitutions())
+    navigate(`/recipe/tool-check/${result.recipeId}`)
   }
 
   return (
@@ -201,17 +232,23 @@ export default function RecipeSubstitutePage({ onBack }) {
             영양 정보 <span className='recipe-substitute-page__section-sub'>(1인분 기준)</span>
           </h3>
           <div className='recipe-substitute-page__card'>
-            <KeyValueRow variant='nutrition' label='열량' value={`${nutrition.calories} kcal`} />
-            <KeyValueRow variant='nutrition' label='탄수화물' value={`${nutrition.carb} g`} />
-            <KeyValueRow variant='nutrition' label='당류' value={`${nutrition.sugar} g`} />
-            <KeyValueRow variant='nutrition' label='단백질' value={`${nutrition.protein} g`} />
-            <KeyValueRow variant='nutrition' label='지방' value={`${nutrition.fat} g`} />
-            <KeyValueRow
-              variant='nutrition'
-              label='나트륨'
-              value={`${nutrition.sodium} mg`}
-              isLast
-            />
+            {NUTRITION_FIELDS.map(({ key, label, unit }, index) => {
+              const { original, changed } = displayedNutrition[key]
+              const isChanged = hasNutritionChange && changed !== original
+              const value = isChanged
+                ? `${original}${unit} → ${changed}${unit}`
+                : `${original}${unit}`
+
+              return (
+                <KeyValueRow
+                  key={key}
+                  variant='nutrition'
+                  label={label}
+                  value={value}
+                  isLast={index === NUTRITION_FIELDS.length - 1}
+                />
+              )
+            })}
           </div>
         </section>
 
