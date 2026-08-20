@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
@@ -26,7 +27,8 @@ function SubstituteSummary({ reason, title, description }) {
   )
 }
 
-export default function RecipeSubstitutePage({ onBack, onSave, onStartCooking }) {
+export default function RecipeSubstitutePage({ onBack }) {
+  const navigate = useNavigate()
   const [selectedIds, setSelectedIds] = useState([])
 
   const handleToggle = (id) => {
@@ -41,6 +43,20 @@ export default function RecipeSubstitutePage({ onBack, onSave, onStartCooking })
   })
 
   const hasSelection = selectedIds.length > 0
+
+  // API 연동 - 선택된 재료/대체 여부/직접입력 값을 서버에 저장하는 요청
+  // payload: { recipeId, substitutions: [{ ingredientId, action: 'accept'|'reject'|'custom', customValue? }] }
+  const handleSave = () => {
+    // await saveRecipeSubstitution(payload)
+    navigate('/recipe/saved-list')
+  }
+
+  // API 연동 - 위와 동일하게 저장 후, 저장된 recipeId를 다음 페이지로 전달
+  // navigate(`/recipe/tool-check?recipeId=${savedRecipeId}`)
+  const handleStartCooking = () => {
+    // await saveRecipeSubstitution(payload)
+    navigate('/recipe/tool-check')
+  }
 
   return (
     <main className='recipe-substitute-page'>
@@ -104,7 +120,6 @@ export default function RecipeSubstitutePage({ onBack, onSave, onStartCooking })
                     title={item.substitution.title}
                     reason={item.substitution.reason}
                     tags={item.substitution.tags}
-                    isActionVisible={false}
                   />
                 ) : (
                   <SubstitutionCard
@@ -123,15 +138,15 @@ export default function RecipeSubstitutePage({ onBack, onSave, onStartCooking })
       <div className='recipe-substitute-page__bottom'>
         {hasSelection ? (
           <div className='recipe-substitute-page__bottom-buttons'>
-            <CommonButton weight='regular' onClick={onSave}>
+            <CommonButton weight='regular' onClick={handleSave}>
               저장하기
             </CommonButton>
-            <CommonButton weight='regular' onClick={onStartCooking}>
+            <CommonButton weight='regular' onClick={handleStartCooking}>
               요리 시작하기
             </CommonButton>
           </div>
         ) : (
-          <CommonButton weight='regular' onClick={onSave}>
+          <CommonButton weight='regular' onClick={handleSave}>
             완료
           </CommonButton>
         )}

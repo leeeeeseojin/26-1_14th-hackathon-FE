@@ -9,7 +9,9 @@ import RecipeReviewPage from './pages/recipe-review-page/entry/RecipeReviewPage'
 import RecipeSuggestPage from './pages/recipe-suggest-page/entry/RecipeSuggestPage'
 import RecipeSubstitutePage from './pages/recipe-substitute-page/entry/RecipeSubstitutePage'
 import ScrollToTop from './components/scroll-to-top/ScrollToTop'
-import MainPage from "./pages/main-page/entry/MainPage";
+import MainPage from './pages/main-page/entry/MainPage'
+import RecipeSavedListPage from './pages/recipe-saved-list-page/entry/RecipeSavedListPage'
+import RecipeToolCheckPage from './pages/recipe-tool-check-page/entry/RecipeToolCheckPage'
 
 const App = () => {
   return (
@@ -25,6 +27,8 @@ const App = () => {
         <Route path='/recipe/suggest' element={<RecipeSuggestPage />} />
         <Route path='/recipe/substitute' element={<RecipeSubstitutePage />} />
         <Route path='/main' element={<MainPage />} />
+        <Route path='/recipe/saved-list' element={<RecipeSavedListPage />} />
+        <Route path='/recipe/tool-check' element={<RecipeToolCheckPage />} />
       </Routes>
     </BrowserRouter>
   )

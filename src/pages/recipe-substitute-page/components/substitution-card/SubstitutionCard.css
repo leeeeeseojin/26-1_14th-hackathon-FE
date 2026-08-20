@@ -3,6 +3,7 @@
   gap: 12px;
 
   width: 100%;
+  touch-action: pan-y;
 }
 
 .substitution-card__content {
@@ -16,6 +17,14 @@
   border: 1px solid #cbe7dc;
 
   background-color: var(--color-white);
+}
+
+.substitution-card__content {
+  transition: transform 0.2s ease;
+}
+
+.substitution-card__content--swiped {
+  transform: translateX(-12px);
 }
 
 .substitution-card__title {
