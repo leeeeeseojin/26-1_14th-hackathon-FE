@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import CommonButton from "../../../components/common-button/CommonButton";
 import BottomNav from "../../../components/bottom-nav/BottomNav";
@@ -18,7 +19,7 @@ import "./MainPage.css";
 
 const MainPage = () => {
   const [isRecordModalOpen, setIsRecordModalOpen] = useState(false);
-
+   const navigate = useNavigate();
   const [dashboard, setDashboard] = useState(null);
   const [recommendation, setRecommendation] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -221,8 +222,9 @@ const MainPage = () => {
           </div>
 
           <button
-            type="button"
-            className="main-page__recipe-button"
+          type="button"
+          className="main-page__recipe-button"
+          onClick={() => navigate("/recipe")}
           >
             추천 레시피 보러가기
           </button>
