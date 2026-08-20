@@ -50,7 +50,7 @@ const RecordSelectModal = ({
           type="button"
           className="record-select-modal__button"
           onClick={() =>
-            handleNavigate("/recipe")
+            handleNavigate("/recipe/input")
           }
         >
           레시피
