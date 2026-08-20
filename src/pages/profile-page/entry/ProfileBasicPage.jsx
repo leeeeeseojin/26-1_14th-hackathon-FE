@@ -54,7 +54,7 @@ const ProfileBasicPage = ({
   return (
     <main className="profile-basic-page">
       <Header
-        title="프로필 입력"
+        title="기본정보 입력"
         onBack={onBack}
       />
 

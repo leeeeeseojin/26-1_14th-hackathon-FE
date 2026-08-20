@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import ProfileBasicPage from './ProfileBasicPage';
 import ProfileHealthPage from './ProfileHealthPage';
@@ -7,6 +8,7 @@ import useProfileForm from '../hooks/useProfileForm';
 
 const ProfilePage = () => {
   const [step, setStep] = useState(1);
+  const navigate = useNavigate();
 
   const {
     profileForm,
@@ -47,6 +49,8 @@ const ProfilePage = () => {
     };
 
     console.log('프로필 데이터:', profileData);
+
+    navigate('/main');
   };
 
   if (step === 1) {
