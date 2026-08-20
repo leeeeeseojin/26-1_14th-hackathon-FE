@@ -9,15 +9,24 @@
 .recipe-tool-check-page__hero {
   position: relative;
 
-  height: 74px;
+  height: 51px;
 }
 
 .recipe-tool-check-page__hero-illustration {
   position: absolute;
-  left: 131px;
+  left: 33.33%; /* 131/393 */
   top: 17px;
-  width: 242px;
-  height: 91.06px;
+  width: 61.58%; /* 242/393 */
+  height: auto;
+  aspect-ratio: 242 / 91.06;
+}
+
+@media (max-width: 340px) {
+  .recipe-tool-check-page__hero-illustration {
+    width: 61.58%;
+    left: 37%;
+    top: 22px;
+  }
 }
 
 .recipe-tool-check-page__content {
