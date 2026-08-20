@@ -32,10 +32,10 @@ const EatingOutDetailPage = () => {
         <NutritionCard
           foodName={foodName}
           time="12:00"
-          amount="300g"
-          carbohydrate="82g"
-          sugar="6g"
-          calorie="560kcal"
+          amount="300"
+          carbohydrate="82"
+          sugar="6"
+          calorie="560"
         />
 
         <RecordInputCard />
