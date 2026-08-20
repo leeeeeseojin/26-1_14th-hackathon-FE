@@ -1,8 +1,14 @@
 import './IngredientCheckItem.css'
 
-export default function IngredientCheckItem({ name, amount, isChecked, hasSubstitute = false }) {
+export default function IngredientCheckItem({
+  name,
+  amount,
+  isChecked,
+  hasSubstitute = false,
+  onToggle,
+}) {
   return (
-    <div className='ingredient-check-item'>
+    <button type='button' className='ingredient-check-item' onClick={onToggle}>
       <div
         className={`ingredient-check-item__checkbox ${isChecked ? 'ingredient-check-item__checkbox--checked' : ''}`}
       >
@@ -16,6 +22,6 @@ export default function IngredientCheckItem({ name, amount, isChecked, hasSubsti
       <div className='ingredient-check-item__spacer' />
 
       <p className='ingredient-check-item__amount'>{amount}</p>
-    </div>
+    </button>
   )
 }

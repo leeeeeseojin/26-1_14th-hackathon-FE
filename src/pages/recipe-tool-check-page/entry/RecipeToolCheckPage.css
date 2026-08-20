@@ -1,0 +1,97 @@
+.recipe-tool-check-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+
+  background: linear-gradient(180deg, #c9f4e7 0%, #e8f6f1 100%);
+}
+
+.recipe-tool-check-page__hero {
+  position: relative;
+
+  height: 74px;
+}
+
+.recipe-tool-check-page__hero-illustration {
+  position: absolute;
+  left: 131px;
+  top: 17px;
+  width: 242px;
+  height: 91.06px;
+}
+
+.recipe-tool-check-page__content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  padding: 20px;
+  padding-bottom: 28px;
+}
+
+.recipe-tool-check-page__section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  padding: 12px 14px;
+  border-radius: 12px;
+
+  background-color: var(--color-white);
+}
+
+.recipe-tool-check-page__section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.recipe-tool-check-page__section-title {
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.recipe-tool-check-page__section-count {
+  font-size: 10px;
+  color: #4faf92;
+}
+
+.recipe-tool-check-page__tool-list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.recipe-tool-check-page__section--ingredients {
+  border-radius: 18px;
+}
+
+.recipe-tool-check-page__ingredient-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.recipe-tool-check-page__bottom {
+  position: sticky;
+  bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  padding: 12px 20px 22px;
+
+  background-color: transparent;
+}
+
+.recipe-tool-check-page__cta-button {
+  width: 214px !important;
+}
+
+.recipe-tool-check-page__cta-caption {
+  font-size: 9px;
+  color: var(--color-sub-text);
+}
