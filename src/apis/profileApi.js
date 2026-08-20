@@ -4,7 +4,7 @@ import axiosInstance from './axiosInstance';
 
 export const getAllergens = async () => {
   const response = await axiosInstance.get(
-    '/api/v1/allergens',
+    '/api/allergens',
   );
 
   return response.data;
@@ -14,7 +14,7 @@ export const getAllergens = async () => {
 
 export const createOnboarding = async (data) => {
   const response = await axiosInstance.post(
-    '/api/v1/users/me/onboarding',
+    '/api/users/me/onboarding',
     data,
   );
 
@@ -24,7 +24,7 @@ export const createOnboarding = async (data) => {
 
 export const getProfile = async () => {
   const response = await axiosInstance.get(
-    '/api/v1/users/me/profile',
+    '/api/users/me/profile',
   );
 
   return response.data;
@@ -33,7 +33,7 @@ export const getProfile = async () => {
 
 export const updateProfile = async (profileData) => {
   const response = await axiosInstance.patch(
-    '/api/v1/users/me/profile',
+    '/api/users/me/profile',
     profileData,
   );
 
