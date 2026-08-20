@@ -6,7 +6,8 @@ import CommonButton from '../../../components/common-button/CommonButton'
 
 import ImageUploader from '../components/ImageUploader'
 import RecipeTextInput from '../components/RecipeTextInput'
-import SaveSuccessModal from '../components/SaveSuccessModal'
+
+import SaveSuccessModal from '../../../components/save-sucess-modal/SaveSuccessModal'
 
 import './RecipeInputPage.css'
 
