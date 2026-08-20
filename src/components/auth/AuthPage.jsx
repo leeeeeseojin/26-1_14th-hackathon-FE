@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import CommonButton from "../common-button/CommonButton";
 import Logo from "../../assets/icon/logo.svg";
+import Login from "../../assets/icon/login.svg";
 
 import "./AuthPage.css";
 
@@ -31,11 +32,11 @@ const AuthPage = ({
     <div className="auth-page">
       <div className="auth-page__container">
         <section className="auth-page__logo-section">
-          <img
-            src={Logo}
-            alt="MODI"
-            className="auth-page__logo"
-          />
+          <div className="auth-page__logo-group">
+            <img src={Login} alt="" className="auth-page__open-logo"/>
+
+            <img src={Logo} alt="MODI" className="auth-page__logo"/>
+          </div>
 
           <p className="auth-page__description">
             먹고 싶은 음식을, 나에게 맞게, Modify.
