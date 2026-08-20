@@ -1,4 +1,11 @@
+import {
+  clearAccessToken,
+  getAccessToken,
+  isPublicRequest,
+} from './authToken'
+
 const BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 export class ApiError extends Error {
   constructor(status, code, message) {
     super(message)
@@ -8,8 +15,6 @@ export class ApiError extends Error {
 }
 
 export async function apiRequest(path, { method = 'GET', body, params } = {}) {
-  const token = localStorage.getItem('accessToken')
-
   const url = new URL(`${BASE_URL}${path}`)
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
@@ -22,8 +27,12 @@ export async function apiRequest(path, { method = 'GET', body, params } = {}) {
   const headers = {
     'Content-Type': 'application/json',
   }
-  if (token) {
-    headers.Authorization = `Bearer ${token}`
+
+  if (!isPublicRequest(method, path)) {
+    const token = getAccessToken()
+    if (token) {
+      headers.Authorization = `Bearer ${token}`
+    }
   }
 
   const response = await fetch(url.toString(), {
@@ -33,6 +42,10 @@ export async function apiRequest(path, { method = 'GET', body, params } = {}) {
   })
 
   if (!response.ok) {
+    if (response.status === 401 && !isPublicRequest(method, path)) {
+      clearAccessToken()
+    }
+
     const errorData = await response.json().catch(() => ({}))
     throw new ApiError(
       response.status,

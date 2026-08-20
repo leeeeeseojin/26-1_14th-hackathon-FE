@@ -1,10 +1,16 @@
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import AuthPage from '../../../components/auth/AuthPage'
+import { clearAccessToken } from '../../../apis/authToken'
 import { login, saveAccessToken } from '../authApi'
 
 const LoginPage = () => {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    clearAccessToken()
+  }, [])
 
   const handleLogin = async ({ loginId, password }) => {
     try {

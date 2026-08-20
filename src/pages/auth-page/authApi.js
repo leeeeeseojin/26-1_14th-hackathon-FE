@@ -1,3 +1,4 @@
+import { setAccessToken } from '../../apis/authToken'
 import { apiRequest } from '../../apis/client'
 
 export const login = async ({ loginId, password }) => {
@@ -29,5 +30,5 @@ export const saveAccessToken = (data) => {
     throw new Error('Access Token이 응답에 없습니다.')
   }
 
-  localStorage.setItem('accessToken', accessToken)
+  setAccessToken(accessToken)
 }
