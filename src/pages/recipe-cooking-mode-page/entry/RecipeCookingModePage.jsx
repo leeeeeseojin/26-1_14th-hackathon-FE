@@ -7,6 +7,7 @@ import CurrentStepCard from '../components/current-step-card/CurrentStepCard'
 import ActionChecklist from '../components/action-checklist/ActionChecklist'
 import TipCard from '../components/tip-card/TipCard'
 import NextStepPreview from '../components/next-step-preview/NextStepPreview'
+import CompletionModal from '../components/completion-modal/CompletionModal'
 
 import tipIllustration from '../../../assets/cooking-flow/tip-illustration.svg'
 import tipLabel from '../../../assets/cooking-flow/tip-label.svg'
@@ -19,8 +20,9 @@ function getRemainingMinutes(steps, currentIndex) {
   return steps.slice(currentIndex).reduce((sum, step) => sum + step.durationMinutes, 0)
 }
 
-export default function RecipeCookingModePage({ onBack, onComplete }) {
+export default function RecipeCookingModePage({ onBack }) {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false)
 
   const currentStep = DUMMY_COOKING_STEPS[currentIndex]
   const nextStep = DUMMY_COOKING_STEPS[currentIndex + 1]
@@ -34,7 +36,7 @@ export default function RecipeCookingModePage({ onBack, onComplete }) {
 
   const handleNext = () => {
     if (isLastStep) {
-      onComplete?.()
+      setIsCompleteModalOpen(true)
       return
     }
     setCurrentIndex((prev) => prev + 1)
@@ -89,6 +91,8 @@ export default function RecipeCookingModePage({ onBack, onComplete }) {
           {isLastStep ? '조리 완료' : '다음 단계로 →'}
         </CommonButton>
       </div>
+
+      {isCompleteModalOpen && <CompletionModal onClose={() => setIsCompleteModalOpen(false)} />}
     </main>
   )
 }
