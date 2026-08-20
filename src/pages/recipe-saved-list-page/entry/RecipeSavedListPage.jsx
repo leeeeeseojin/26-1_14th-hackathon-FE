@@ -8,10 +8,12 @@ import RecipeTab from '../components/recipe-tab/RecipeTab'
 import RecipeSearchField from '../components/recipe-search-field/RecipeSearchField'
 import RecipeListItem from '../components/recipe-list-item/RecipeListItem'
 
+import getApiErrorMessage from '../../../apis/getApiErrorMessage'
 import {
-  RECIPE_STATUS,
   getRecipeSavedList,
-} from '../mocks/recipeSavedListMock'
+  RECIPE_LIST_STATUS,
+} from '../apis/RecipeSavedListApi'
+import { RECIPE_STATUS } from '../mocks/recipeSavedListMock'
 
 import './RecipeSavedListPage.css'
 
@@ -36,39 +38,50 @@ const RecipeSavedListPage = () => {
   const [recipes, setRecipes] = useState([])
   const [activeTab, setActiveTab] = useState(RECIPE_STATUS.ORIGINAL)
   const [keyword, setKeyword] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     const fetchRecipes = async () => {
+      setIsLoading(true)
+      setErrorMessage('')
+
       try {
-        const data = await getRecipeSavedList()
-        setRecipes(data?.items ?? [])
+        const status =
+          activeTab === RECIPE_STATUS.COMPLETED
+            ? RECIPE_LIST_STATUS.COMPLETED
+            : RECIPE_LIST_STATUS.ALL
+        const data = await getRecipeSavedList({ status })
+        const items = data.recipes ?? []
+        const nextRecipes =
+          activeTab === RECIPE_STATUS.ORIGINAL
+            ? items.filter((recipe) => recipe.completed === false)
+            : items
+
+        setRecipes(nextRecipes)
       } catch (error) {
         console.error('레시피 저장 리스트 조회 실패:', error)
+        setRecipes([])
+        setErrorMessage(getApiErrorMessage(error))
+      } finally {
+        setIsLoading(false)
       }
     }
 
     fetchRecipes()
-  }, [])
+  }, [activeTab])
 
   const activeTabInfo = TABS.find((tab) => tab.id === activeTab) ?? TABS[0]
 
   const filteredRecipes = useMemo(() => {
     const trimmedKeyword = keyword.trim()
 
-    return recipes.filter((recipe) => {
-      const isCurrentTab = recipe.status === activeTab
+    if (!trimmedKeyword) {
+      return recipes
+    }
 
-      if (!isCurrentTab) {
-        return false
-      }
-
-      if (!trimmedKeyword) {
-        return true
-      }
-
-      return recipe.title.includes(trimmedKeyword)
-    })
-  }, [activeTab, keyword, recipes])
+    return recipes.filter((recipe) => recipe.title?.includes(trimmedKeyword))
+  }, [keyword, recipes])
 
   const handleRecipeClick = (recipe) => {
     if (recipe.status === RECIPE_STATUS.COMPLETED) {
@@ -79,44 +92,44 @@ const RecipeSavedListPage = () => {
     navigate(`/recipe/review?recipeId=${recipe.id}`)
   }
 
+  const renderListBody = () => {
+    if (isLoading) {
+      return <p className='recipe-saved-list-page__empty'>레시피를 불러오는 중입니다.</p>
+    }
+
+    if (errorMessage) {
+      return <p className='recipe-saved-list-page__empty'>{errorMessage}</p>
+    }
+
+    if (filteredRecipes.length === 0) {
+      return <p className='recipe-saved-list-page__empty'>검색 결과가 없습니다.</p>
+    }
+
+    return (
+      <div className='recipe-saved-list-page__list'>
+        {filteredRecipes.map((recipe) => (
+          <RecipeListItem key={recipe.id} recipe={recipe} onClick={handleRecipeClick} />
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div className='recipe-saved-list-page'>
       <Header title='레시피' showBackButton={false} />
 
-      <RecipeTab
-        tabs={TABS}
-        activeTab={activeTab}
-        onChange={setActiveTab}
-      />
+      <RecipeTab tabs={TABS} activeTab={activeTab} onChange={setActiveTab} />
 
       <RecipeSearchField value={keyword} onChange={setKeyword} />
 
       <main className='recipe-saved-list-page__content'>
         <section className='recipe-saved-list-page__list-card'>
           <div className='recipe-saved-list-page__list-head'>
-            <h2 className='recipe-saved-list-page__list-title'>
-              {activeTabInfo.title}
-            </h2>
-            <p className='recipe-saved-list-page__list-description'>
-              {activeTabInfo.description}
-            </p>
+            <h2 className='recipe-saved-list-page__list-title'>{activeTabInfo.title}</h2>
+            <p className='recipe-saved-list-page__list-description'>{activeTabInfo.description}</p>
           </div>
 
-          {filteredRecipes.length > 0 ? (
-            <div className='recipe-saved-list-page__list'>
-              {filteredRecipes.map((recipe) => (
-                <RecipeListItem
-                  key={recipe.id}
-                  recipe={recipe}
-                  onClick={handleRecipeClick}
-                />
-              ))}
-            </div>
-          ) : (
-            <p className='recipe-saved-list-page__empty'>
-              검색 결과가 없습니다.
-            </p>
-          )}
+          {renderListBody()}
         </section>
       </main>
 

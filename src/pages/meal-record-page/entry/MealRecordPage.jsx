@@ -8,7 +8,9 @@ import RecordCoachBanner from '../components/record-coach-banner/RecordCoachBann
 import MonthCalendar from '../components/month-calendar/MonthCalendar'
 import MealRecordCard from '../components/meal-record-card/MealRecordCard'
 
-import { getMealRecord, MEAL_TYPE_ORDER } from '../mocks/mealRecordMock'
+import getApiErrorMessage from '../../../apis/getApiErrorMessage'
+import { getMealLogsByDate } from '../apis/MealRecordApi'
+import { MEAL_TYPE_ORDER, MOCK_MEAL_RECORD_UI } from '../mocks/mealRecordMock'
 
 import './MealRecordPage.css'
 
@@ -28,47 +30,42 @@ const parseMonthKey = (monthKey) => {
 const MealRecordPage = () => {
   const navigate = useNavigate()
 
-  const [recordData, setRecordData] = useState(null)
-  const [currentMonth, setCurrentMonth] = useState('2026-07')
-  const [selectedDate, setSelectedDate] = useState('2026-07-15')
+  const [currentMonth, setCurrentMonth] = useState(MOCK_MEAL_RECORD_UI.currentMonth)
+  const [selectedDate, setSelectedDate] = useState(MOCK_MEAL_RECORD_UI.selectedDate)
   const [isCalendarCollapsed, setIsCalendarCollapsed] = useState(false)
+  const [meals, setMeals] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
-    const fetchMealRecord = async () => {
-      try {
-        const data = await getMealRecord()
+    const fetchMealLogs = async () => {
+      setIsLoading(true)
+      setErrorMessage('')
 
-        setRecordData(data)
-        setCurrentMonth(data.currentMonth)
-        setSelectedDate(data.selectedDate)
+      try {
+        const data = await getMealLogsByDate(selectedDate)
+        setMeals(data.meals ?? [])
       } catch (error) {
         console.error('식사 기록 조회 실패:', error)
+        setMeals([])
+        setErrorMessage(getApiErrorMessage(error))
+      } finally {
+        setIsLoading(false)
       }
     }
 
-    fetchMealRecord()
-  }, [])
+    fetchMealLogs()
+  }, [selectedDate])
 
   const selectedMeals = useMemo(() => {
-    if (!recordData) {
-      return []
-    }
-
-    return recordData.meals
-      .filter((meal) => meal.date === selectedDate)
-      .sort(
-        (left, right) =>
-          MEAL_TYPE_ORDER[left.mealType] - MEAL_TYPE_ORDER[right.mealType],
-      )
-  }, [recordData, selectedDate])
+    return [...meals].sort(
+      (left, right) => MEAL_TYPE_ORDER[left.mealType] - MEAL_TYPE_ORDER[right.mealType],
+    )
+  }, [meals])
 
   const handleChangeMonth = (offset) => {
     const monthDate = parseMonthKey(currentMonth)
-    const nextMonth = new Date(
-      monthDate.getFullYear(),
-      monthDate.getMonth() + offset,
-      1,
-    )
+    const nextMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + offset, 1)
 
     setCurrentMonth(toMonthKey(nextMonth))
   }
@@ -82,26 +79,42 @@ const MealRecordPage = () => {
     navigate(`/recipe/review?recipeId=${recipeId}`)
   }
 
+  const renderMeals = () => {
+    if (isLoading) {
+      return <p className='meal-record-page__empty'>식사 기록을 불러오는 중입니다.</p>
+    }
+
+    if (errorMessage) {
+      return <p className='meal-record-page__empty'>{errorMessage}</p>
+    }
+
+    if (selectedMeals.length === 0) {
+      return <p className='meal-record-page__empty'>이 날짜에 기록된 식사가 없습니다.</p>
+    }
+
+    return selectedMeals.map((meal) => (
+      <MealRecordCard key={meal.id} meal={meal} onViewRecipe={handleViewRecipe} />
+    ))
+  }
+
   return (
     <div className='meal-record-page'>
       <Header title='식사 기록' showBackButton={false} />
 
       <div className='meal-record-page__top'>
         <RecordCoachBanner
-          title={recordData?.coachTitle ?? ''}
-          subtitle={recordData?.coachSubtitle ?? ''}
+          title={MOCK_MEAL_RECORD_UI.coachTitle}
+          subtitle={MOCK_MEAL_RECORD_UI.coachSubtitle}
         />
 
         <MonthCalendar
           currentMonth={currentMonth}
           selectedDate={selectedDate}
-          completedDates={recordData?.completedDates ?? []}
-          recordRate={recordData?.recordRate ?? 0}
-          changeFromLastWeek={recordData?.changeFromLastWeek ?? 0}
+          completedDates={MOCK_MEAL_RECORD_UI.completedDates}
+          recordRate={MOCK_MEAL_RECORD_UI.recordRate}
+          changeFromLastWeek={MOCK_MEAL_RECORD_UI.changeFromLastWeek}
           isCollapsed={isCalendarCollapsed}
-          onToggleCollapse={() =>
-            setIsCalendarCollapsed((prev) => !prev)
-          }
+          onToggleCollapse={() => setIsCalendarCollapsed((prev) => !prev)}
           onChangeMonth={handleChangeMonth}
           onSelectDate={handleSelectDate}
         />
@@ -109,20 +122,7 @@ const MealRecordPage = () => {
 
       <main className='meal-record-page__meals'>
         <h2 className='meal-record-page__meals-title'>오늘의 식사</h2>
-
-        {selectedMeals.length > 0 ? (
-          selectedMeals.map((meal) => (
-            <MealRecordCard
-              key={meal.id}
-              meal={meal}
-              onViewRecipe={handleViewRecipe}
-            />
-          ))
-        ) : (
-          <p className='meal-record-page__empty'>
-            이 날짜에 기록된 식사가 없습니다.
-          </p>
-        )}
+        {renderMeals()}
       </main>
 
       <BottomNav />

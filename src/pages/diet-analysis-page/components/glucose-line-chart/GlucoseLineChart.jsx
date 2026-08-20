@@ -35,10 +35,27 @@ const getY = (value) => {
   return PADDING.top + (1 - ratio) * chartHeight
 }
 
-const toPointString = (values) => {
-  return values
-    .map((value, index) => `${getX(index, values.length)},${getY(value)}`)
-    .join(' ')
+const toSegmentStrings = (values) => {
+  const segments = []
+  let current = []
+
+  values.forEach((value, index) => {
+    if (value == null) {
+      if (current.length > 0) {
+        segments.push(current)
+        current = []
+      }
+      return
+    }
+
+    current.push(`${getX(index, values.length)},${getY(value)}`)
+  })
+
+  if (current.length > 0) {
+    segments.push(current)
+  }
+
+  return segments.map((segment) => segment.join(' '))
 }
 
 const GlucoseLineChart = ({ points }) => {
@@ -73,15 +90,15 @@ const GlucoseLineChart = ({ points }) => {
         {GLUCOSE_TREND_SERIES.map((series) => {
           const values = points.map((point) => point[series.key])
 
-          return (
+          return toSegmentStrings(values).map((segment, index) => (
             <polyline
-              key={series.key}
+              key={`${series.key}-${index}`}
               className='glucose-line-chart__line'
               fill='none'
               stroke={series.color}
-              points={toPointString(values)}
+              points={segment}
             />
-          )
+          ))
         })}
       </svg>
     </div>

@@ -7,7 +7,7 @@ const CENTER = SIZE / 2
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
 const DonutChart = ({ rate }) => {
-  const clampedRate = Math.min(100, Math.max(0, rate))
+  const clampedRate = Math.min(100, Math.max(0, rate ?? 0))
   const dashOffset = CIRCUMFERENCE * (1 - clampedRate / 100)
 
   return (
