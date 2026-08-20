@@ -1,6 +1,3 @@
-// 식단·혈당 분석 더미 데이터
-// 추후 API 연동 시 getDietAnalysis 내부만 실제 응답으로 교체
-
 export const ANALYSIS_PERIOD = {
   WEEK: 'WEEK',
   TWO_WEEKS: 'TWO_WEEKS',
@@ -25,58 +22,6 @@ export const GLUCOSE_TREND_SERIES = [
 ]
 
 const REFERENCE_END_DATE = '2026-07-15'
-
-const GLUCOSE_PATTERN = [
-  { breakfast: 108, lunch: 121, dinner: 115 },
-  { breakfast: 110, lunch: 118, dinner: 122 },
-  { breakfast: 105, lunch: 126, dinner: 119 },
-  { breakfast: 112, lunch: 120, dinner: 116 },
-  { breakfast: 109, lunch: 124, dinner: 113 },
-  { breakfast: 111, lunch: 117, dinner: 121 },
-  { breakfast: 108, lunch: 121, dinner: 115 },
-]
-
-const PRESETS = {
-  WEEK: {
-    summary: {
-      averageGlucose: 112,
-      targetRangeRate: 74,
-      averageCarb: 58,
-      averageCalories: 1840,
-    },
-    mealSourceRatio: {
-      homeMealRate: 86,
-      eatOutDays: 1,
-    },
-    patternOffset: 0,
-  },
-  TWO_WEEKS: {
-    summary: {
-      averageGlucose: 116,
-      targetRangeRate: 68,
-      averageCarb: 61,
-      averageCalories: 1910,
-    },
-    mealSourceRatio: {
-      homeMealRate: 79,
-      eatOutDays: 3,
-    },
-    patternOffset: 2,
-  },
-  MONTH: {
-    summary: {
-      averageGlucose: 118,
-      targetRangeRate: 71,
-      averageCarb: 60,
-      averageCalories: 1880,
-    },
-    mealSourceRatio: {
-      homeMealRate: 80,
-      eatOutDays: 6,
-    },
-    patternOffset: 4,
-  },
-}
 
 const parseDateKey = (dateKey) => {
   const [year, month, day] = dateKey.split('-').map(Number)
@@ -117,11 +62,7 @@ export const formatDisplayRange = (startDate, endDate) => {
   return `${formatDisplayDate(startDate)}. ~ ${formatDisplayDate(endDate)}`
 }
 
-export const getRangeByPeriod = (
-  period,
-  customStartDate,
-  customEndDate,
-) => {
+export const getRangeByPeriod = (period, customStartDate, customEndDate) => {
   if (period === ANALYSIS_PERIOD.WEEK) {
     return {
       startDate: addDays(REFERENCE_END_DATE, -6),
@@ -149,50 +90,6 @@ export const getRangeByPeriod = (
   }
 }
 
-const enumerateDays = (startDate, endDate) => {
-  const days = []
-  let cursor = startDate
-
-  while (cursor <= endDate) {
-    days.push(cursor)
-    cursor = addDays(cursor, 1)
-  }
-
-  return days
-}
-
-const buildGlucoseTrend = (startDate, endDate, offset) => {
-  return enumerateDays(startDate, endDate).map((date, index) => {
-    const pattern =
-      GLUCOSE_PATTERN[(index + offset) % GLUCOSE_PATTERN.length]
-
-    return {
-      date,
-      breakfast: pattern.breakfast,
-      lunch: pattern.lunch,
-      dinner: pattern.dinner,
-    }
-  })
-}
-
-const resolvePresetKey = (period, startDate, endDate) => {
-  if (period !== ANALYSIS_PERIOD.CUSTOM) {
-    return period
-  }
-
-  const dayCount = getDayCount(startDate, endDate)
-
-  if (dayCount <= 7) {
-    return ANALYSIS_PERIOD.WEEK
-  }
-
-  if (dayCount <= 14) {
-    return ANALYSIS_PERIOD.TWO_WEEKS
-  }
-
-  return ANALYSIS_PERIOD.MONTH
-}
-
 export const getPeriodCaption = (period) => {
   if (period === ANALYSIS_PERIOD.WEEK) {
     return '최근 7일'
@@ -207,31 +104,4 @@ export const getPeriodCaption = (period) => {
   }
 
   return '직접 입력'
-}
-
-export const getDietAnalysis = async ({
-  period = ANALYSIS_PERIOD.WEEK,
-  startDate,
-  endDate,
-} = {}) => {
-  const range = getRangeByPeriod(period, startDate, endDate)
-  const presetKey = resolvePresetKey(
-    period,
-    range.startDate,
-    range.endDate,
-  )
-  const preset = PRESETS[presetKey]
-
-  return {
-    period,
-    startDate: range.startDate,
-    endDate: range.endDate,
-    summary: preset.summary,
-    mealSourceRatio: preset.mealSourceRatio,
-    glucoseTrend: buildGlucoseTrend(
-      range.startDate,
-      range.endDate,
-      preset.patternOffset,
-    ),
-  }
 }

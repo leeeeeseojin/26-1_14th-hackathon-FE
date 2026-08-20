@@ -13,7 +13,7 @@ function getStageStatus(stepIndex, currentIndex) {
 }
 
 export default function StageProgress({ steps, currentIndex, remainingMinutes }) {
-  const progressPercent = (currentIndex / (steps.length - 1)) * 100
+  const progressPercent = steps.length <= 1 ? 0 : (currentIndex / (steps.length - 1)) * 100
 
   return (
     <div className='stage-progress'>

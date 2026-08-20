@@ -188,3 +188,12 @@
   font-size: 11px;
   color: #1f2937;
 }
+
+.recipe-suggest-page__status {
+  margin: 0;
+  padding: 12px 0 0;
+
+  color: var(--color-sub-text);
+  font-size: 14px;
+  text-align: center;
+}

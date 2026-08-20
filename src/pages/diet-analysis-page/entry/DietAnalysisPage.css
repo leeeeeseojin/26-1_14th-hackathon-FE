@@ -24,6 +24,15 @@
   left: 0;
 }
 
+.diet-analysis-page__status {
+  margin: 0;
+  padding: 24px 0;
+
+  color: #74807b;
+  font-size: 14px;
+  text-align: center;
+}
+
 .diet-analysis-page__content {
   flex: 1;
 

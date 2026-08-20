@@ -26,11 +26,11 @@ const MealRecordCard = ({ meal, onViewRecipe }) => {
         </div>
 
         <div className='meal-record-card__stats'>
-          <p className='meal-record-card__glucose'>
-            혈당 2h {meal.glucose} mg/dL
-          </p>
+          {meal.glucose != null ? (
+            <p className='meal-record-card__glucose'>혈당 2h {meal.glucose} mg/dL</p>
+          ) : null}
           <p className='meal-record-card__macros'>
-            탄수화물 {meal.carb}g · 당류 {meal.sugar}g
+            탄수화물 {meal.carb ?? '-'}g · 당류 {meal.sugar ?? '-'}g
           </p>
         </div>
       </div>

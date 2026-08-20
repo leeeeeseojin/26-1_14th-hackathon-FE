@@ -10,10 +10,11 @@ import SummaryMetricsCard from '../components/summary-metrics-card/SummaryMetric
 import MealSourceCard from '../components/meal-source-card/MealSourceCard'
 import GlucoseTrendCard from '../components/glucose-trend-card/GlucoseTrendCard'
 
+import getApiErrorMessage from '../../../apis/getApiErrorMessage'
+import { getDietAnalysis } from '../apis/DietAnalysisApi'
 import {
   ANALYSIS_PERIOD,
   getDayCount,
-  getDietAnalysis,
   getPeriodCaption,
   getRangeByPeriod,
 } from '../mocks/dietAnalysisMock'
@@ -27,24 +28,32 @@ const DietAnalysisPage = () => {
   const [startDate, setStartDate] = useState(INITIAL_RANGE.startDate)
   const [endDate, setEndDate] = useState(INITIAL_RANGE.endDate)
   const [analysis, setAnalysis] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     const fetchAnalysis = async () => {
+      setIsLoading(true)
+      setErrorMessage('')
+
       try {
         const data = await getDietAnalysis({
-          period,
-          startDate,
-          endDate,
+          from: startDate,
+          to: endDate,
         })
 
         setAnalysis(data)
       } catch (error) {
         console.error('식단·혈당 분석 조회 실패:', error)
+        setAnalysis(null)
+        setErrorMessage(getApiErrorMessage(error))
+      } finally {
+        setIsLoading(false)
       }
     }
 
     fetchAnalysis()
-  }, [period, startDate, endDate])
+  }, [startDate, endDate])
 
   const handlePeriodChange = (nextPeriod) => {
     setPeriod(nextPeriod)
@@ -75,7 +84,7 @@ const DietAnalysisPage = () => {
     }
   }
 
-  const totalDays = getDayCount(startDate, endDate)
+  const totalDays = analysis?.period?.days ?? getDayCount(startDate, endDate)
 
   return (
     <div className='diet-analysis-page'>
@@ -96,7 +105,11 @@ const DietAnalysisPage = () => {
           </div>
         </Section>
 
-        {analysis ? (
+        {isLoading ? <p className='diet-analysis-page__status'>분석 결과를 불러오는 중입니다.</p> : null}
+
+        {errorMessage ? <p className='diet-analysis-page__status'>{errorMessage}</p> : null}
+
+        {analysis && !isLoading && !errorMessage ? (
           <div className='diet-analysis-page__cards'>
             <SummaryMetricsCard
               startDate={analysis.startDate}
@@ -111,7 +124,7 @@ const DietAnalysisPage = () => {
             />
 
             <GlucoseTrendCard
-              periodCaption={getPeriodCaption(analysis.period)}
+              periodCaption={getPeriodCaption(period)}
               points={analysis.glucoseTrend}
             />
           </div>
