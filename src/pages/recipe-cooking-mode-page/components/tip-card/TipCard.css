@@ -1,28 +1,51 @@
 .tip-card {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
   padding: 12px;
   border-radius: 12px;
 
   background-color: var(--color-white);
 }
 
-.tip-card__illustration {
+.tip-card__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.tip-card__illustration-wrapper {
   flex-shrink: 0;
+
   width: 38px;
   height: 40px;
+
+  overflow: hidden;
+}
+
+.tip-card__illustration {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: top;
 }
 
 .tip-card__text-group {
+  flex: 1;
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   gap: 2px;
+
+  align-self: flex-start;
 }
 
 .tip-card__label {
+  display: block;
   height: 15px;
+  width: 90px;
+  flex-shrink: 0;
 }
 
 .tip-card__content {

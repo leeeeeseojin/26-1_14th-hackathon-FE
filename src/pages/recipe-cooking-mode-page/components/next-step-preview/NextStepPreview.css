@@ -36,8 +36,11 @@
 .next-step-preview__info {
   display: flex;
   flex-direction: column;
-  margin-left: auto;
-  text-align: right;
+
+  margin-left: 28.3%;
+  margin-right: 3.4%;
+
+  text-align: left;
 }
 
 .next-step-preview__title {

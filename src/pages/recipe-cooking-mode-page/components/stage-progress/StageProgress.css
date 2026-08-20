@@ -45,19 +45,22 @@
 
 .stage-progress__stages {
   display: flex;
+  justify-content: space-between;
   gap: 6px;
 }
 
 .stage-progress__stage {
   display: flex;
-  flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 2px;
 
+  width: 59px;
+  height: 52px;
+
   border-radius: 10px;
-  padding: 0;
+  flex-shrink: 0;
 }
 
 .stage-progress__stage--active {
