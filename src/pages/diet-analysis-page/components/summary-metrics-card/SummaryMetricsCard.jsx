@@ -6,27 +6,39 @@ import { formatDisplayRange } from '../../mocks/dietAnalysisMock'
 
 import './SummaryMetricsCard.css'
 
+const formatMetric = (value, suffix) => {
+  if (value == null) {
+    return '-'
+  }
+
+  return `${value}${suffix}`
+}
+
 const formatCalories = (value) => {
-  return value.toLocaleString('ko-KR')
+  if (value == null) {
+    return '-'
+  }
+
+  return `${value.toLocaleString('ko-KR')} kcal`
 }
 
 const SummaryMetricsCard = ({ startDate, endDate, summary }) => {
   const metrics = [
     {
       label: '평균 혈당',
-      value: `${summary.averageGlucose} mg/dL`,
+      value: formatMetric(summary.averageGlucose, ' mg/dL'),
     },
     {
       label: '목표 범위 내',
-      value: `${summary.targetRangeRate}%`,
+      value: formatMetric(summary.targetRangeRate, '%'),
     },
     {
       label: '평균 탄수화물',
-      value: `${summary.averageCarb}g`,
+      value: formatMetric(summary.averageCarb, 'g'),
     },
     {
       label: '평균 칼로리',
-      value: `${formatCalories(summary.averageCalories)} kcal`,
+      value: formatCalories(summary.averageCalories),
     },
   ]
 
@@ -39,7 +51,7 @@ const SummaryMetricsCard = ({ startDate, endDate, summary }) => {
         </p>
       </div>
 
-      <DonutChart rate={summary.targetRangeRate} />
+      <DonutChart rate={summary.targetRangeRate ?? 0} />
 
       <div className='summary-metrics-card__metrics'>
         {metrics.map((metric) => (

@@ -111,3 +111,12 @@
   font-size: 9px;
   color: var(--color-sub-text);
 }
+
+.recipe-tool-check-page__status {
+  margin: 0;
+  padding: 24px 0;
+
+  color: var(--color-sub-text);
+  font-size: 14px;
+  text-align: center;
+}

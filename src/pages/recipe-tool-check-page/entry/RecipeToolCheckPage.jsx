@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
@@ -10,17 +10,49 @@ import IngredientCheckItem from '../components/ingredient-check-item/IngredientC
 import heroIllustration from '../../../assets/cooking-flow/tool-check-hero.svg'
 import recipeThumbnail from '../../../assets/cooking-flow/recipe-thumbnail.svg'
 
-import {
-  DUMMY_RECIPE_SUMMARY,
-  DUMMY_TOOLS,
-  DUMMY_INGREDIENT_CHECKLIST,
-} from '../apis/dummyRecipeToolCheck'
+import getApiErrorMessage from '../../../apis/getApiErrorMessage'
+import { getToolCheckRecipe } from '../apis/RecipeToolCheckApi'
+import { DUMMY_RECIPE_SUMMARY, DUMMY_TOOLS } from '../apis/dummyRecipeToolCheck'
 
 import './RecipeToolCheckPage.css'
 
 export default function RecipeToolCheckPage({ onBack }) {
+  const { recipeId } = useParams()
   const navigate = useNavigate()
-  const [ingredients, setIngredients] = useState(DUMMY_INGREDIENT_CHECKLIST)
+  const [recipe, setRecipe] = useState(null)
+  const [ingredients, setIngredients] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      if (!recipeId) {
+        setRecipe(null)
+        setIngredients([])
+        setErrorMessage('레시피 정보가 없습니다.')
+        setIsLoading(false)
+        return
+      }
+
+      setIsLoading(true)
+      setErrorMessage('')
+
+      try {
+        const data = await getToolCheckRecipe(recipeId)
+        setRecipe(data)
+        setIngredients(data.checklist)
+      } catch (error) {
+        console.error('레시피 상세 조회 실패:', error)
+        setRecipe(null)
+        setIngredients([])
+        setErrorMessage(getApiErrorMessage(error))
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchRecipe()
+  }, [recipeId])
 
   const handleToggle = (id) => {
     setIngredients((prev) =>
@@ -29,7 +61,11 @@ export default function RecipeToolCheckPage({ onBack }) {
   }
 
   const handleStartCooking = () => {
-    navigate('/recipe/cooking-mode')
+    if (!recipeId) {
+      return
+    }
+
+    navigate(`/recipe/cooking-mode/${recipeId}`)
   }
 
   return (
@@ -41,45 +77,55 @@ export default function RecipeToolCheckPage({ onBack }) {
       </div>
 
       <div className='recipe-tool-check-page__content'>
-        <RecipeSummaryCard
-          thumbnail={recipeThumbnail}
-          title={DUMMY_RECIPE_SUMMARY.title}
-          description={DUMMY_RECIPE_SUMMARY.description}
-          tags={DUMMY_RECIPE_SUMMARY.tags}
-        />
+        {isLoading ? (
+          <p className='recipe-tool-check-page__status'>레시피를 불러오는 중입니다.</p>
+        ) : null}
 
-        <section className='recipe-tool-check-page__section'>
-          <div className='recipe-tool-check-page__section-header'>
-            <h3 className='recipe-tool-check-page__section-title'>도구</h3>
-            <p className='recipe-tool-check-page__section-count'>총 {DUMMY_TOOLS.length}개</p>
-          </div>
+        {errorMessage ? <p className='recipe-tool-check-page__status'>{errorMessage}</p> : null}
 
-          <div className='recipe-tool-check-page__tool-list'>
-            {DUMMY_TOOLS.map((tool) => (
-              <ToolChip key={tool.id} name={tool.name} />
-            ))}
-          </div>
-        </section>
+        {recipe && !isLoading ? (
+          <>
+            <RecipeSummaryCard
+              thumbnail={recipeThumbnail}
+              title={recipe.title}
+              description={recipe.summaryDescription}
+              tags={DUMMY_RECIPE_SUMMARY.tags}
+            />
 
-        <section className='recipe-tool-check-page__section recipe-tool-check-page__section--ingredients'>
-          <div className='recipe-tool-check-page__section-header'>
-            <h3 className='recipe-tool-check-page__section-title'>재료</h3>
-            <p className='recipe-tool-check-page__section-count'>총 {ingredients.length}개</p>
-          </div>
+            <section className='recipe-tool-check-page__section'>
+              <div className='recipe-tool-check-page__section-header'>
+                <h3 className='recipe-tool-check-page__section-title'>도구</h3>
+                <p className='recipe-tool-check-page__section-count'>총 {DUMMY_TOOLS.length}개</p>
+              </div>
 
-          <div className='recipe-tool-check-page__ingredient-list'>
-            {ingredients.map((item) => (
-              <IngredientCheckItem
-                key={item.id}
-                name={item.name}
-                amount={item.amount}
-                isChecked={item.isChecked}
-                hasSubstitute={item.hasSubstitute}
-                onToggle={() => handleToggle(item.id)}
-              />
-            ))}
-          </div>
-        </section>
+              <div className='recipe-tool-check-page__tool-list'>
+                {DUMMY_TOOLS.map((tool) => (
+                  <ToolChip key={tool.id} name={tool.name} />
+                ))}
+              </div>
+            </section>
+
+            <section className='recipe-tool-check-page__section recipe-tool-check-page__section--ingredients'>
+              <div className='recipe-tool-check-page__section-header'>
+                <h3 className='recipe-tool-check-page__section-title'>재료</h3>
+                <p className='recipe-tool-check-page__section-count'>총 {ingredients.length}개</p>
+              </div>
+
+              <div className='recipe-tool-check-page__ingredient-list'>
+                {ingredients.map((item) => (
+                  <IngredientCheckItem
+                    key={item.id}
+                    name={item.name}
+                    amount={item.amount}
+                    isChecked={item.isChecked}
+                    hasSubstitute={item.hasSubstitute}
+                    onToggle={() => handleToggle(item.id)}
+                  />
+                ))}
+              </div>
+            </section>
+          </>
+        ) : null}
       </div>
 
       <div className='recipe-tool-check-page__bottom'>
@@ -90,6 +136,7 @@ export default function RecipeToolCheckPage({ onBack }) {
           weight='bold'
           className='recipe-tool-check-page__cta-button'
           onClick={handleStartCooking}
+          disabled={!recipe}
         >
           준비 완료 · 요리 시작
         </CommonButton>

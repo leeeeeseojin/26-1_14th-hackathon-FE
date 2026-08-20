@@ -135,3 +135,12 @@
 
   background-color: transparent;
 }
+
+.recipe-review-page__status {
+  margin: 0;
+  padding: 24px 20px;
+
+  color: var(--color-sub-text);
+  font-size: 14px;
+  text-align: center;
+}
