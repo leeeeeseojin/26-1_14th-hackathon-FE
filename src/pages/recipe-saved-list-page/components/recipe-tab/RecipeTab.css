@@ -1,0 +1,36 @@
+.recipe-tab {
+  display: flex;
+  align-items: stretch;
+
+  border-bottom: 1px solid #f3f3f7;
+
+  background-color: var(--color-white);
+}
+
+.recipe-tab__item {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 32px;
+  padding: 4px 0 0;
+
+  border: none;
+  border-bottom: 2px solid transparent;
+
+  background-color: var(--color-white);
+
+  color: #c8c8cd;
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.recipe-tab__item--active {
+  border-bottom-color: #0d0c11;
+
+  color: #0d0c11;
+}

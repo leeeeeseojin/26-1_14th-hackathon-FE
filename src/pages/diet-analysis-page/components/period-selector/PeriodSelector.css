@@ -1,0 +1,52 @@
+.period-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  width: 100%;
+}
+
+.period-selector__label {
+  margin: 0;
+
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.period-selector__list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  width: 100%;
+}
+
+.period-selector__item {
+  flex: 1;
+  min-width: 0;
+
+  height: 35px;
+  padding: 8px 4px;
+  overflow: hidden;
+
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+
+  background-color: var(--color-white);
+
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.period-selector__item--active {
+  border-color: var(--color-main);
+
+  background-color: var(--color-sub);
+
+  font-weight: 600;
+}

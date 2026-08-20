@@ -1,0 +1,37 @@
+.glucose-line-chart {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+
+  border: 1px dashed #d1d5db;
+  border-radius: 6px;
+
+  background-color: #f9fafb;
+}
+
+.glucose-line-chart--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+.glucose-line-chart__svg {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+}
+
+.glucose-line-chart__band {
+  fill: rgba(85, 184, 154, 0.16);
+}
+
+.glucose-line-chart__line {
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}

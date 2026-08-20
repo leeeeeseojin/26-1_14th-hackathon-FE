@@ -1,0 +1,88 @@
+.diet-analysis-page {
+  position: relative;
+
+  width: 100%;
+  max-width: 393px;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  margin: 0 auto;
+  padding-bottom: 72px;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-white);
+
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.diet-analysis-page .bottom-nav {
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.diet-analysis-page__content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  width: 100%;
+  padding: 24px;
+  overflow-x: hidden;
+
+  box-sizing: border-box;
+}
+
+.diet-analysis-page .section {
+  width: 100%;
+}
+
+.diet-analysis-page .section__title {
+  margin: 0 0 16px;
+
+  color: var(--color-text);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.diet-analysis-page .section + .section {
+  margin-top: 0;
+}
+
+.diet-analysis-page__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  width: 100%;
+}
+
+.diet-analysis-page__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  width: 100%;
+}
+
+.diet-analysis-page .form-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+
+  background-color: #f9fafb;
+}

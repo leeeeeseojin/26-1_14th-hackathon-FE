@@ -1,0 +1,47 @@
+.record-coach-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  min-height: 66px;
+  padding: 8px 12px;
+  overflow: hidden;
+
+  border-radius: 18px;
+
+  background-color: #f3fbf8;
+}
+
+.record-coach-banner__mascot {
+  width: 51px;
+  height: 54px;
+
+  flex-shrink: 0;
+
+  display: block;
+
+  object-fit: contain;
+}
+
+.record-coach-banner__speech {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.record-coach-banner__title {
+  margin: 0;
+
+  color: #1f2926;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.record-coach-banner__subtitle {
+  margin: 0;
+
+  color: #74807b;
+  font-size: 11px;
+  font-weight: 500;
+}
