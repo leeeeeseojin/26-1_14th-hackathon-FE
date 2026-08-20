@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
@@ -9,127 +9,167 @@ import IngredientToggle from '../components/ingredient-toggle/IngredientToggle'
 import SubstitutionCard from '../components/substitution-card/SubstitutionCard'
 
 import {
-  DUMMY_SUGGESTION,
-  DUMMY_INGREDIENTS,
-  DUMMY_NUTRITION_CHANGE,
-  DUMMY_SUBSTITUTIONS,
-  saveRecipeSubstitution,
-} from '../apis/dummyRecipeSubstitute'
+  getRecipeDetail,
+  getIngredientAlternatives,
+  substituteIngredients,
+} from '../../../apis/recipe'
 
 import './RecipeSubstitutePage.css'
-
-function SubstituteSummary({ reason, title, description }) {
-  return (
-    <div className='recipe-substitute-page__summary'>
-      <p className='recipe-substitute-page__reason'>{reason}</p>
-      <h2 className='recipe-substitute-page__title'>{title}</h2>
-      <p className='recipe-substitute-page__description'>{description}</p>
-    </div>
-  )
-}
 
 const DECIDED_STATUSES = ['accepted', 'rejected', 'custom-confirmed']
 
 export default function RecipeSubstitutePage({ onBack }) {
+  const { recipeId } = useParams()
   const navigate = useNavigate()
-  const [cardStates, setCardStates] = useState({}) // { [id]: { toggleStatus, cardStatus, customValue } }
+
+  const [recipe, setRecipe] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [cardStates, setCardStates] = useState({}) // { [ingredientId]: { toggleStatus, cardStatus, customValue, alternative } }
+
+  useEffect(() => {
+    let isMounted = true
+
+    const fetchRecipe = async () => {
+      try {
+        setIsLoading(true)
+        const data = await getRecipeDetail(recipeId)
+        if (isMounted) setRecipe(data)
+      } catch (err) {
+        if (isMounted) setError(err)
+      } finally {
+        if (isMounted) setIsLoading(false)
+      }
+    }
+
+    fetchRecipe()
+    return () => {
+      isMounted = false
+    }
+  }, [recipeId])
 
   const getToggleStatus = (id) => cardStates[id]?.toggleStatus ?? 'default'
 
-  const handleToggle = (id) => {
-    const current = getToggleStatus(id)
+  const handleToggle = async (ingredientId) => {
+    const current = getToggleStatus(ingredientId)
 
     if (current === 'default') {
+      // 선택 시 대체 후보 조회
       setCardStates((prev) => ({
         ...prev,
-        [id]: { toggleStatus: 'selected', cardStatus: 'pending', customValue: '' },
+        [ingredientId]: {
+          toggleStatus: 'selected',
+          cardStatus: 'pending',
+          customValue: '',
+          alternative: null,
+          isLoadingAlternative: true,
+        },
       }))
+
+      try {
+        const data = await getIngredientAlternatives(recipeId, ingredientId)
+        const firstAlternative = data.alternatives?.[0] ?? null
+        setCardStates((prev) => ({
+          ...prev,
+          [ingredientId]: {
+            ...prev[ingredientId],
+            alternative: firstAlternative,
+            isLoadingAlternative: false,
+          },
+        }))
+      } catch {
+        setCardStates((prev) => ({
+          ...prev,
+          [ingredientId]: { ...prev[ingredientId], alternative: null, isLoadingAlternative: false },
+        }))
+      }
       return
     }
 
     if (current === 'deleted') {
       setCardStates((prev) => {
         const next = { ...prev }
-        delete next[id]
+        delete next[ingredientId]
         return next
       })
       return
     }
 
-    // selected 상태에서 다시 누르면 선택 해제
     setCardStates((prev) => {
       const next = { ...prev }
-      delete next[id]
+      delete next[ingredientId]
       return next
     })
   }
 
   const handleCardStatusChange = (id, cardStatus) => {
-    setCardStates((prev) => ({
-      ...prev,
-      [id]: { ...prev[id], cardStatus },
-    }))
+    setCardStates((prev) => ({ ...prev, [id]: { ...prev[id], cardStatus } }))
   }
 
   const handleCardCustomValueChange = (id, value) => {
-    setCardStates((prev) => ({
-      ...prev,
-      [id]: { ...prev[id], customValue: value },
-    }))
+    setCardStates((prev) => ({ ...prev, [id]: { ...prev[id], customValue: value } }))
   }
 
   const handleCardDelete = (id) => {
-    setCardStates((prev) => ({
-      ...prev,
-      [id]: { ...prev[id], toggleStatus: 'deleted' },
-    }))
+    setCardStates((prev) => ({ ...prev, [id]: { ...prev[id], toggleStatus: 'deleted' } }))
   }
+
+  if (isLoading) return <p className='recipe-substitute-page__status'>불러오는 중...</p>
+  if (error || !recipe)
+    return <p className='recipe-substitute-page__status'>레시피를 불러오지 못했어요.</p>
+
+  const { ingredients, nutrition } = recipe
 
   const selectedIds = Object.keys(cardStates)
     .filter((id) => cardStates[id].toggleStatus === 'selected')
     .map(Number)
 
   const selectedIngredients = selectedIds.map((id) => {
-    const ingredient = DUMMY_INGREDIENTS.find((item) => item.id === id)
+    const ingredient = ingredients.find((item) => item.ingredientId === id)
+    const state = cardStates[id]
     return {
       id,
-      name: ingredient.name,
-      substitution: DUMMY_SUBSTITUTIONS[id],
-      status: cardStates[id]?.cardStatus ?? 'pending',
-      customValue: cardStates[id]?.customValue ?? '',
+      name: ingredient.title,
+      amount: ingredient.amount,
+      alternative: state?.alternative,
+      isLoadingAlternative: state?.isLoadingAlternative,
+      status: state?.cardStatus ?? 'pending',
+      customValue: state?.customValue ?? '',
     }
   })
 
   const hasSelection = selectedIds.length > 0
 
-  // 제안 있는 카드: 수락/거절/직접입력확정 다 결정으로 인정
-  // 제안 없는 카드: 직접입력확정만 결정으로 인정
   const isAllDecided = selectedIngredients.every((item) => {
-    if (item.substitution) {
+    if (item.alternative) {
       return DECIDED_STATUSES.includes(item.status)
     }
     return item.status === 'custom-confirmed'
   })
 
-  const buildPayload = () => ({
-    recipeId: 'dummy-recipe-id',
-    substitutions: selectedIngredients.map((item) => ({
-      ingredientId: item.id,
-      action: item.substitution ? item.status : 'custom',
-      customValue: item.customValue || undefined,
-    })),
-  })
+  const buildSubstitutions = () =>
+    selectedIngredients
+      .filter((item) => item.status === 'accepted' || item.status === 'custom-confirmed')
+      .map((item) => ({
+        originalIngredientId: item.id,
+        substituteIngredientId: item.alternative?.ingredientId ?? null,
+        amount: item.alternative?.recommendedAmount ?? null,
+        // 직접입력인 경우 substituteIngredientId가 없을 수 있음 - 백엔드 확정 필요
+        customName: item.status === 'custom-confirmed' ? item.customValue : undefined,
+      }))
 
   const handleSave = async () => {
     if (hasSelection && !isAllDecided) return
-    await saveRecipeSubstitution(buildPayload())
+    if (hasSelection) {
+      await substituteIngredients(recipeId, buildSubstitutions())
+    }
     navigate('/main')
   }
 
   const handleStartCooking = async () => {
     if (!isAllDecided) return
-    await saveRecipeSubstitution(buildPayload())
-    navigate('/recipe/tool-check')
+    await substituteIngredients(recipeId, buildSubstitutions())
+    navigate(`/recipe/tool-check/${recipeId}`)
   }
 
   return (
@@ -137,12 +177,6 @@ export default function RecipeSubstitutePage({ onBack }) {
       <Header title='재료 대체' onBack={onBack} />
 
       <div className='recipe-substitute-page__content'>
-        <SubstituteSummary
-          reason={DUMMY_SUGGESTION.reason}
-          title={DUMMY_SUGGESTION.title}
-          description={DUMMY_SUGGESTION.description}
-        />
-
         <NoticeBanner level='medium' />
 
         <section className='recipe-substitute-page__section'>
@@ -152,12 +186,12 @@ export default function RecipeSubstitutePage({ onBack }) {
           </div>
 
           <div className='recipe-substitute-page__ingredient-grid'>
-            {DUMMY_INGREDIENTS.map((item) => (
+            {ingredients.map((item) => (
               <IngredientToggle
-                key={item.id}
-                name={item.name}
-                status={getToggleStatus(item.id)}
-                onToggle={() => handleToggle(item.id)}
+                key={item.ingredientId}
+                name={item.title}
+                status={getToggleStatus(item.ingredientId)}
+                onToggle={() => handleToggle(item.ingredientId)}
               />
             ))}
           </div>
@@ -165,21 +199,13 @@ export default function RecipeSubstitutePage({ onBack }) {
 
         <section className='recipe-substitute-page__section recipe-substitute-page__gap-lg'>
           <h3 className='recipe-substitute-page__section-title'>
-            영양 정보 변화 <span className='recipe-substitute-page__section-sub'>(1인분 기준)</span>
+            영양 정보 <span className='recipe-substitute-page__section-sub'>(1인분 기준)</span>
           </h3>
           <div className='recipe-substitute-page__card'>
-            {DUMMY_NUTRITION_CHANGE.map((item, index) => (
-              <KeyValueRow
-                key={item.id}
-                variant='nutrition'
-                label={item.label}
-                value={item.value}
-                oldValue={item.oldValue}
-                newValue={item.newValue}
-                changeType={item.changeType}
-                isLast={index === DUMMY_NUTRITION_CHANGE.length - 1}
-              />
-            ))}
+            <KeyValueRow variant='nutrition' label='열량' value={`${nutrition.calories} kcal`} />
+            <KeyValueRow variant='nutrition' label='탄수화물' value={`${nutrition.carb} g`} />
+            <KeyValueRow variant='nutrition' label='단백질' value={`${nutrition.protein} g`} />
+            <KeyValueRow variant='nutrition' label='지방' value={`${nutrition.fat} g`} isLast />
           </div>
         </section>
 
@@ -187,14 +213,21 @@ export default function RecipeSubstitutePage({ onBack }) {
           <section className='recipe-substitute-page__section recipe-substitute-page__gap-lg'>
             <h3 className='recipe-substitute-page__section-title'>대체 재료 선택</h3>
             <div className='recipe-substitute-page__substitution-list'>
-              {selectedIngredients.map((item) =>
-                item.substitution ? (
+              {selectedIngredients.map((item) => {
+                if (item.isLoadingAlternative) {
+                  return (
+                    <p key={item.id} className='recipe-substitute-page__loading'>
+                      대체 재료 확인 중...
+                    </p>
+                  )
+                }
+                return item.alternative ? (
                   <SubstitutionCard
                     key={item.id}
-                    originalPart={item.substitution.originalPart}
-                    suggestedPart={item.substitution.suggestedPart}
-                    reason={item.substitution.reason}
-                    tags={item.substitution.tags}
+                    originalPart={`${item.name} ${item.amount}g`}
+                    suggestedPart={`${item.alternative.title} ${item.alternative.recommendedAmount}g`}
+                    reason={`추천 이유: ${item.alternative.recommendationReason}`}
+                    tags={[]}
                     status={item.status}
                     onStatusChange={(status) => handleCardStatusChange(item.id, status)}
                     customValue={item.customValue}
@@ -213,8 +246,8 @@ export default function RecipeSubstitutePage({ onBack }) {
                     onCustomValueChange={(value) => handleCardCustomValueChange(item.id, value)}
                     onDelete={() => handleCardDelete(item.id)}
                   />
-                ),
-              )}
+                )
+              })}
             </div>
 
             {!isAllDecided && (
