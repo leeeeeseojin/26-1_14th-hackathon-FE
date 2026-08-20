@@ -1,0 +1,59 @@
+.meal-record-page {
+  position: relative;
+
+  width: 100%;
+  max-width: 393px;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  margin: 0 auto;
+  padding-bottom: 72px;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-background);
+
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.meal-record-page .bottom-nav {
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.meal-record-page__top {
+  display: flex;
+  flex-direction: column;
+}
+
+.meal-record-page__meals {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  padding: 24px 24px 32px;
+
+  background-color: var(--color-sub);
+}
+
+.meal-record-page__meals-title {
+  margin: 0;
+
+  color: #1f2937;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.meal-record-page__empty {
+  margin: 0;
+  padding: 24px 0;
+
+  color: #74807b;
+  font-size: 14px;
+  text-align: center;
+}

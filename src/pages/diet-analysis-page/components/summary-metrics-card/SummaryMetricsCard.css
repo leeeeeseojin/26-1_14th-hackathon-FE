@@ -1,0 +1,70 @@
+.summary-metrics-card__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+
+  width: 100%;
+}
+
+.summary-metrics-card__title {
+  margin: 0;
+
+  color: var(--color-text);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.summary-metrics-card__range {
+  margin: 0;
+
+  color: var(--color-text);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.summary-metrics-card__metrics {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4px;
+
+  width: 100%;
+}
+
+.summary-metrics-card__metric {
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.summary-metrics-card__metric-label,
+.summary-metrics-card__metric-value {
+  margin: 0;
+
+  color: var(--color-text);
+  font-weight: 400;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.summary-metrics-card__metric-label {
+  font-size: 11px;
+}
+
+.summary-metrics-card__metric-value {
+  font-size: 12px;
+}
+
+.summary-metrics-card__note {
+  margin: 0;
+
+  color: var(--color-text);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+}

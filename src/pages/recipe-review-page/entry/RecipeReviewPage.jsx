@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
@@ -40,6 +40,8 @@ function RecipeSummary({ title, description }) {
 
 export default function RecipeReviewPage({ onBack }) {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const recipeId = searchParams.get('recipeId')
   const [isIngredientExpanded, setIsIngredientExpanded] = useState(false)
 
   const visibleIngredients = isIngredientExpanded
@@ -57,7 +59,7 @@ export default function RecipeReviewPage({ onBack }) {
   }
 
   return (
-    <main className='recipe-review-page'>
+    <main className='recipe-review-page' key={recipeId ?? 'recipe-review'}>
       <Header title='레시피 검토' onBack={onBack} />
 
       <div className='recipe-review-page__content'>

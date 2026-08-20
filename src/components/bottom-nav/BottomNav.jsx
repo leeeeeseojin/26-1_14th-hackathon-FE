@@ -12,6 +12,10 @@ const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const isRecipeListPath =
+    location.pathname === "/recipe" ||
+    location.pathname === "/recipe/saved-list";
+
   const navItems = [
     {
       label: "홈",
@@ -43,7 +47,10 @@ const BottomNav = () => {
   return (
     <nav className="bottom-nav">
       {navItems.map((item) => {
-        const isActive = location.pathname === item.path;
+        const isActive =
+          item.path === "/recipe"
+            ? isRecipeListPath
+            : location.pathname === item.path;
 
         return (
           <button
