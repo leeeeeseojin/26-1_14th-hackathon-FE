@@ -1,0 +1,41 @@
+.recipe-tool-check-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+
+  background-color: var(--color-background);
+}
+
+.recipe-tool-check-page__hero {
+  position: relative;
+
+  height: 74px;
+
+  background: linear-gradient(180deg, #c9f4e7 0%, #e8f6f1 100%);
+}
+
+.recipe-tool-check-page__hero-illustration {
+  position: absolute;
+  left: 131px;
+  top: 17px;
+  width: 242px;
+  height: 91.06px;
+}
+
+.recipe-tool-check-page__hero-text {
+  position: absolute;
+  left: 148px;
+  top: 30px;
+
+  font-size: 12px;
+  color: var(--color-text);
+}
+
+.recipe-tool-check-page__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  padding: 20px;
+  padding-bottom: 28px;
+}
