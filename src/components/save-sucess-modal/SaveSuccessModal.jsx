@@ -1,7 +1,6 @@
-import CommonButton from "../../../components/common-button/CommonButton";
-
-import modi from "../../../assets/icon/modi.svg";
-import close from "../../../assets/icon/close.svg";
+import CommonButton from '../common-button/CommonButton';
+import modi from "../../assets/icon/modi.svg";
+import close from "../../assets/icon/close.svg";
 
 
 import "./SaveSuccessModal.css";

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Header from '../../../components/header/Header'
 import CommonButton from '../../../components/common-button/CommonButton'
 
-import SaveSuccessModal from '../components/SaveSuccessModal'
+import SaveSuccessModal from '../../../components/save-sucess-modal/SaveSuccessModal'
 
 import './RecipeLinkPage.css'
 
