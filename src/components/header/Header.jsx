@@ -1,7 +1,14 @@
 import './Header.css'
 import chevronLeft from '../../assets/icon/chevron-left.svg'
 
-const Header = ({ title, showBackButton = true, onBack, rightContent }) => {
+const Header = ({
+  title,
+  subtitle,
+  titleSize = 20,
+  showBackButton = true,
+  onBack,
+  rightContent,
+}) => {
   const handleBack = () => {
     if (onBack) {
       onBack()
@@ -11,7 +18,7 @@ const Header = ({ title, showBackButton = true, onBack, rightContent }) => {
   }
 
   return (
-    <header className='header'>
+    <header className={`header ${subtitle ? 'header--with-subtitle' : ''}`}>
       <div className='header__side'>
         {showBackButton && (
           <button
@@ -25,7 +32,12 @@ const Header = ({ title, showBackButton = true, onBack, rightContent }) => {
         )}
       </div>
 
-      <h1 className='header__title'>{title}</h1>
+      <div className='header__title-group'>
+        <h1 className='header__title' style={{ fontSize: `${titleSize}px` }}>
+          {title}
+        </h1>
+        {subtitle && <p className='header__subtitle'>{subtitle}</p>}
+      </div>
 
       <div className='header__side'>{rightContent}</div>
     </header>
