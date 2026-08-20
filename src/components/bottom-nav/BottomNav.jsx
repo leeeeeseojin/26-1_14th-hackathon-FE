@@ -1,80 +1,54 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from 'react-router-dom'
 
-import HomeIcon from "../../assets/icon/home-icon.svg";
-import RecipeIcon from "../../assets/icon/recipe-icon.svg";
-import RecordIcon from "../../assets/icon/record-icon.svg";
-import AnalysisIcon from "../../assets/icon/analysis-icon.svg";
-import MyPageIcon from "../../assets/icon/mypage-icon.svg";
+// 아이콘 import
+import HomeDefault from '../../assets/nav/home-default.svg'
+import HomeActive from '../../assets/nav/home-active.svg'
+import RecipeDefault from '../../assets/nav/recipe-default.svg'
+import RecipeActive from '../../assets/nav/recipe-active.svg'
+import RecordDefault from '../../assets/nav/record-default.svg'
+import RecordActive from '../../assets/nav/record-active.svg'
+import AnalysisDefault from '../../assets/nav/analysis-default.svg'
+import AnalysisActive from '../../assets/nav/analysis-active.svg'
+import MyPageDefault from '../../assets/nav/mypage-default.svg'
+import MyPageActive from '../../assets/nav/mypage-active.svg'
 
-import "./BottomNav.css";
+import './BottomNav.css'
 
-const BottomNav = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const isRecipeListPath =
-    location.pathname === "/recipe" ||
-    location.pathname === "/recipe/saved-list";
+const BottomNavBar = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const navItems = [
-    {
-      label: "홈",
-      path: "/main",
-      icon: HomeIcon,
-    },
-    {
-      label: "레시피",
-      path: "/recipe",
-      icon: RecipeIcon,
-    },
-    {
-      label: "기록",
-      path: "/record",
-      icon: RecordIcon,
-    },
-    {
-      label: "분석",
-      path: "/analysis",
-      icon: AnalysisIcon,
-    },
-    {
-      label: "마이페이지",
-      path: "/mypage",
-      icon: MyPageIcon,
-    },
-  ];
+    { label: '홈', path: '/main', defaultIcon: HomeDefault, activeIcon: HomeActive },
+    { label: '레시피', path: '/recipe', defaultIcon: RecipeDefault, activeIcon: RecipeActive },
+    { label: '기록', path: '/record', defaultIcon: RecordDefault, activeIcon: RecordActive },
+    { label: '분석', path: '/analysis', defaultIcon: AnalysisDefault, activeIcon: AnalysisActive },
+    { label: '마이페이지', path: '/mypage', defaultIcon: MyPageDefault, activeIcon: MyPageActive },
+  ]
 
   return (
-    <nav className="bottom-nav">
+    <nav className='bottom-nav-bar'>
       {navItems.map((item) => {
-        const isActive =
-          item.path === "/recipe"
-            ? isRecipeListPath
-            : location.pathname === item.path;
+        const isActive = location.pathname.startsWith(item.path)
 
         return (
           <button
             key={item.path}
-            type="button"
-            className={`bottom-nav__item ${
-              isActive ? "bottom-nav__item--active" : ""
-            }`}
+            type='button'
+            className={`bottom-nav-bar__item ${isActive ? 'bottom-nav-bar__item--active' : ''}`}
             onClick={() => navigate(item.path)}
           >
             <img
-              className="bottom-nav__icon"
-              src={item.icon}
-              alt=""
+              className='bottom-nav-bar__icon'
+              src={isActive ? item.activeIcon : item.defaultIcon}
+              alt={item.label}
             />
-
-            <span className="bottom-nav__label">
-              {item.label}
-            </span>
+            <span className='bottom-nav-bar__label'>{item.label}</span>
           </button>
-        );
+        )
       })}
     </nav>
-  );
-};
+  )
+}
 
-export default BottomNav;
+export default BottomNavBar
