@@ -1,10 +1,10 @@
 import './IngredientToggle.css'
 
-export default function IngredientToggle({ name, isSelected, onToggle }) {
+export default function IngredientToggle({ name, status = 'default', onToggle }) {
   return (
     <button
       type='button'
-      className={`ingredient-toggle ${isSelected ? 'ingredient-toggle--selected' : ''}`}
+      className={`ingredient-toggle ingredient-toggle--${status}`}
       onClick={onToggle}
     >
       <span className='ingredient-toggle__checkbox' />

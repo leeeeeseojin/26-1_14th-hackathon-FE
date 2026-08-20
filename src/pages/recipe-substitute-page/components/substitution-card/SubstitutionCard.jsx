@@ -6,7 +6,8 @@ import './SubstitutionCard.css'
 const SWIPE_THRESHOLD = 60
 
 export default function SubstitutionCard({
-  title,
+  originalPart,
+  suggestedPart,
   reason,
   tags,
   hasNoSuggestion = false,
@@ -17,20 +18,40 @@ export default function SubstitutionCard({
   onDelete,
 }) {
   const startX = useRef(0)
+  const hasDraggedRef = useRef(false)
 
   const isSwiped = status === 'swiped'
   const isRejected = status === 'rejected'
+  const isAccepted = status === 'accepted'
+  const isCustomConfirmed = status === 'custom-confirmed'
+  const isHighlighted = isAccepted || isCustomConfirmed
+  const isEditable = isRejected || hasNoSuggestion
 
   const handleDragStart = (clientX) => {
     startX.current = clientX
+    hasDraggedRef.current = false
   }
 
   const handleDragEnd = (clientX) => {
     const deltaX = startX.current - clientX
+
+    if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
+      hasDraggedRef.current = true
+    }
+
     if (deltaX > SWIPE_THRESHOLD && status === 'pending') {
       onStatusChange('swiped')
-    } else if (deltaX < -SWIPE_THRESHOLD && (status === 'swiped' || status === 'rejected')) {
-      onStatusChange('pending')
+      return
+    }
+
+    if (deltaX < -SWIPE_THRESHOLD) {
+      if (status === 'swiped' || status === 'rejected') {
+        onStatusChange('pending')
+      } else if (status === 'accepted') {
+        onStatusChange('pending')
+      } else if (status === 'custom-confirmed') {
+        onStatusChange(hasNoSuggestion ? 'pending' : 'rejected')
+      }
     }
   }
 
@@ -43,6 +64,11 @@ export default function SubstitutionCard({
   }
 
   const handleMouseDown = (event) => {
+    if (event.target.tagName === 'INPUT' || event.target.tagName === 'BUTTON') {
+      handleDragStart(event.clientX)
+      return
+    }
+    event.preventDefault()
     handleDragStart(event.clientX)
   }
 
@@ -58,22 +84,46 @@ export default function SubstitutionCard({
     onStatusChange('rejected')
   }
 
+  const handleCustomInputKeyDown = (event) => {
+    if (event.key === 'Enter' && customValue.trim().length > 0) {
+      onStatusChange('custom-confirmed')
+    }
+  }
+
+  // 확정된(수락/직접입력확정) 카드 클릭 시 수정 모드로 전환
+  const handleCardClick = () => {
+    if (hasDraggedRef.current) return // 스와이프 직후 클릭 이벤트는 무시
+
+    if (isAccepted) {
+      onStatusChange('pending')
+    } else if (isCustomConfirmed) {
+      onStatusChange(hasNoSuggestion ? 'pending' : 'rejected')
+    }
+  }
+
   const isActionVisible = hasNoSuggestion ? false : isSwiped
+
+  const displayTitle = isCustomConfirmed
+    ? `${originalPart} → ${customValue}`
+    : `${originalPart} → ${suggestedPart}`
+
+  const showReasonAndTags = !hasNoSuggestion && !isCustomConfirmed
 
   return (
     <div
       className='substitution-card'
-      onTouchStart={hasNoSuggestion ? undefined : handleTouchStart}
-      onTouchEnd={hasNoSuggestion ? undefined : handleTouchEnd}
-      onMouseDown={hasNoSuggestion ? undefined : handleMouseDown}
-      onMouseUp={hasNoSuggestion ? undefined : handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
     >
       <div
-        className={`substitution-card__content ${isSwiped ? 'substitution-card__content--swiped' : ''}`}
+        className={`substitution-card__content ${isSwiped ? 'substitution-card__content--swiped' : ''} ${isHighlighted ? 'substitution-card__content--accepted' : ''} ${isHighlighted ? 'substitution-card__content--clickable' : ''}`}
+        onClick={isHighlighted ? handleCardClick : undefined}
       >
-        <p className='substitution-card__title'>{title}</p>
+        <p className='substitution-card__title'>{displayTitle}</p>
 
-        {!hasNoSuggestion && (
+        {showReasonAndTags && (
           <>
             <p className='substitution-card__reason'>{reason}</p>
             <div className='substitution-card__tags'>
@@ -84,7 +134,7 @@ export default function SubstitutionCard({
           </>
         )}
 
-        {(isRejected || hasNoSuggestion) && (
+        {isEditable && !isCustomConfirmed && (
           <div className='substitution-card__reject-expand'>
             <input
               type='text'
@@ -92,6 +142,7 @@ export default function SubstitutionCard({
               placeholder='직접 입력하기'
               value={customValue}
               onChange={(event) => onCustomValueChange(event.target.value)}
+              onKeyDown={handleCustomInputKeyDown}
             />
             <button type='button' className='substitution-card__delete-button' onClick={onDelete}>
               삭제

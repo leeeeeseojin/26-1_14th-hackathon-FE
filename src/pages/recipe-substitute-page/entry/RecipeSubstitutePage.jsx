@@ -28,27 +28,46 @@ function SubstituteSummary({ reason, title, description }) {
   )
 }
 
+const DECIDED_STATUSES = ['accepted', 'rejected', 'custom-confirmed']
+
 export default function RecipeSubstitutePage({ onBack }) {
   const navigate = useNavigate()
-  const [cardStates, setCardStates] = useState({}) // { [id]: { status, customValue } }
+  const [cardStates, setCardStates] = useState({}) // { [id]: { toggleStatus, cardStatus, customValue } }
 
-  const selectedIds = Object.keys(cardStates).map(Number)
+  const getToggleStatus = (id) => cardStates[id]?.toggleStatus ?? 'default'
 
   const handleToggle = (id) => {
-    setCardStates((prev) => {
-      if (prev[id]) {
+    const current = getToggleStatus(id)
+
+    if (current === 'default') {
+      setCardStates((prev) => ({
+        ...prev,
+        [id]: { toggleStatus: 'selected', cardStatus: 'pending', customValue: '' },
+      }))
+      return
+    }
+
+    if (current === 'deleted') {
+      setCardStates((prev) => {
         const next = { ...prev }
         delete next[id]
         return next
-      }
-      return { ...prev, [id]: { status: 'pending', customValue: '' } }
+      })
+      return
+    }
+
+    // selected 상태에서 다시 누르면 선택 해제
+    setCardStates((prev) => {
+      const next = { ...prev }
+      delete next[id]
+      return next
     })
   }
 
-  const handleCardStatusChange = (id, status) => {
+  const handleCardStatusChange = (id, cardStatus) => {
     setCardStates((prev) => ({
       ...prev,
-      [id]: { ...prev[id], status },
+      [id]: { ...prev[id], cardStatus },
     }))
   }
 
@@ -60,8 +79,15 @@ export default function RecipeSubstitutePage({ onBack }) {
   }
 
   const handleCardDelete = (id) => {
-    handleToggle(id)
+    setCardStates((prev) => ({
+      ...prev,
+      [id]: { ...prev[id], toggleStatus: 'deleted' },
+    }))
   }
+
+  const selectedIds = Object.keys(cardStates)
+    .filter((id) => cardStates[id].toggleStatus === 'selected')
+    .map(Number)
 
   const selectedIngredients = selectedIds.map((id) => {
     const ingredient = DUMMY_INGREDIENTS.find((item) => item.id === id)
@@ -69,18 +95,20 @@ export default function RecipeSubstitutePage({ onBack }) {
       id,
       name: ingredient.name,
       substitution: DUMMY_SUBSTITUTIONS[id],
-      status: cardStates[id]?.status ?? 'pending',
+      status: cardStates[id]?.cardStatus ?? 'pending',
       customValue: cardStates[id]?.customValue ?? '',
     }
   })
 
   const hasSelection = selectedIds.length > 0
 
+  // 제안 있는 카드: 수락/거절/직접입력확정 다 결정으로 인정
+  // 제안 없는 카드: 직접입력확정만 결정으로 인정
   const isAllDecided = selectedIngredients.every((item) => {
     if (item.substitution) {
-      return item.status === 'accepted' || item.status === 'rejected'
+      return DECIDED_STATUSES.includes(item.status)
     }
-    return item.customValue.trim().length > 0
+    return item.status === 'custom-confirmed'
   })
 
   const buildPayload = () => ({
@@ -95,13 +123,13 @@ export default function RecipeSubstitutePage({ onBack }) {
   const handleSave = async () => {
     if (hasSelection && !isAllDecided) return
     await saveRecipeSubstitution(buildPayload())
-    navigate('/recipe/saved-list')
+    navigate('/main')
   }
 
   const handleStartCooking = async () => {
     if (!isAllDecided) return
-    const result = await saveRecipeSubstitution(buildPayload())
-    navigate(`/recipe/tool-check?recipeId=${result.recipeId}`)
+    await saveRecipeSubstitution(buildPayload())
+    navigate('/recipe/tool-check')
   }
 
   return (
@@ -128,7 +156,7 @@ export default function RecipeSubstitutePage({ onBack }) {
               <IngredientToggle
                 key={item.id}
                 name={item.name}
-                isSelected={selectedIds.includes(item.id)}
+                status={getToggleStatus(item.id)}
                 onToggle={() => handleToggle(item.id)}
               />
             ))}
@@ -163,7 +191,8 @@ export default function RecipeSubstitutePage({ onBack }) {
                 item.substitution ? (
                   <SubstitutionCard
                     key={item.id}
-                    title={item.substitution.title}
+                    originalPart={item.substitution.originalPart}
+                    suggestedPart={item.substitution.suggestedPart}
                     reason={item.substitution.reason}
                     tags={item.substitution.tags}
                     status={item.status}
@@ -175,8 +204,11 @@ export default function RecipeSubstitutePage({ onBack }) {
                 ) : (
                   <SubstitutionCard
                     key={item.id}
-                    title={`${item.name} 대체 재료`}
+                    originalPart={item.name}
+                    suggestedPart=''
                     hasNoSuggestion
+                    status={item.status}
+                    onStatusChange={(status) => handleCardStatusChange(item.id, status)}
                     customValue={item.customValue}
                     onCustomValueChange={(value) => handleCardCustomValueChange(item.id, value)}
                     onDelete={() => handleCardDelete(item.id)}
