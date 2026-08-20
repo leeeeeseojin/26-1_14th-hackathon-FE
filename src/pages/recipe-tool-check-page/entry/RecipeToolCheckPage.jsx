@@ -9,9 +9,6 @@ import IngredientCheckItem from '../components/ingredient-check-item/IngredientC
 
 import heroIllustration from '../../../assets/cooking-flow/tool-check-hero.svg'
 import recipeThumbnail from '../../../assets/cooking-flow/recipe-thumbnail.svg'
-import fryingPan from '../../../assets/cooking-flow/tools/frying-pan.svg'
-import spatula from '../../../assets/cooking-flow/tools/spatula.svg'
-import measuringSpoon from '../../../assets/cooking-flow/tools/measuring-spoon.svg'
 
 import {
   DUMMY_RECIPE_SUMMARY,
@@ -20,12 +17,6 @@ import {
 } from '../apis/dummyRecipeToolCheck'
 
 import './RecipeToolCheckPage.css'
-
-const TOOL_ICON_MAP = {
-  프라이팬: fryingPan,
-  뒤집개: spatula,
-  계량스푼: measuringSpoon,
-}
 
 export default function RecipeToolCheckPage({ onBack }) {
   const navigate = useNavigate()
@@ -65,7 +56,7 @@ export default function RecipeToolCheckPage({ onBack }) {
 
           <div className='recipe-tool-check-page__tool-list'>
             {DUMMY_TOOLS.map((tool) => (
-              <ToolChip key={tool.id} icon={TOOL_ICON_MAP[tool.name]} name={tool.name} />
+              <ToolChip key={tool.id} name={tool.name} />
             ))}
           </div>
         </section>
