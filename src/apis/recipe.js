@@ -24,3 +24,21 @@ export const saveSubstitutions = (recipeId, substitutions, title) =>
   })
 
 export const getCookingSteps = (recipeId) => apiRequest(`/api/recipes/${recipeId}/steps`)
+
+export const importRecipeText = async (text) => {
+  return apiRequest('/api/recipes/import/text', {
+    method: 'POST',
+    body: {
+      text,
+    },
+  })
+}
+
+export const importRecipeYoutube = async (url) => {
+  return apiRequest('/api/recipes/import/youtube', {
+    method: 'POST',
+    body: {
+      url,
+    },
+  })
+}
