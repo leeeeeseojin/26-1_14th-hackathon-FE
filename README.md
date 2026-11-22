@@ -24,7 +24,7 @@
 
 <sub>배포된 앱에 예시 데이터를 넣어 캡처한 화면입니다.</sub>
 
-## 본인 역할: 이서진 ([leeeeeseojin](https://github.com/leeeeeseojin))
+## 본인 역할 ([leeeeeseojin](https://github.com/leeeeeseojin))
 
 **레시피 검토부터 조리 완료까지의 흐름**을 맡았습니다.
 
