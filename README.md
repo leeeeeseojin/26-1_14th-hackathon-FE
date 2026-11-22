@@ -4,7 +4,7 @@
 
 멋쟁이사자처럼 14기 해커톤 4팀 프론트엔드 · 2026.08.16 ~ 08.21 · 프론트엔드 3명
 
-[배포 화면](https://modi-sigma.vercel.app) · [팀 원본 저장소](https://github.com/likelion-kwu/14th-hackathon-team4-frontend)
+[팀 원본 저장소](https://github.com/likelion-kwu/14th-hackathon-team4-frontend)
 
 ## 서비스
 
